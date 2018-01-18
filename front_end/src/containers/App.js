@@ -1,57 +1,42 @@
 import React from 'react';
 import '../styles/App.css';
-//import client from './client';
-import Pile from './pile';
+//import rest from './rest';
+import Pile from './Pile';
 import Loops from "./loops";
 import Mentors from "./mentors";
 import Events from "./events";
 import Profile from "./profile";
-import * as actionCreators from "../actions";
-import {bindActionCreators} from 'redux';
-import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router';
-import {Link, Redirect} from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Img from 'react-image'
+// import client from 'rest'
+// import * as actionCreators from "../actions";
+// import {bindActionCreators} from "redux";
+// import {connect} from "react-redux";
 // import reducers from "../reducers"; // TODO: deal with 'connect' decorator
 
 
 class App extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.changePage = this.changePage.bind(this);
-
-        this.state = {
-            menus : [
-                'Pile',
-                'Events',
-                'Mentors',
-                'Loops',
-                'Profile'
-            ]
-        }
-    }
-
-    // componentDidMount() {
-    //     client({method: 'GET', path: '/api/news'}).done(response => {
-    //         this.setState({news: response.entity._embedded.news});
-    //     });
+    // constructor(props) {
+    //     super(props);
+    //
+    //     this.changePage = this.changePage.bind(this);
     // }
-
-    changePage(menuName) {
-        return this.props.changePage(menuName)
-    }
+//
+    // changePage(menuName) {
+    //     return this.props.changePage(menuName)
+    // }
 
     render() {
         return (
             <div className="App">
                 <div className="App-header">
                     <Img className="App-logo" src="../images/logo.png" />
-                    <Link to='/pile'><button>Pile</button></Link>
-                    <Link to='/events'><button>Events</button></Link>
-                    <Link to='/mentors'><button>Mentors</button></Link>
-                    <Link to='/loops'><button>Loops</button></Link>
-                    <Link to='/profile'><button>Profile</button></Link>
+                    <Link to='/pile'><li>Pile</li></Link>
+                    <Link to='/events'><li>Events</li></Link>
+                    <Link to='/mentors'><li>Mentors</li></Link>
+                    <Link to='/loops'><li>Loops</li></Link>
+                    <Link to='/profile'><li>Profile</li></Link>
                 </div>
                 <Switch>
                     <Route path='/pile' component={Pile} />
@@ -68,6 +53,9 @@ class App extends React.Component {
         );
     }
 }
+
+export default App;
+
 
 // class NewsList extends Component{
 //     render() {
@@ -106,13 +94,3 @@ class App extends React.Component {
 //         )
 //     }
 // }
-
-const mapStateToProps = (state) => {
-    return state;
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators(actionCreators, dispatch);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);

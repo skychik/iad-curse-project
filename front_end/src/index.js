@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/index.css';
-import App from './components/App';
+import App from './containers/App';
 import registerServiceWorker from './registerServiceWorker'; // for offline
 import { Provider } from 'react-redux'
 import reducers from "./reducers"
@@ -10,10 +10,18 @@ import Welcome from './components/welcome'
 import { createStore } from "redux"
 import { Route, Switch, Redirect } from 'react-router-dom'
 import createHistory from 'history/createBrowserHistory'
-import { ConnectedRouter } from 'react-router-redux'
+import {ConnectedRouter, routerReducer} from 'react-router-redux'
 import PageNotFound from "./components/pageNotFound";
+import {pageReducer} from "./reducers/pageReducer";
+import {restApiReducer} from "./reducers/restApiReducer";
 
-const store = createStore(reducers);
+const store = createStore(
+    reducers,
+    {
+        page: null,
+        content: null,
+        routing: null,
+    });
 const history = createHistory();
 
 ReactDOM.render(

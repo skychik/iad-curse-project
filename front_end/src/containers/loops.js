@@ -4,7 +4,7 @@ class Loops extends React.Component {
     render() {
         return (
             <div className="Loops">
-                <h2>Loops</h2>
+                <h2>{this.props.content}</h2>
             </div>
         )
     }
