@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styles/App.css';
 //import rest from './rest';
 import Pile from './Pile';
 import Loops from "./loops";
@@ -8,7 +7,7 @@ import Events from "./events";
 import Profile from "./profile";
 import { Switch, Route } from 'react-router';
 import { Link, Redirect } from "react-router-dom";
-import Img from 'react-image'
+import LogoImg from '../images/logo.png'
 // import client from 'rest'
 // import * as actionCreators from "../actions";
 // import {bindActionCreators} from "redux";
@@ -31,12 +30,31 @@ class App extends React.Component {
         return (
             <div className="App">
                 <div className="App-header">
-                    <Img className="App-logo" src="../images/logo.png" />
-                    <Link to='/pile'><li>Pile</li></Link>
-                    <Link to='/events'><li>Events</li></Link>
-                    <Link to='/mentors'><li>Mentors</li></Link>
-                    <Link to='/loops'><li>Loops</li></Link>
-                    <Link to='/profile'><li>Profile</li></Link>
+                    <div className="App-header_img-frame">
+                        <img className="App-logo" src={LogoImg} />
+                        <div className="App-header_fix" />
+                    </div>
+                    <Link className="App-header_buttons" to='/pile'>
+                        <div>Pile</div>
+                        <div className="App-header_fix" />
+                    </Link>
+                    <Link className="App-header_buttons" to='/events'>
+                        <div>Events</div>
+                        <div className="App-header_fix" />
+                    </Link>
+                    <Link className="App-header_buttons" to='/mentors'>
+                        <div>Mentors</div>
+                        <div className="App-header_fix" />
+                    </Link>
+                    <Link className="App-header_buttons" to='/loops'>
+                        <div>Loops</div>
+                        <div className="App-header_fix" />
+                    </Link>
+                    <Link className="App-header_buttons" to='/profile'>
+                        <div>Profile</div>
+                        <div className="App-header_fix" />
+                    </Link>
+                    <div className="App-header_fix" />
                 </div>
                 <Switch>
                     <Route path='/pile' component={Pile} />

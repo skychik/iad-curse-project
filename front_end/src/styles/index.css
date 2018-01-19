@@ -1,5 +1,70 @@
+.App {
+  text-align: left;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.App-header {
+  background-color: #222;
+  height: 40px;
+  color: white;
+}
+
+.App-header_img-frame {
+  display: inline-block;
+  margin: 4px;
+  text-align: center;
+}
+
+.App-logo {
+  height: 43px;
+}
+
+.App-header_buttons {
+  display: inline-block;
+  border-radius: 3px;
+  background: crimson;
+  padding: 3px;
+  margin: 4px;
+  width: 80px;
+  height: 34px;
+  color: black;
+  text-decoration: none;
+  text-align: center;
+  font-size: 34px;
+}
+
+.App-header_buttons:hover {
+  background: #fef1f4;
+}
+
+.App-header_fix {
+  height: 100%;
+  display: inline-block;
+}
+
+.News_container {
+  background: #f4f4f4;
+  border-radius: 15px;
+  border: 2px solid #535353;
+  padding: 15px;
+  margin: 15px;
+}
+
+.Pile {
+  padding: 30px;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
 }
+
+/*# sourceMappingURL=index.css.map */

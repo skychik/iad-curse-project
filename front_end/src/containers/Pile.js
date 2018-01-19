@@ -3,6 +3,7 @@ import RestClient from "another-rest-client";
 import {connect} from "react-redux";
 import * as actionCreators from "../actions";
 import {bindActionCreators} from "redux";
+import News from "../components/News";
 
 // props:
 //  news - News in JSON
@@ -25,15 +26,7 @@ class Pile extends React.Component {
         // });
 
         smth.then((response) => {
-            const array = JSON.parse(response)._embedded.news;
-            // console.log(array);
-            const data = array.map((news, idx) => {
-                return <li key={idx}>
-                        Author id={news.authorId},
-                        Creation date={news.creationDate},
-                        Altering date={news.alteringDate}
-                    </li>;
-            });
+            const data = JSON.parse(response)._embedded.news;
             this.receiveNews(data);
         });
     }
@@ -43,14 +36,20 @@ class Pile extends React.Component {
     }
 
     render() {
-        const news = this.props.content;
+        const data = this.props.content;
         // console.log('---news:---');
         // console.log(news);
         // console.log('---news---');
-
+        const pile = data != null ?
+            data.map((news, idx) => {
+                return <News className="News" key={idx}
+                             authorId={news.authorId}
+                             creationDate={news.creationDate}
+                             alteringDate={news.alteringDate}/>;
+            }) : null;
         return(
             <div className="Pile">
-                {news}
+                {pile}
             </div>
         )
     }
