@@ -7,7 +7,7 @@ import News from "../components/News";
 
 // props:
 //  news - News in JSON
-class Pile extends React.Component {
+class NewsContainer extends React.Component {
     constructor(props) {
         super(props);
         this.receiveNews = this.receiveNews.bind(this);
@@ -17,7 +17,8 @@ class Pile extends React.Component {
         const restApi = new RestClient('http://localhost:8080');
         restApi.res({
             api:
-                'news'
+                'news',
+            all_news: 0
         });
         // console.log(restApi.api.news.url());
         const smth = restApi.api.news.get();
@@ -26,8 +27,10 @@ class Pile extends React.Component {
         // });
 
         smth.then((response) => {
+            console.log(response);
             const data = JSON.parse(response)._embedded.news;
             this.receiveNews(data);
+            // this.receiveNews(response);
         });
     }
 
@@ -40,16 +43,17 @@ class Pile extends React.Component {
         // console.log('---news:---');
         // console.log(news);
         // console.log('---news---');
-        const pile = data != null ?
+        const newsContainer = data != null ?
             data.map((news, idx) => {
                 return <News className="News" key={idx}
                              authorId={news.authorId}
                              creationDate={news.creationDate}
-                             alteringDate={news.alteringDate}/>;
+                             alteringDate={news.alteringDate}
+                             content={news.content}/>;
             }) : null;
         return(
-            <div className="Pile">
-                {pile}
+            <div className="News_container">
+                {newsContainer}
             </div>
         )
     }
@@ -64,4 +68,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Pile);
+export default connect(mapStateToProps, mapDispatchToProps)(NewsContainer);

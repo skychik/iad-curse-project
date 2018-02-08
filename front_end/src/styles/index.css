@@ -1,63 +1,90 @@
-.App {
+table {
+  border: 0;
+  border-spacing: 0;
+}
+
+td {
+  padding: 0;
+}
+
+.AppContainer {
   text-align: left;
 }
 
-.App-title {
+.AppContainer-title {
   font-size: 1.5em;
 }
 
-.App-intro {
+.AppContainer-intro {
   font-size: large;
 }
 
-.App-header {
+.AppContainer-header {
   background-color: #222;
-  height: 40px;
+  height: 31px;
+  padding: 8px;
   color: white;
 }
 
-.App-header_img-frame {
+.AppContainer-header_img-frame {
   display: inline-block;
-  margin: 4px;
-  text-align: center;
 }
 
-.App-logo {
-  height: 43px;
+.AppContainer-logo {
+  vertical-align: center;
+  height: 25px;
+  margin: 3px;
 }
 
-.App-header_buttons {
+.AppContainer-header_buttons {
   display: inline-block;
   border-radius: 3px;
   background: crimson;
-  padding: 3px;
-  margin: 4px;
+  padding: 4px;
+  margin: 3px;
   width: 80px;
-  height: 34px;
+  height: 17px;
   color: black;
   text-decoration: none;
   text-align: center;
-  font-size: 34px;
+  font-size: 17px;
 }
 
-.App-header_buttons:hover {
+.AppContainer-header_buttons:hover {
   background: #fef1f4;
 }
 
-.App-header_fix {
+.AppContainer-header_buttons_context {
+  display: inline-block;
+}
+
+.AppContainer-header_fix {
   height: 100%;
   display: inline-block;
 }
 
-.News_container {
+.AppContainer-header_spring {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.right-align-block {
+  float: right;
+}
+
+.News {
+  display: inline-block;
+  width: 420px;
+  height: 560px;
   background: #f4f4f4;
-  border-radius: 15px;
+  border-radius: 5px;
   border: 2px solid #535353;
   padding: 15px;
   margin: 15px;
+  overflow: hidden;
 }
 
-.Pile {
+.News_container {
   padding: 30px;
 }
 

@@ -1,10 +1,10 @@
 import React from 'react';
 //import rest from './rest';
-import Pile from './Pile';
-import Loops from "./loops";
-import Mentors from "./mentors";
-import Events from "./events";
-import Profile from "./profile";
+import NewsContainer from './NewsContainer';
+import LoopsContainer from "./LoopsContainer";
+import MentorsContainer from "./MentorsContainer";
+import EventsContainer from "./EventsContainer";
+import ProfileContainer from "./ProfileContainer";
 import { Switch, Route } from 'react-router';
 import { Link, Redirect } from "react-router-dom";
 import LogoImg from '../images/logo.png'
@@ -15,7 +15,7 @@ import LogoImg from '../images/logo.png'
 // import reducers from "../reducers"; // TODO: deal with 'connect' decorator
 
 
-class App extends React.Component {
+class AppContainer extends React.Component {
     // constructor(props) {
     //     super(props);
     //
@@ -28,43 +28,44 @@ class App extends React.Component {
 
     render() {
         return (
-            <div className="App">
-                <div className="App-header">
-                    <div className="App-header_img-frame">
-                        <img className="App-logo" src={LogoImg} />
-                        <div className="App-header_fix" />
-                    </div>
-                    <Link className="App-header_buttons" to='/pile'>
-                        <div>Pile</div>
-                        <div className="App-header_fix" />
+            <div className="AppContainer">
+                <div className="AppContainer-header">
+                    {/*<div className="AppContainer-header_img-frame">*/}
+                        {/*<img className="AppContainer-logo" src={LogoImg} />*/}
+                        {/*/!*<div className="AppContainer-header_fix" />*!/*/}
+                    {/*</div>*/}
+                    <Link className="AppContainer-header_buttons" to='/feed'>
+                        <div>Feed</div>
+                        {/*<div className="AppContainer-header_fix" />*/}
                     </Link>
-                    <Link className="App-header_buttons" to='/events'>
+                    <Link className="AppContainer-header_buttons" to='/events'>
                         <div>Events</div>
-                        <div className="App-header_fix" />
+                        {/*<div className="AppContainer-header_fix" />*/}
                     </Link>
-                    <Link className="App-header_buttons" to='/mentors'>
+                    <Link className="AppContainer-header_buttons" to='/mentors'>
                         <div>Mentors</div>
-                        <div className="App-header_fix" />
+                        {/*<div className="AppContainer-header_fix" />*/}
                     </Link>
-                    <Link className="App-header_buttons" to='/loops'>
+                    <Link className="AppContainer-header_buttons" to='/loops'>
                         <div>Loops</div>
-                        <div className="App-header_fix" />
+                        {/*<div className="AppContainer-header_fix" />*/}
                     </Link>
-                    <Link className="App-header_buttons" to='/profile'>
+                    <div className="AppContainer-header_spring" />
+                    <Link className="AppContainer-header_buttons right-align-block" to='/profile'>
                         <div>Profile</div>
-                        <div className="App-header_fix" />
+                        {/*<div className="AppContainer-header_fix" />*/}
                     </Link>
-                    <div className="App-header_fix" />
+                    {/*<div className="AppContainer-header_fix" />*/}
                 </div>
                 <Switch>
-                    <Route path='/pile' component={Pile} />
-                    <Route path='/events' component={Events} />
-                    <Route path='/mentors' component={Mentors} />
-                    <Route path='/loops' component={Loops} />
-                    <Route path='/profile' component={Profile} />
+                    <Route path='/feed' component={NewsContainer} />
+                    <Route path='/events' component={EventsContainer} />
+                    <Route path='/mentors' component={MentorsContainer} />
+                    <Route path='/loops' component={LoopsContainer} />
+                    <Route path='/profile' component={ProfileContainer} />
                     <Route render={() => <Redirect to='page_not_found' /> } />
                 </Switch>
-                <div className="App-footer">
+                <div className="AppContainer-footer">
 
                 </div>
             </div>
@@ -72,7 +73,7 @@ class App extends React.Component {
     }
 }
 
-export default App;
+export default AppContainer;
 
 
 // class NewsList extends Component{

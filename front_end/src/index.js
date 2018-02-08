@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/index.css';
-import App from './containers/App';
+import AppContainer from './containers/AppContainer';
 import registerServiceWorker from './registerServiceWorker'; // for offline
 import { Provider } from 'react-redux'
 import reducers from "./reducers"
@@ -31,11 +31,11 @@ ReactDOM.render(
                 <Switch>
                     <Route exact path='/' render={() => <Redirect to='welcome' />}/>
                     <Route path='/welcome' component={Welcome} />
-                    <Route path='/pile' component={App} />
-                    <Route path='/events' component={App} />
-                    <Route path='/mentors' component={App} />
-                    <Route path='/loops' component={App} />
-                    <Route path='/profile' component={App} />
+                    <Route path='/feed' component={AppContainer} />
+                    <Route path='/events' component={AppContainer} />
+                    <Route path='/mentors' component={AppContainer} />
+                    <Route path='/loops' component={AppContainer} />
+                    <Route path='/profile' component={AppContainer} />
                     <Route exact path='/page_not_found' component={PageNotFound}/>
                     <Route render={() => <Redirect to='page_not_found' /> } />
                 </Switch>

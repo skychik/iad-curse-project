@@ -1,7 +1,11 @@
-.News_container {
-    background: #f4f4f4;
-    border-radius: 15px;
-    border: 2px solid #535353;
-    padding: 15px;
-    margin: 15px;
+.News {
+  display: inline-block;
+  width: 420px;
+  height: 560px;
+  background: #f4f4f4;
+  border-radius: 5px;
+  border: 2px solid #535353;
+  padding: 15px;
+  margin: 15px;
+  overflow: hidden;
 }

@@ -6,7 +6,8 @@ function getContent(page) {
     // rest({method: 'GET', path: 'localhost:8080/api/news'}).done(response => {
     //     this.setState({news: response.entity._embedded.news});
     // });
-    if (page === 'pile')return api.res('api').res('news').get();
+    if (page === 'pile')
+        return api.res('api').res('news').get();
     return api.res('api').res(page).get();
 }
 

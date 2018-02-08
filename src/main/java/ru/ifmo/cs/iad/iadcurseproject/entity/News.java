@@ -3,13 +3,13 @@ package ru.ifmo.cs.iad.iadcurseproject.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @Table(name = "news")
 public class News implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Basic
 	@Column(name = "id", nullable = false)
 	private Long id;
 	public long getId() {
@@ -19,7 +19,7 @@ public class News implements Serializable {
 		this.id = id;
 	}
 
-	@Basic
+	@ManyToOne
 	@Column(name = "id_user", nullable = false)
 	private long authorId;
 	public long getAuthorId() {
@@ -29,7 +29,6 @@ public class News implements Serializable {
 		this.authorId = authorId;
 	}
 
-	@Basic
 	@Column(name = "creation_date", nullable = false)
 	private Timestamp creationDate;
 	public Timestamp getCreationDate() {
@@ -39,8 +38,7 @@ public class News implements Serializable {
 		this.creationDate = creationDate;
 	}
 
-	@Basic
-	@Column(name = "altering_date", nullable = false)
+	@Column(name = "altering_date")
 	private Timestamp alteringDate;
 	public Timestamp getAlteringDate() {
 		return alteringDate;
@@ -49,13 +47,50 @@ public class News implements Serializable {
 		this.alteringDate = alteringDate;
 	}
 
-//	@Basic
-//	@Column(name = "comment_on", nullable = false)
-//	private long commentOn;
-//	public long getCommentOn() {
-//		return commentOn;
-//	}
-//	public void setCommentOn(long commentOn) {
-//		this.commentOn = commentOn;
-//	}
+	@Column(name = "content", nullable = false)
+	private String content;
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	@OneToMany(mappedBy="id_news", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+//	@Column(nullable = false) // TODO: nullable for columns, fetch type, cascade
+	private Set<Comment> comments;
+	public Set<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+
+	@OneToMany(mappedBy="id_news", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	private Set<NewsLoop> newsLoops;
+	public Set<NewsLoop> getNewsLoops() {
+		return newsLoops;
+	}
+	public void setNewsLoops(Set<NewsLoop> newsLoops) {
+		this.newsLoops = newsLoops;
+	}
+
+	@OneToMany(mappedBy="id_news", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	private Set<NewsPoop> newsPoops;
+	public Set<NewsPoop> getNewsPoops() {
+		return newsPoops;
+	}
+	public void setNewsPoops(Set<NewsPoop> newsPoops) {
+		this.newsPoops = newsPoops;
+	}
+
+
+	@OneToMany(mappedBy="id_news", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	private Set<Repost> reposts;
+	public Set<Repost> getReposts() {
+		return reposts;
+	}
+	public void setReposts(Set<Repost> reposts) {
+		this.reposts = reposts;
+	}
 }

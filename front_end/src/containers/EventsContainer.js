@@ -1,13 +1,13 @@
 import React from 'react';
 
-class Events extends React.Component {
+class EventsContainer extends React.Component {
     render() {
         return (
-            <div className="Events">
+            <div className="EventsContainer">
                 <h2>{this.props.content}</h2>
             </div>
         )
     }
 }
 
-export default Events;
+export default EventsContainer;
