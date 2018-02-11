@@ -12,5 +12,4 @@ import java.util.Set;
 
 @RepositoryRestResource(collectionResourceRel = "news", path = "news")
 public interface NewsRepository extends JpaRepository<News, Long> {
-	List<News> findAllByAuthorIdIn(Set<Long> users);
 }
