@@ -5,7 +5,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "repost", schema = "public")
-public class Repost extends Event {
+public class Repost {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)
@@ -17,7 +17,7 @@ public class Repost extends Event {
 
 	@ManyToOne
 	@JoinColumn(name = "id_user", nullable = false)
-	private User user;
+	private User author;
 
 	@OneToMany(mappedBy="repost", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
 	private Set<RepostLoop> repostLoops;
@@ -38,11 +38,11 @@ public class Repost extends Event {
 	public void setNews(News news) {
 		this.news = news;
 	}
-	public User getUser() {
-		return user;
+	public User getAuthor() {
+		return author;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setAuthor(User author) {
+		this.author = author;
 	}
 	public Set<RepostLoop> getRepostLoops() {
 		return repostLoops;

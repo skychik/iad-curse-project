@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/index.css';
+// import './styles/index.css';
+//import './styles/bootstrap.css';
 import AppContainer from './containers/AppContainer';
 import registerServiceWorker from './registerServiceWorker'; // for offline
 import { Provider } from 'react-redux'

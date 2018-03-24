@@ -5,7 +5,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "news", schema = "public")
-public class News extends Event {
+public class News {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)
@@ -14,6 +14,9 @@ public class News extends Event {
 	@ManyToOne
 	@JoinColumn(name = "id_user", nullable = false)
 	private User author;
+
+	@Column(name = "title", nullable = false)
+	private String title;
 
 	@Column(name = "content", nullable = false)
 	private String content;
@@ -43,6 +46,12 @@ public class News extends Event {
 	}
 	public void setAuthor(User author) {
 		this.author = author;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getContent() {
 		return content;

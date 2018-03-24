@@ -1,15 +1,21 @@
 package ru.ifmo.cs.iad.iadcurseproject.filter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 
-@Configuration
-public class CORSConfiguration {
+@EnableAutoConfiguration
+@ComponentScan
+public class ApplicationConfiguration {
 	@Bean
 	public FilterRegistrationBean corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -37,5 +43,11 @@ public class CORSConfiguration {
 //	public void init(FilterConfig filterConfig) {}
 //
 //	public void destroy() {}
+
+//	@Bean
+//	public Logger logger(){
+//		return LoggerFactory.getLogger("application");
+//	}
+
 
 }

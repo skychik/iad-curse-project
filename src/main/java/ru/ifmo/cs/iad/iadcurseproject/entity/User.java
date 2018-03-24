@@ -67,7 +67,7 @@ public class User implements Serializable {
 
 	// ------------------------ Reposts ------------------------
 
-	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy="author", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
 	private Set<Repost> reposts;
 
 	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
@@ -76,7 +76,7 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
 	private Set<RepostPoop> repostPoops;
 
-	// ------------------------ Subscribition ------------------------
+	// ------------------------ Subscription ------------------------
 
 	@OneToMany(mappedBy="who", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
 	private Set<Subscription> subscriptions;

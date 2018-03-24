@@ -35,9 +35,9 @@ public class CRUDWebController {
 
 	@RequestMapping(value = "/all_news", method = RequestMethod.GET)
 	public Iterable getAllNews(@RequestParam(value = "userId", required = false, defaultValue = "-1") int userId,
-	                             @RequestParam(value = "from", required = false, defaultValue = "0") int fromNewsId,
-	                             @RequestParam(value = "to") int toNewsId) {
-		return newsService.getAllNews(userId, fromNewsId, toNewsId);
+	                             @RequestParam(value = "fromNewsId", required = false, defaultValue = "0") int fromNewsId,
+	                             @RequestParam(value = "total") int total) {
+		return newsService.getAllNews(userId, fromNewsId, total);
 	}
 
 //	@RequestMapping(value = "/")
