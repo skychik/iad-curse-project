@@ -1,5 +1,9 @@
 package ru.ifmo.cs.iad.iadcurseproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -26,6 +30,7 @@ public class Performer implements Serializable {
 	private Timestamp breakupDate;
 
 	@OneToMany(mappedBy="performer", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<JoiningPerformer> joiningPerformers;
 
 

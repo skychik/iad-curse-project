@@ -23,27 +23,21 @@ import Button from "react-bootstrap/lib/Button";
 import Image from "react-bootstrap/lib/Image";
 import NavDropdown from "react-bootstrap/lib/NavDropdown";
 import MenuItem from "react-bootstrap/lib/MenuItem";
+import {Thumbnail} from "react-bootstrap";
+import RestClient from "another-rest-client";
 
 
 class AppContainer extends React.Component {
-    // constructor(props) {
-    //     super(props);
-    //
-    //     this.changePage = this.changePage.bind(this);
-    // }
-//
-    // changePage(menuName) {
-    //     return this.props.changePage(menuName)
-    // }
-
     render() {
         return (
             <Grid className="AppContainer">
                 <Navbar>
                     <Navbar.Header>
-                        <Navbar.Brand>
-                            <Image src={LogoImg} alt="brand" rounded />
-                        </Navbar.Brand>
+                        <div style={{marginLeft:15}}>
+                            <Navbar.Brand>
+                                    <Image src={LogoImg} alt="brand" rounded/>
+                            </Navbar.Brand>
+                        </div>
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse>
@@ -69,7 +63,9 @@ class AppContainer extends React.Component {
                                 {/*<Button type="submit">Submit</Button>*/}
                             {/*</Navbar.Form>*/}
                             <NavItem eventKey={5} href="/profile">
-                                Profile
+                                <div style={{marginRight:30}}>
+                                    Profile
+                                </div>
                             </NavItem>
                         </Nav>
                     </Navbar.Collapse>
@@ -132,7 +128,7 @@ export default AppContainer;
 //                 <tr>
 //                     <th>Id</th>
 //                     <th>Id User</th>
-//                     <th>Content</th>
+//                     <th>xx</th>
 //                     <th>Creation Date</th>
 //                     <th>Alter Date</th>
 //                     <th>Tags</th>

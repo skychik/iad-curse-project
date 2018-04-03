@@ -1,12 +1,16 @@
 package ru.ifmo.cs.iad.iadcurseproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import ru.ifmo.cs.iad.iadcurseproject.entity.custom.Loop;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "repost_loop", schema = "public")
-public class RepostLoop implements Serializable {
+public class RepostLoop extends Loop implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)

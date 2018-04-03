@@ -1,5 +1,9 @@
 package ru.ifmo.cs.iad.iadcurseproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -14,10 +18,12 @@ public class JoiningPerformer implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "id_performer", nullable = false)
+	@JsonManagedReference
 	private Performer performer;
 
 	@ManyToOne
 	@JoinColumn(name = "id_user", nullable = false)
+	@JsonManagedReference
 	private User user;
 
 	@Column(name = "joining_date", nullable = false)

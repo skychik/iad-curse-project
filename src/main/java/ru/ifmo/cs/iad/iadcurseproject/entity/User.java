@@ -3,6 +3,10 @@
 // TODO: telegram
 package ru.ifmo.cs.iad.iadcurseproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -35,53 +39,66 @@ public class User implements Serializable {
 	private Timestamp birthDate;
 
 	@Column(name = "sex")
-	private boolean sex;
+	private boolean sex; // if false then боевой вертолет Apache
 
 	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<AchievementReceiving> achievementReceivings;
 
 	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<JoiningPerformer> joiningPerformers;
 
 	// ------------------------ NewsSet ------------------------
 
 	@OneToMany(mappedBy="author", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<News> newsSet;
 
 	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<NewsLoop> newsLoops;
 
 	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<NewsPoop> newsPoops;
 
 	// ------------------------ Comments ------------------------
 
 	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<Comment> comments;
 
 	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<CommentLoop> commentLoops;
 
 	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<CommentPoop> commentPoops;
 
 	// ------------------------ Reposts ------------------------
 
 	@OneToMany(mappedBy="author", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<Repost> reposts;
 
 	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<RepostLoop> repostLoops;
 
 	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<RepostPoop> repostPoops;
 
 	// ------------------------ Subscription ------------------------
 
 	@OneToMany(mappedBy="who", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<Subscription> subscriptions;
 
 	@OneToMany(mappedBy="onWhom", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<Subscription> subscribers;
 
 

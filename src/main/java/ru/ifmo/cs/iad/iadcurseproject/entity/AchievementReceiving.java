@@ -1,5 +1,10 @@
 package ru.ifmo.cs.iad.iadcurseproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -14,10 +19,12 @@ public class AchievementReceiving implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "id_achievement", nullable = false)
+	@JsonManagedReference
 	private Achievement achievement;
 
 	@ManyToOne
 	@JoinColumn(name = "id_user", nullable = false)
+	@JsonManagedReference
 	private User user;
 
 	@Column(name = "date", nullable = false)

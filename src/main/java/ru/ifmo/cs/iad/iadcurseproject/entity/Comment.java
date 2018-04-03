@@ -1,5 +1,10 @@
 package ru.ifmo.cs.iad.iadcurseproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -15,10 +20,12 @@ public class Comment implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "id_user", nullable = false)
+	@JsonManagedReference
 	private User user;
 
 	@ManyToOne
 	@JoinColumn(name = "id_news", nullable = false)
+	@JsonManagedReference
 	private News news;
 
 	@Column(name = "id_on_comment")
@@ -31,9 +38,11 @@ public class Comment implements Serializable {
 	private Timestamp alteringDate;
 
 	@OneToMany(mappedBy="comment", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<CommentLoop> commentLoops;
 
 	@OneToMany(mappedBy="comment", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<CommentPoop> commentPoops;
 
 

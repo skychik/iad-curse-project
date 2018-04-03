@@ -3,11 +3,11 @@
 import { combineReducers } from 'redux'
 import { pageReducer } from './pageReducer'
 import { routerReducer } from 'react-router-redux'
-import { restApiReducer } from './restApiReducer'
+import { feedReducer } from './feedReducer'
 
 const reducers = combineReducers({
     page: pageReducer,
-    content: restApiReducer,
+    feed: feedReducer,
     routing: routerReducer,
 });
 

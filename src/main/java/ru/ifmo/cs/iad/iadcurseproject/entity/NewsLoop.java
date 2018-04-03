@@ -1,12 +1,17 @@
 package ru.ifmo.cs.iad.iadcurseproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import ru.ifmo.cs.iad.iadcurseproject.entity.custom.Loop;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "news_loop", schema = "public")
-public class NewsLoop implements Serializable {
+public class NewsLoop extends Loop implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)
@@ -14,10 +19,12 @@ public class NewsLoop implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "id_news", nullable = false)
+	@JsonManagedReference
 	private News news;
 
 	@ManyToOne
 	@JoinColumn(name = "id_user", nullable = false)
+	@JsonManagedReference
 	private User user;
 
 	@Column(name = "date", nullable = false)

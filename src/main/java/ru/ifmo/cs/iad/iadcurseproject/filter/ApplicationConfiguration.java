@@ -8,14 +8,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
+import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import javax.servlet.*;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 
 @EnableAutoConfiguration
 @ComponentScan
-public class ApplicationConfiguration {
+@Component
+public class ApplicationConfiguration implements Filter {
 	@Bean
 	public FilterRegistrationBean corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -29,20 +35,23 @@ public class ApplicationConfiguration {
 		bean.setOrder(0);
 		return bean;
 	}
-//	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-//		if (("http://localhost:3000".equals(req.getParameter("Origin")))) {
-//			HttpServletResponse response = (HttpServletResponse) res;
-//			response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-//			response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-//			response.setHeader("Access-Control-Max-Age", "3600");
-//			response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
-//			chain.doFilter(req, res);
-//		} else chain.doFilter(req, res);
-//	}
-//
-//	public void init(FilterConfig filterConfig) {}
-//
-//	public void destroy() {}
+
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+		Logger logger = LoggerFactory.getLogger("application");
+		logger.info(req.getParameter("Origin"));
+		if (("http://localhost:3000".equals(req.getParameter("Origin")))) {
+			HttpServletResponse response = (HttpServletResponse) res;
+			response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+			response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+			response.setHeader("Access-Control-Max-Age", "3600");
+			response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+			chain.doFilter(req, res);
+		} else chain.doFilter(req, res);
+	}
+
+	public void init(FilterConfig filterConfig) {}
+
+	public void destroy() {}
 
 //	@Bean
 //	public Logger logger(){

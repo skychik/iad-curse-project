@@ -1,5 +1,9 @@
 package ru.ifmo.cs.iad.iadcurseproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -19,6 +23,7 @@ public class Achievement implements Serializable {
 	private String type;
 
 	@OneToMany(mappedBy="achievement", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<AchievementReceiving> achievementReceivings;
 
 

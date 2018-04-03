@@ -1,5 +1,9 @@
 package ru.ifmo.cs.iad.iadcurseproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -14,10 +18,12 @@ public class Subscription implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "id_who", nullable = false)
+	@JsonManagedReference
 	private User who;
 
 	@ManyToOne
 	@JoinColumn(name = "id_on_whom", nullable = false)
+	@JsonManagedReference
 	private User onWhom;
 
 	@Column(name = "date", nullable = false)

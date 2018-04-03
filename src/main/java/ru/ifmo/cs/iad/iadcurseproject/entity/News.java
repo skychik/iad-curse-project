@@ -1,11 +1,17 @@
 package ru.ifmo.cs.iad.iadcurseproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "news", schema = "public")
-public class News {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class News implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)
@@ -13,25 +19,39 @@ public class News {
 
 	@ManyToOne
 	@JoinColumn(name = "id_user", nullable = false)
+	@JsonManagedReference
 	private User author;
 
 	@Column(name = "title", nullable = false)
 	private String title;
 
+	@Column(name = "creation_date", nullable = false)
+	private String creationDate;
+
+	@Column(name = "altering_date")
+	private String alteringDate;
+
 	@Column(name = "content", nullable = false)
 	private String content;
 
+	@Column(name = "content_preview", nullable = false)
+	private String contentPreview;
+
 	@OneToMany(mappedBy="news", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 //	@Column(nullable = false) // TODO: nullable for columns, fetch type, cascade
 	private Set<Comment> comments;
 
 	@OneToMany(mappedBy="news", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<NewsLoop> newsLoops;
 
 	@OneToMany(mappedBy="news", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<NewsPoop> newsPoops;
 
 	@OneToMany(mappedBy="news", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<Repost> reposts;
 
 
@@ -53,11 +73,29 @@ public class News {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	public String getCreationDate() {
+		return creationDate;
+	}
+	public void setCreationDate(String creationDate) {
+		this.creationDate = creationDate;
+	}
+	public String getAlteringDate() {
+		return alteringDate;
+	}
+	public void setAlteringDate(String alteringDate) {
+		this.alteringDate = alteringDate;
+	}
 	public String getContent() {
 		return content;
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getContentPreview() {
+		return contentPreview;
+	}
+	public void setContentPreview(String contentPreview) {
+		this.contentPreview = contentPreview;
 	}
 	public Set<Comment> getComments() {
 		return comments;

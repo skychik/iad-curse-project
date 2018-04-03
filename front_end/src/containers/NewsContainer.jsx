@@ -10,46 +10,39 @@ import News from "../components/News";
 class NewsContainer extends React.Component {
     constructor(props) {
         super(props);
-        this.receiveNews = this.receiveNews.bind(this);
+        this.setFeed = this.setFeed.bind(this);
     }
 
     componentDidMount() {
-        const restApi = new RestClient('http://localhost:8080');
-        restApi.res({
-            api:
-                'news',
-            all_news: 0
-        });
-        // console.log(restApi.api.news.url());
-        const smth = restApi.api.news.get();
-        // smth.then((response) => {
-        //     console.log(response);
-        // });
-
-        smth.then((response) => {
-            console.log(response);
-            const data = JSON.parse(response)._embedded.news;
-            this.receiveNews(data);
-            // this.receiveNews(response);
+        let api = new RestClient('http://localhost:8080'); // TODO: make static
+        const promise = api.res("news").get({userId: 2});
+        promise.then((response) => {
+            this.setFeed(JSON.parse(JSON.stringify(response)).content);
         });
     }
 
-    receiveNews(data) {
-        return this.props.receiveNews(data)
+    setFeed(news) {
+        // console.log("news: ");
+        // console.log(news);
+        return this.props.setFeed(news) // after this this.props.content=data
     }
 
     render() {
-        const data = this.props.content;
-        // console.log('---news:---');
-        // console.log(news);
-        // console.log('---news---');
-        const newsContainer = data != null ?
+        const data = this.props.feed;
+        console.log('---data:---');
+        console.log(data);
+        console.log('---data---');
+        const newsContainer =  data != null ?
             data.map((news, idx) => {
-                return <News className="News" key={idx}
-                             authorId={news.authorId}
+                return <News className="News"
+                             key={idx}
+                             newsId={news.id}
+                             authorId={news.author.id}
+                             title={news.title}
+                             contentPreview={news.contentPreview}
                              creationDate={news.creationDate}
                              alteringDate={news.alteringDate}
-                             content={news.content}/>;
+                             />;
             }) : null;
         return(
             <div className="News_container">
@@ -60,7 +53,7 @@ class NewsContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return {content: state.content}
+    return {feed: state.feed}
 };
 
 const mapDispatchToProps = (dispatch) => {

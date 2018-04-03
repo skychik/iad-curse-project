@@ -1,5 +1,8 @@
 package ru.ifmo.cs.iad.iadcurseproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -13,16 +16,20 @@ public class Repost {
 
 	@ManyToOne
 	@JoinColumn(name = "id_news", nullable = false)
+	@JsonManagedReference
 	private News news;
 
 	@ManyToOne
 	@JoinColumn(name = "id_user", nullable = false)
+	@JsonManagedReference
 	private User author;
 
 	@OneToMany(mappedBy="repost", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<RepostLoop> repostLoops;
 
 	@OneToMany(mappedBy="repost", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@JsonBackReference
 	private Set<RepostPoop> repostPoops;
 
 

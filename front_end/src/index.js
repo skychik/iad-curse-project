@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 // import './styles/index.css';
 //import './styles/bootstrap.css';
+//import './styles/sandstone.css';
+//import './styles/variables.css';
+//import './styles/bootswatch.css';
 import AppContainer from './containers/AppContainer';
 import registerServiceWorker from './registerServiceWorker'; // for offline
 import { Provider } from 'react-redux'
@@ -18,9 +21,9 @@ import {restApiReducer} from "./reducers/restApiReducer";
 
 const store = createStore(
     reducers,
-    {
+    { // initial state
         page: null,
-        content: null,
+        feed: null,
         routing: null,
     });
 const history = createHistory();

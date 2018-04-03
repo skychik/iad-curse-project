@@ -1,4 +1,4 @@
-export function receiveNews (news) {
+export function setFeed(news) {
     // console.log('---receive:---');
     // console.log(news);
     // console.log('---receive---');

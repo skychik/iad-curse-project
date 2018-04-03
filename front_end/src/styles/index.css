@@ -1,40 +1,32 @@
 table {
   border: 0;
-  border-spacing: 0;
-}
+  border-spacing: 0; }
 
 td {
-  padding: 0;
-}
+  padding: 0; }
 
 .AppContainer {
-  text-align: left;
-}
+  text-align: left; }
 
 .AppContainer-title {
-  font-size: 1.5em;
-}
+  font-size: 1.5em; }
 
 .AppContainer-intro {
-  font-size: large;
-}
+  font-size: large; }
 
 .AppContainer-header {
   background-color: #222;
   height: 31px;
   padding: 8px;
-  color: white;
-}
+  color: white; }
 
 .AppContainer-header_img-frame {
-  display: inline-block;
-}
+  display: inline-block; }
 
 .AppContainer-logo {
   vertical-align: center;
   height: 25px;
-  margin: 3px;
-}
+  margin: 3px; }
 
 .AppContainer-header_buttons {
   display: inline-block;
@@ -47,30 +39,24 @@ td {
   color: black;
   text-decoration: none;
   text-align: center;
-  font-size: 17px;
-}
+  font-size: 17px; }
 
 .AppContainer-header_buttons:hover {
-  background: #fef1f4;
-}
+  background: #fef1f4; }
 
 .AppContainer-header_buttons_context {
-  display: inline-block;
-}
+  display: inline-block; }
 
 .AppContainer-header_fix {
   height: 100%;
-  display: inline-block;
-}
+  display: inline-block; }
 
 .AppContainer-header_spring {
   display: inline-block;
-  margin: 0 auto;
-}
+  margin: 0 auto; }
 
 .right-align-block {
-  float: right;
-}
+  float: right; }
 
 .News {
   display: inline-block;
@@ -81,17 +67,14 @@ td {
   border: 2px solid #535353;
   padding: 15px;
   margin: 15px;
-  overflow: hidden;
-}
+  overflow: hidden; }
 
 .News_container {
-  padding: 30px;
-}
+  padding: 30px; }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
-}
+  font-family: sans-serif; }
 
 /*# sourceMappingURL=index.css.map */
