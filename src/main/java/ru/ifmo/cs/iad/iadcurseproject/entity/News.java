@@ -3,14 +3,18 @@ package ru.ifmo.cs.iad.iadcurseproject.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.ToString;
+import org.springframework.hateoas.Identifiable;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Set;
 
 @Entity
 @Table(name = "news", schema = "public")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@ToString
 public class News implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,10 +30,10 @@ public class News implements Serializable {
 	private String title;
 
 	@Column(name = "creation_date", nullable = false)
-	private String creationDate;
+	private Timestamp creationDate;
 
 	@Column(name = "altering_date")
-	private String alteringDate;
+	private Timestamp alteringDate;
 
 	@Column(name = "content", nullable = false)
 	private String content;
@@ -73,16 +77,16 @@ public class News implements Serializable {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getCreationDate() {
+	public Timestamp getCreationDate() {
 		return creationDate;
 	}
-	public void setCreationDate(String creationDate) {
+	public void setCreationDate(Timestamp creationDate) {
 		this.creationDate = creationDate;
 	}
-	public String getAlteringDate() {
+	public Timestamp getAlteringDate() {
 		return alteringDate;
 	}
-	public void setAlteringDate(String alteringDate) {
+	public void setAlteringDate(Timestamp alteringDate) {
 		this.alteringDate = alteringDate;
 	}
 	public String getContent() {

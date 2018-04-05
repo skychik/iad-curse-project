@@ -1,76 +1,30 @@
-table {
-  border: 0;
-  border-spacing: 0; }
-
-td {
-  padding: 0; }
-
-.AppContainer {
-  text-align: left; }
-
-.AppContainer-title {
-  font-size: 1.5em; }
-
-.AppContainer-intro {
-  font-size: large; }
-
-.AppContainer-header {
-  background-color: #222;
-  height: 31px;
-  padding: 8px;
-  color: white; }
-
-.AppContainer-header_img-frame {
-  display: inline-block; }
-
-.AppContainer-logo {
-  vertical-align: center;
-  height: 25px;
-  margin: 3px; }
-
-.AppContainer-header_buttons {
+@charset "UTF-8";
+.my_button {
+  font-family: "Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;
+  border: 1px solid #4582ec;
   display: inline-block;
-  border-radius: 3px;
-  background: crimson;
-  padding: 4px;
-  margin: 3px;
-  width: 80px;
-  height: 17px;
-  color: black;
-  text-decoration: none;
-  text-align: center;
-  font-size: 17px; }
-
-.AppContainer-header_buttons:hover {
-  background: #fef1f4; }
-
-.AppContainer-header_buttons_context {
-  display: inline-block; }
-
-.AppContainer-header_fix {
-  height: 100%;
-  display: inline-block; }
-
-.AppContainer-header_spring {
-  display: inline-block;
-  margin: 0 auto; }
-
-.right-align-block {
-  float: right; }
-
-.News {
-  display: inline-block;
-  width: 420px;
-  height: 560px;
-  background: #f4f4f4;
+  padding: 2px 5px;
   border-radius: 5px;
-  border: 2px solid #535353;
-  padding: 15px;
-  margin: 15px;
-  overflow: hidden; }
+  margin-left: 10px; }
 
-.News_container {
-  padding: 30px; }
+.my_button :last-child {
+  margin-left: 5px;
+  padding-left: 5px;
+  border-left: 1px solid #4582ec; }
+
+.my_button :last-child:hover {
+  border-left: 1px solid #3857c0; }
+
+.my_button:hover {
+  text-decoration: none;
+  /* Убираем подчеркивание */
+  color: #3857c0;
+  /* Цвет ссылки при наведении на нее курсора мыши */
+  border-color: #3857c0; }
+
+.my_date {
+  font-style: italic;
+  padding: 3px; }
 
 body {
   margin: 0;

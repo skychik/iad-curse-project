@@ -1,11 +1,41 @@
-.News {
+//.News {
+//  display: inline-block;
+//  width: 420px;
+//  height: 560px;
+//  background: #f4f4f4;
+//  border-radius: 5px;
+//  border: 2px solid #535353;
+//  padding: 15px;
+//  margin: 15px;
+//  overflow: hidden;
+//}
+
+.my_button {
+  font-family: "Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;
+  border: 1px solid #4582ec;
   display: inline-block;
-  width: 420px;
-  height: 560px;
-  background: #f4f4f4;
+  padding: 2px 5px;
   border-radius: 5px;
-  border: 2px solid #535353;
-  padding: 15px;
-  margin: 15px;
-  overflow: hidden;
+  margin-left: 10px;
+}
+
+.my_button :last-child {
+  margin-left: 5px;
+  padding-left: 5px;
+  border-left: 1px solid #4582ec;
+}
+
+.my_button :last-child:hover {
+  border-left: 1px solid #3857c0;
+}
+
+.my_button:hover {
+  text-decoration: none; /* Убираем подчеркивание */
+  color: #3857c0; /* Цвет ссылки при наведении на нее курсора мыши */
+  border-color: #3857c0;
+}
+
+.my_date {
+  font-style: italic;
+  padding: 3px;
 }

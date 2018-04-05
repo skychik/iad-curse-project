@@ -35,7 +35,7 @@ class AppContainer extends React.Component {
                     <Navbar.Header>
                         <div style={{marginLeft:15}}>
                             <Navbar.Brand>
-                                    <Image src={LogoImg} alt="brand" rounded/>
+                                <Image src={LogoImg} alt="brand" rounded />
                             </Navbar.Brand>
                         </div>
                         <Navbar.Toggle />
@@ -63,7 +63,7 @@ class AppContainer extends React.Component {
                                 {/*<Button type="submit">Submit</Button>*/}
                             {/*</Navbar.Form>*/}
                             <NavItem eventKey={5} href="/profile">
-                                <div style={{marginRight:30}}>
+                                <div>
                                     Profile
                                 </div>
                             </NavItem>

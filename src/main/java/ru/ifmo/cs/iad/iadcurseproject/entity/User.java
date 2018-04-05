@@ -5,7 +5,10 @@ package ru.ifmo.cs.iad.iadcurseproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.ToString;
+import org.springframework.hateoas.Identifiable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +17,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user", schema = "public")
+@ToString(of = {"id"})
 public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,6 +28,7 @@ public class User implements Serializable {
 	private String username;
 
 	@Column(name = "password", nullable = false)
+	@JsonIgnore
 	private String password;
 
 	@Column(name = "first_name", nullable = false)
@@ -40,6 +45,9 @@ public class User implements Serializable {
 
 	@Column(name = "sex")
 	private boolean sex; // if false then боевой вертолет Apache
+
+	@Column(name = "photo_addr")
+	private String photo;
 
 	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
 	@JsonBackReference
@@ -149,6 +157,12 @@ public class User implements Serializable {
 	}
 	public void setSex(boolean sex) {
 		this.sex = sex;
+	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 	public Set<AchievementReceiving> getAchievementReceivings() {
 		return achievementReceivings;

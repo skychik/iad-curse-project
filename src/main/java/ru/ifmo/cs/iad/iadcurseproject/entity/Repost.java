@@ -2,13 +2,17 @@ package ru.ifmo.cs.iad.iadcurseproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.ToString;
+import org.springframework.hateoas.Identifiable;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "repost", schema = "public")
-public class Repost {
+@ToString(exclude = {"news", "author", "repostLoops", "repostPoops"})
+public class Repost implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)

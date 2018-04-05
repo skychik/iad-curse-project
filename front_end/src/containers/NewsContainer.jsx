@@ -15,16 +15,25 @@ class NewsContainer extends React.Component {
 
     componentDidMount() {
         let api = new RestClient('http://localhost:8080'); // TODO: make static
-        const promise = api.res("news").get({userId: 2});
+        const promise = api.res("news").res("for").get({userId: 2});
         promise.then((response) => {
-            this.setFeed(JSON.parse(JSON.stringify(response)).content);
+            const feed = JSON.parse(JSON.stringify(response));
+            this.setFeed(feed);
         });
     }
 
-    setFeed(news) {
+    shouldComponentUpdate() {
+        console.log("shouldComponentUpdate()");
+        // this.props.feed.map((news, idx) => {
+        //     news.authorPhoto = news.author.id
+        // });
+        return true;
+    }
+
+    setFeed(feed) {
         // console.log("news: ");
         // console.log(news);
-        return this.props.setFeed(news) // after this this.props.content=data
+        return this.props.setFeed(feed); // after this this.props.content=data
     }
 
     render() {
@@ -37,11 +46,16 @@ class NewsContainer extends React.Component {
                 return <News className="News"
                              key={idx}
                              newsId={news.id}
-                             authorId={news.author.id}
+                             authorId={news.authorId}
+                             authorUsername={news.authorUsername}
                              title={news.title}
                              contentPreview={news.contentPreview}
                              creationDate={news.creationDate}
                              alteringDate={news.alteringDate}
+                             commentsNumber={news.commentsNumber}
+                             loopsNumber={news.loopsNumber}
+                             poopsNumber={news.poopsNumber}
+                             repostsNumber={news.repostsNumber}
                              />;
             }) : null;
         return(

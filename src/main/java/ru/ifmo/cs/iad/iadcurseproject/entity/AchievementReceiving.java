@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.ToString;
+import org.springframework.hateoas.Identifiable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +13,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "achievement_receiving", schema = "public")
+@ToString
 public class AchievementReceiving implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

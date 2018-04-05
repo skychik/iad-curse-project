@@ -3,6 +3,8 @@ package ru.ifmo.cs.iad.iadcurseproject.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.ToString;
+import org.springframework.hateoas.Identifiable;
 import ru.ifmo.cs.iad.iadcurseproject.entity.custom.Poop;
 
 import javax.persistence.*;
@@ -11,6 +13,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "news_poop", schema = "public")
+@ToString(exclude = {"user", "news"})
 public class NewsPoop extends Poop implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

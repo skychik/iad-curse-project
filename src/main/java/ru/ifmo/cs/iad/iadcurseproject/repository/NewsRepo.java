@@ -1,17 +1,27 @@
 package ru.ifmo.cs.iad.iadcurseproject.repository;
 
-import org.springframework.data.domain.Page;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
+import ru.ifmo.cs.iad.iadcurseproject.dto.projection.NewsForFeedProjection;
 import ru.ifmo.cs.iad.iadcurseproject.entity.News;
 
-@RepositoryRestResource(collectionResourceRel = "news", path = "news")
-public interface NewsRepository extends JpaRepository<News, Long> {
+
+import java.util.List;
+
+//@RepositoryRestResource(collectionResourceRel = "news", path = "news", excerptProjection = NewsForFeedProjection.class)
+public interface NewsRepo extends JpaRepository<News, Long> {
+	//@RestResource(exported = false)
 	@Query("select n from News n, Subscription s where n.author = s.onWhom and s.who.id = :userId")
-	Page<News> getAllForUserId(@Param("userId") long userId, Pageable pageable);
+	List<News> getAllForUserId(@Param("userId") long userId, Pageable pagination);
+
+	//@RestResource(exported = false)
+	@Query("select n from News n where n.id = :newsId")
+	News getOneByNewsId(@Param("newsId") long newsId);
 
 //	@Query(value = "SELECT u.id AS id, u.login AS authorLogin, n.content_preview AS contentPreview, " +
 //			"count(lop) AS loopsNumber, count(pop) AS poopsNumber, count(com) AS commentsNumber, " +

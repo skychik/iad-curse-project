@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import './styles/index.css';
+import './styles/index.css';
 //import './styles/bootstrap.css';
 //import './styles/sandstone.css';
 //import './styles/variables.css';
@@ -41,7 +41,7 @@ ReactDOM.render(
                     <Route path='/loops' component={AppContainer} />
                     <Route path='/profile' component={AppContainer} />
                     <Route exact path='/page_not_found' component={PageNotFound}/>
-                    <Route render={() => <Redirect to='page_not_found' /> } />
+                    <Route render={() => <Redirect to='/page_not_found' /> } />
                 </Switch>
             </MainContainer>
         </ConnectedRouter>
