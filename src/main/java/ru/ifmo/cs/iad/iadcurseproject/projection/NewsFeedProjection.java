@@ -15,7 +15,7 @@
 //
 //	String getContent();
 //
-//	String getContentPreview();
+//	String getContent();
 //
 //	Set<Comment> getComments();
 //

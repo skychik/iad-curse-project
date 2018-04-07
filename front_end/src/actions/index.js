@@ -3,3 +3,5 @@
 import * as restApi from "./restApi";
 
 export const setFeed = restApi.setFeed;
+export const setProfile = restApi.setProfile;
+export const setNews = restApi.setNews;

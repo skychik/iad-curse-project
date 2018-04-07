@@ -1,6 +1,6 @@
-export function feedReducer(state = {}, action) {
+export function profileReducer(state = {}, action) {
     switch (action.type) {
-        case "FEED_RECEIVED":
+        case "PROFILE_RECEIVED":
             return action.payload;
         default:
             return state;

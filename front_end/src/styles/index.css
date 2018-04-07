@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url(Yeti.css);
 .my_button {
   font-family: "Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;
   border: 1px solid #4582ec;
@@ -25,6 +26,11 @@
 .my_date {
   font-style: italic;
   padding: 3px; }
+
+.my_page_header {
+  padding-bottom: 19.5px;
+  margin: 42px 0 0;
+  border-bottom: 1px solid #dddddd; }
 
 body {
   margin: 0;

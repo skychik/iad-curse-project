@@ -4,70 +4,79 @@ import {connect} from "react-redux";
 import * as actionCreators from "../actions";
 import {bindActionCreators} from "redux";
 import News from "../components/News";
+import {Redirect} from "react-router-dom";
 
 // props:
 //  news - News in JSON
 class NewsContainer extends React.Component {
-    constructor(props) {
-        super(props);
-        this.setFeed = this.setFeed.bind(this);
-    }
+    // componentWillMount() {
+    //     this.setNews(null);
+    // }
 
     componentDidMount() {
         let api = new RestClient('http://localhost:8080'); // TODO: make static
-        const promise = api.res("news").res("for").get({userId: 2});
+        //console.log(this.props.match.params.number);
+        const number = parseInt(this.props.match.params.number, 10);
+        if (isNaN(number)) {
+            console.log("didMount:NaN");
+            this.setNews(null);
+            return;
+        }
+        console.log("didMount:not NaN");
+
+        const promise = api.res("news").res(number.toString()).get();
         promise.then((response) => {
-            const feed = JSON.parse(JSON.stringify(response));
-            this.setFeed(feed);
+            const news = JSON.parse(JSON.stringify(response));
+            console.log(news);
+            this.setNews(news);
         });
     }
 
-    shouldComponentUpdate() {
-        console.log("shouldComponentUpdate()");
-        // this.props.feed.map((news, idx) => {
-        //     news.authorPhoto = news.author.id
-        // });
-        return true;
-    }
-
-    setFeed(feed) {
+    setNews(news) {
         // console.log("news: ");
         // console.log(news);
-        return this.props.setFeed(feed); // after this this.props.content=data
+        return this.props.setNews(news);
     }
 
     render() {
-        const data = this.props.feed;
+        //console.log("NewsContainer.render");
+        const newsData = this.props.news;
         console.log('---data:---');
-        console.log(data);
+        console.log(newsData);
         console.log('---data---');
-        const newsContainer =  data != null ?
-            data.map((news, idx) => {
-                return <News className="News"
-                             key={idx}
-                             newsId={news.id}
-                             authorId={news.authorId}
-                             authorUsername={news.authorUsername}
-                             title={news.title}
-                             contentPreview={news.contentPreview}
-                             creationDate={news.creationDate}
-                             alteringDate={news.alteringDate}
-                             commentsNumber={news.commentsNumber}
-                             loopsNumber={news.loopsNumber}
-                             poopsNumber={news.poopsNumber}
-                             repostsNumber={news.repostsNumber}
-                             />;
-            }) : null;
-        return(
+
+        if (newsData == null) {
+            console.log("render:null");
+            return <h1>This news doesn't exist(incorrect news number)</h1>
+        }
+        if (Object.keys(newsData).length === 0) {
+            return <h1>Loading</h1>
+        }
+
+        console.log("render:not null");
+
+        return (
             <div className="News_container">
-                {newsContainer}
+                <News className="News"
+                      newsId={newsData.id}
+                      authorId={newsData.authorId}
+                      authorUsername={newsData.authorUsername}
+                      title={newsData.title}
+                      content={newsData.content}
+                      creationDate={newsData.creationDate}
+                      alteringDate={newsData.alteringDate}
+                      commentsNumber={newsData.commentsNumber}
+                      loopsNumber={newsData.loopsNumber}
+                      poopsNumber={newsData.poopsNumber}
+                      repostsNumber={newsData.repostsNumber}/>
+                {/*comments*/}
             </div>
         )
     }
 }
 
 const mapStateToProps = (state) => {
-    return {feed: state.feed}
+    return {news: state.news}
 };
 
 const mapDispatchToProps = (dispatch) => {

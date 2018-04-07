@@ -48,7 +48,7 @@
 //	}
 //
 //	@Override
-//	public String getContentPreview() {
+//	public String getContent() {
 //		return contentPreview;
 //	}
 //	public void setContentPreview(String contentPreview) {

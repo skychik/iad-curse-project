@@ -70,7 +70,7 @@
 ////	public void setAuthorLogin(String authorLogin) {
 ////		this.authorLogin = authorLogin;
 ////	}
-//	/*public*/ String getContentPreview(); /*{
+//	/*public*/ String getContent(); /*{
 //		return contentPreview;
 //	}*/
 ////	public void setContentPreview(String contentPreview) {

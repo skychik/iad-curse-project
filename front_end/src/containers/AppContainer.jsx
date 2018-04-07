@@ -1,10 +1,12 @@
 import React from 'react';
 //import rest from './rest';
+import FeedContainer from './FeedContainer';
 import NewsContainer from './NewsContainer';
 import LoopsContainer from "./LoopsContainer";
 import MentorsContainer from "./MentorsContainer";
 import EventsContainer from "./EventsContainer";
 import ProfileContainer from "./ProfileContainer";
+import PageNotFound from "../components/PageNotFound";
 import { Switch, Route } from 'react-router';
 import { Link, Redirect } from "react-router-dom";
 import LogoImg from '../images/logo.png'
@@ -63,7 +65,7 @@ class AppContainer extends React.Component {
                                 {/*<Button type="submit">Submit</Button>*/}
                             {/*</Navbar.Form>*/}
                             <NavItem eventKey={5} href="/profile">
-                                <div>
+                                <div style={{marginRight:15}}>
                                     Profile
                                 </div>
                             </NavItem>
@@ -99,12 +101,14 @@ class AppContainer extends React.Component {
                     {/*/!*<div className="AppContainer-header_fix" />*!/*/}
                 {/*</div>*/}
                 <Switch>
-                    <Route path='/feed' component={NewsContainer} />
+                    <Route exact path='/feed' component={FeedContainer} />
                     <Route path='/events' component={EventsContainer} />
                     <Route path='/mentors' component={MentorsContainer} />
                     <Route path='/loops' component={LoopsContainer} />
                     <Route path='/profile' component={ProfileContainer} />
-                    <Route render={() => <Redirect to='page_not_found' /> } />
+                    <Route path='/news/:number' component={NewsContainer} />
+                    <Route path='/page_not_found' component={PageNotFound}/>
+                    <Route render={() => <Redirect to='/page_not_found' /> } />
                 </Switch>
                 <div className="AppContainer-footer">
 

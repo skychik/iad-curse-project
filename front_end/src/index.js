@@ -8,16 +8,15 @@ import './styles/index.css';
 import AppContainer from './containers/AppContainer';
 import registerServiceWorker from './registerServiceWorker'; // for offline
 import { Provider } from 'react-redux'
-import reducers from "./reducers"
+import reducers from "./reducers/index"
 import MainContainer from './containers/MainContainer'
 import Welcome from './components/welcome'
 import { createStore } from "redux"
 import { Route, Switch, Redirect } from 'react-router-dom'
 import createHistory from 'history/createBrowserHistory'
-import {ConnectedRouter, routerReducer} from 'react-router-redux'
-import PageNotFound from "./components/pageNotFound";
-import {pageReducer} from "./reducers/pageReducer";
-import {restApiReducer} from "./reducers/restApiReducer";
+import {ConnectedRouter} from 'react-router-redux'
+import PageNotFound from "./components/PageNotFound";
+import NewsContainer from "./containers/NewsContainer";
 
 const store = createStore(
     reducers,
@@ -36,6 +35,7 @@ ReactDOM.render(
                     <Route exact path='/' render={() => <Redirect to='welcome' />}/>
                     <Route path='/welcome' component={Welcome} />
                     <Route path='/feed' component={AppContainer} />
+                    <Route path='/news/:number' component={AppContainer} />
                     <Route path='/events' component={AppContainer} />
                     <Route path='/mentors' component={AppContainer} />
                     <Route path='/loops' component={AppContainer} />

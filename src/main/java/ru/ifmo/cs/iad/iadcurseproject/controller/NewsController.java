@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.web.bind.annotation.*;
+import ru.ifmo.cs.iad.iadcurseproject.dto.NewsDTO;
 import ru.ifmo.cs.iad.iadcurseproject.dto.NewsForFeedDTO;
 import ru.ifmo.cs.iad.iadcurseproject.entity.News;
 import ru.ifmo.cs.iad.iadcurseproject.repository.*;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.data.domain.PageRequest.of;
 import static org.springframework.data.domain.Sort.by;
+import static org.springframework.data.util.Streamable.empty;
 
 
 @RepositoryRestController
@@ -62,9 +64,10 @@ public class NewsController {
 	}
 
 	@GetMapping("/{newsId}")
-	public @ResponseBody NewsForFeedDTO getNewsById(@PathVariable("newsId") long newsId) {
+	public @ResponseBody NewsDTO getNewsById(@PathVariable("newsId") long newsId) {
 		News news = newsRepo.getOneByNewsId(newsId);
-		return new NewsForFeedDTO(news, (long) news.getComments().size(), (long) news.getNewsLoops().size(),
+		if (news == null) return new NewsDTO();
+		return new NewsDTO(news, (long) news.getComments().size(), (long) news.getNewsLoops().size(),
 				(long) news.getNewsPoops().size(), (long) news.getReposts().size());
 	}
 

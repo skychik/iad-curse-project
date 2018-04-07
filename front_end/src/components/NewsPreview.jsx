@@ -12,7 +12,7 @@ import {
     Grid,
     Image,
     Label,
-    OverlayTrigger, PageHeader,
+    OverlayTrigger,
     Row,
     Thumbnail,
     Tooltip
@@ -20,7 +20,7 @@ import {
 import * as bootstrapUtils from "react-bootstrap/es/utils/bootstrapUtils";
 import RestClient from "another-rest-client";
 
-export default class News extends Component {
+export default class NewsPreview extends Component {
     constructor(props) {
         super(props);
         this.id = this.props.newsId;
@@ -41,12 +41,9 @@ export default class News extends Component {
     }
 
     render() {
-        const { authorId, authorUsername, creationDate, alteringDate, title, content,
+        const { authorId, authorUsername, creationDate, alteringDate, title, contentPreview,
             commentsNumber, loopsNumber, poopsNumber, repostsNumber } = this.props;
-
-        if (this.id ==null) return <h1>This news doesn't exist(no such news number)</h1>;
-
-        const markdown = <ReactMarkdown source={content} />;
+        const markdown = <ReactMarkdown source={contentPreview} />;
 
         const tooltip = (
             <Tooltip id="tooltip_username">
@@ -54,28 +51,35 @@ export default class News extends Component {
             </Tooltip>
         );
 
-        return <div>
-            <PageHeader bsClass={"my_page_header"}>
-                <span style={{display: "inline-block", verticalAlign: "middle", overflow: "hidden", textOverflow: "ellipsis"}}>
-                    {title}
-                </span>
-
-                <span style={{color: "transparent",float: "right"}}>
-                {authorId === null ?
-                    <Button href={"/id" + authorId} bsSize="small">
-                        <OverlayTrigger placement="top" overlay={tooltip}>
-                            <Glyphicon glyph="user"/>
-                        </OverlayTrigger>
-                    </Button> :
-                    <OverlayTrigger placement="top" overlay={tooltip}>
-                        <a href={"/id" + authorId}>
-                            <Image src={"/photo/usr/icon" + authorId + ".jpg"} rounded/>
-                        </a>
-                    </OverlayTrigger>
-                } {/* TODO: 32x32 */}
-                </span>
-            </PageHeader>
-            <div id={"wrapper"}>{markdown}</div>
+        return <Panel>
+            <Panel.Heading>
+                    <Row>
+                        <Col xsm={8} sm={10} md={11}>
+                            <h3 style={{verticalAlign: "middle", overflow: "hidden", textOverflow: "ellipsis"}}>
+                                {title}
+                            </h3>
+                        </Col>
+                        <Col xsm={4} sm={2} md={1}>
+                        {/*<div style={{color: "transparent",float: "right", marginRight: 10}}>*/}
+                            {authorId === null ?
+                                <Button href={"/id" + authorId} bsSize="small">
+                                    <OverlayTrigger placement="top" overlay={tooltip}>
+                                        <Glyphicon glyph="user"/>
+                                    </OverlayTrigger>
+                                </Button> :
+                                <OverlayTrigger placement="top" overlay={tooltip}>
+                                    <a href={"/id" + authorId}>
+                                        <Image src={"/photo/usr/icon" + authorId + ".jpg"} rounded/>
+                                    </a>
+                                </OverlayTrigger>
+                            } {/* TODO: 32x32 */}
+                        {/*</div>*/}
+                        </Col>
+                    </Row>
+            </Panel.Heading>
+            <Panel.Body>
+                <div id={"wrapper"}>{markdown}</div>
+            </Panel.Body>
             <Panel.Footer>
                 <div>
                     <a className={"my_button"}>
@@ -97,23 +101,23 @@ export default class News extends Component {
                     </a>
                     {alteringDate == null ?
                         <span className={"my_date"} style={{float: "right"}}>
-                            {News.getDateByString(creationDate).toLocaleDateString()}
+                            {NewsPreview.getDateByString(creationDate).toLocaleDateString()}
                         </span> :
                         <span className={"my_date"} style={{float: "right"}}>
-                            {News.getDateByString(alteringDate).toLocaleDateString()}
+                            {NewsPreview.getDateByString(alteringDate).toLocaleDateString()}
                         </span>}
                 </div>
             </Panel.Footer>
-        </div>;
+        </Panel>;
     }
 }
 
-News.propTypes = {
+NewsPreview.propTypes = {
     newsId: PropTypes.number.isRequired,
     authorId: PropTypes.number.isRequired,
     authorUsername: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
+    contentPreview: PropTypes.string.isRequired,
     creationDate: PropTypes.string.isRequired,
     alteringDate: PropTypes.string,
     commentsNumber: PropTypes.number.isRequired,
