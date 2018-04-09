@@ -14,7 +14,7 @@ import ru.ifmo.cs.iad.iadcurseproject.entity.RepostLoop;
 import java.util.List;
 
 //@RepositoryRestResource(collectionResourceRel = "news_loop", path = "news_loop")
-public interface NewsLoopRepo extends JpaRepository<Performer, Long> {
+public interface NewsLoopRepo extends JpaRepository<NewsLoop, Long> {
 	//@RestResource(exported = false)
 	@Query("select l from NewsLoop l where l.news.id = :newsId")
 	Page<NewsLoop> getAllByNewsId(@Param("newsId") long newsId, Pageable pageable);

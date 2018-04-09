@@ -17,7 +17,6 @@ public class NewsDTO {
 	private String title;
 	private String content;
 	private Timestamp creationDate;
-	private Timestamp alteringDate;
 	private Long commentsNumber;
 	private Long loopsNumber;
 	private Long poopsNumber;
@@ -32,7 +31,6 @@ public class NewsDTO {
 		this.title = news.getTitle();
 		this.content = news.getContent();
 		this.creationDate = news.getCreationDate();
-		this.alteringDate = news.getAlteringDate();
 		this.commentsNumber = commentsNumber;
 		this.loopsNumber = loopsNumber;
 		this.poopsNumber = poopsNumber;

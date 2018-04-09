@@ -11,8 +11,8 @@ import ru.ifmo.cs.iad.iadcurseproject.entity.Performer;
 import java.util.List;
 
 //@RepositoryRestResource(collectionResourceRel = "comment_loop", path = "comment_loop")
-public interface CommentLoopRepo extends JpaRepository<Performer, Long> {
+public interface CommentLoopRepo extends JpaRepository<CommentLoop, Long> {
 	//@RestResource(exported = false)
-	@Query("select count(c) from Comment c where c.id = :id")
+	@Query("select count(l) from CommentLoop l where l.id = :id")
 	long countAllByCommentId(@Param("id") Long id);
 }

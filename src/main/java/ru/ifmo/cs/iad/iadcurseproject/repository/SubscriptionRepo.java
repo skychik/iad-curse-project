@@ -8,5 +8,5 @@ import ru.ifmo.cs.iad.iadcurseproject.entity.Subscription;
 import java.util.List;
 
 //@RepositoryRestResource(collectionResourceRel = "subscription", path = "subscription")
-public interface SubscriptionRepo extends JpaRepository<Performer, Long> {
+public interface SubscriptionRepo extends JpaRepository<Subscription, Long> {
 }

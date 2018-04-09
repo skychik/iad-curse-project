@@ -7,13 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
+import ru.ifmo.cs.iad.iadcurseproject.entity.NewsLoop;
 import ru.ifmo.cs.iad.iadcurseproject.entity.NewsPoop;
 import ru.ifmo.cs.iad.iadcurseproject.entity.Performer;
 
 import java.util.List;
 
 //@RepositoryRestResource(collectionResourceRel = "news_poop", path = "news_poop")
-public interface NewsPoopRepo extends JpaRepository<Performer, Long> {
+public interface NewsPoopRepo extends JpaRepository<NewsPoop, Long> {
 	//@RestResource(exported = false)
 	@Query("select p from NewsPoop p where p.news.id = :newsId ")
 	Page<NewsPoop> getAllByNewsId(@Param("newsId") long newsId, Pageable pageable);

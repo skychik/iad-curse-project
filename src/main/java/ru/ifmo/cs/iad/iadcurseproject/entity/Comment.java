@@ -34,6 +34,9 @@ public class Comment implements Serializable {
 	@Column(name = "id_on_comment")
 	private Long onCommentId;
 
+	@Column(name = "content")
+	private String content;
+
 	@Column(name = "creation_date", nullable = false)
 	private Timestamp creationDate;
 
@@ -72,6 +75,12 @@ public class Comment implements Serializable {
 	}
 	public void setOnCommentId(Long onCommentId) {
 		this.onCommentId = onCommentId;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
 	}
 	public Timestamp getCreationDate() {
 		return creationDate;

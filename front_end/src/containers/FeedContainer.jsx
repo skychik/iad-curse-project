@@ -23,7 +23,7 @@ class FeedContainer extends React.Component {
     }
 
     shouldComponentUpdate() {
-        console.log("shouldComponentUpdate()");
+        // console.log("shouldComponentUpdate()");
         // this.props.feed.map((news, idx) => {
         //     news.authorPhoto = news.author.id
         // });
@@ -38,9 +38,9 @@ class FeedContainer extends React.Component {
 
     render() {
         const data = this.props.feed;
-        console.log('---data:---');
-        console.log(data);
-        console.log('---data---');
+        // console.log('---data:---');
+        // console.log(data);
+        // console.log('---data---');
         const feedContainer =  data != null ?
             data.map((newsPreview, idx) => {
                 return <NewsPreview className="NewsPreview"

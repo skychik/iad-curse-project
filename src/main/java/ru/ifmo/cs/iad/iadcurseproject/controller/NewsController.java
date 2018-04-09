@@ -71,6 +71,19 @@ public class NewsController {
 				(long) news.getNewsPoops().size(), (long) news.getReposts().size());
 	}
 
+	//	@GetMapping("/{newsId}/comments")
+//	public @ResponseBody Page<Repost> getCommentsByNewsId(
+//			@PathVariable("newsId") long newsId,
+//			@RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
+//			@RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
+//		return commentRepo.getAllByNewsId(newsId, of(pageNumber, pageSize, by("id")));
+//	}
+
+	@GetMapping("/{newsId}/comments_number")
+	public @ResponseBody long getCommentsNumberByNewsId(@PathVariable("newsId") long newsId) {
+		return commentRepo.countAllByNewsId(newsId);
+	}
+
 //	@GetMapping("/{newsId}/reposts")
 //	public @ResponseBody Page<Repost> getRepostsByNewsId(
 //			@PathVariable("newsId") long newsId,

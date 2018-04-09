@@ -19,6 +19,7 @@ import {
 } from "react-bootstrap";
 import * as bootstrapUtils from "react-bootstrap/es/utils/bootstrapUtils";
 import RestClient from "another-rest-client";
+import Comment from "./Comment";
 
 export default class News extends Component {
     constructor(props) {
@@ -41,69 +42,33 @@ export default class News extends Component {
     }
 
     render() {
-        const { authorId, authorUsername, creationDate, alteringDate, title, content,
-            commentsNumber, loopsNumber, poopsNumber, repostsNumber } = this.props;
+        const { authorId, authorUsername, creationDate, alteringDate, title, content } = this.props;
 
         if (this.id ==null) return <h1>This news doesn't exist(no such news number)</h1>;
 
         const markdown = <ReactMarkdown source={content} />;
 
-        const tooltip = (
-            <Tooltip id="tooltip_username">
-                {authorUsername}
-            </Tooltip>
-        );
-
         return <div>
-            <PageHeader bsClass={"my_page_header"}>
-                <span style={{display: "inline-block", verticalAlign: "middle", overflow: "hidden", textOverflow: "ellipsis"}}>
+            <div className="page_header_info">
+                <a href={"/id" + authorId}>
+                    <span className="page_header_info_img_container">
+                        <img src={"/photo/usr/icon" + authorId + ".jpg"}
+                             onError="this.onerror=null; this.src=/photo/usr/default.png" />
+                    </span>
+                    <span className="page_header_info_username">{authorUsername}</span>
+                </a>
+                {alteringDate == null ?
+                    <time dateTime={creationDate.substr(0, 19)}>  {/*without milliseconds and time zone*/}
+                        {Comment.getPrettyTimeDateString(creationDate)}
+                    </time> :
+                    <time dateTime={alteringDate.substr(0, 19)}>  {/*without milliseconds and time zone*/}
+                        {Comment.getPrettyTimeDateString(alteringDate)}
+                    </time>}
+            </div>
+            <PageHeader bsClass="page_header">
                     {title}
-                </span>
-
-                <span style={{color: "transparent",float: "right"}}>
-                {authorId === null ?
-                    <Button href={"/id" + authorId} bsSize="small">
-                        <OverlayTrigger placement="top" overlay={tooltip}>
-                            <Glyphicon glyph="user"/>
-                        </OverlayTrigger>
-                    </Button> :
-                    <OverlayTrigger placement="top" overlay={tooltip}>
-                        <a href={"/id" + authorId}>
-                            <Image src={"/photo/usr/icon" + authorId + ".jpg"} rounded/>
-                        </a>
-                    </OverlayTrigger>
-                } {/* TODO: 32x32 */}
-                </span>
             </PageHeader>
             <div id={"wrapper"}>{markdown}</div>
-            <Panel.Footer>
-                <div>
-                    <a className={"my_button"}>
-                        Comments
-                        <span>{commentsNumber}</span>
-                    </a>
-
-                    <a className={"my_button"} style={{float: "right"}}>
-                        Poops
-                        <span>{poopsNumber}</span>
-                    </a>
-                    <a className={"my_button"} style={{float: "right"}}>
-                        Loops
-                        <span>{loopsNumber}</span>
-                    </a>
-                    <a className={"my_button"} style={{float: "right"}}>
-                        Reposts
-                        <span>{repostsNumber}</span>
-                    </a>
-                    {alteringDate == null ?
-                        <span className={"my_date"} style={{float: "right"}}>
-                            {News.getDateByString(creationDate).toLocaleDateString()}
-                        </span> :
-                        <span className={"my_date"} style={{float: "right"}}>
-                            {News.getDateByString(alteringDate).toLocaleDateString()}
-                        </span>}
-                </div>
-            </Panel.Footer>
         </div>;
     }
 }
@@ -116,8 +81,4 @@ News.propTypes = {
     content: PropTypes.string.isRequired,
     creationDate: PropTypes.string.isRequired,
     alteringDate: PropTypes.string,
-    commentsNumber: PropTypes.number.isRequired,
-    loopsNumber: PropTypes.number.isRequired,
-    poopsNumber: PropTypes.number.isRequired,
-    repostsNumber: PropTypes.number.isRequired,
 };

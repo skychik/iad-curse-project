@@ -12,7 +12,7 @@ import ru.ifmo.cs.iad.iadcurseproject.entity.RepostPoop;
 import java.util.List;
 
 //@RepositoryRestResource(collectionResourceRel = "repost_poop", path = "repost_poop")
-public interface RepostPoopRepo extends JpaRepository<Performer, Long> {
+public interface RepostPoopRepo extends JpaRepository<RepostPoop, Long> {
 	//@RestResource(exported = false)
 	@Query("select p from RepostPoop p where p.repost.id = :repostId")
 	List<RepostPoop> getAllByRepostId(@Param("repostId") long repostId);

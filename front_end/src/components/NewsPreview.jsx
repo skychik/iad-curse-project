@@ -19,13 +19,10 @@ import {
 } from "react-bootstrap";
 import * as bootstrapUtils from "react-bootstrap/es/utils/bootstrapUtils";
 import RestClient from "another-rest-client";
+import {Link} from "react-router-dom";
+import Comment from "./Comment";
 
 export default class NewsPreview extends Component {
-    constructor(props) {
-        super(props);
-        this.id = this.props.newsId;
-    }
-
     componentDidMount() {
         // const restApi = new RestClient('http://localhost:8080');
         // this.authorId = this.props.authorId;
@@ -41,7 +38,7 @@ export default class NewsPreview extends Component {
     }
 
     render() {
-        const { authorId, authorUsername, creationDate, alteringDate, title, contentPreview,
+        const { newsId, authorId, authorUsername, creationDate, alteringDate, title, contentPreview,
             commentsNumber, loopsNumber, poopsNumber, repostsNumber } = this.props;
         const markdown = <ReactMarkdown source={contentPreview} />;
 
@@ -55,8 +52,8 @@ export default class NewsPreview extends Component {
             <Panel.Heading>
                     <Row>
                         <Col xsm={8} sm={10} md={11}>
-                            <h3 style={{verticalAlign: "middle", overflow: "hidden", textOverflow: "ellipsis"}}>
-                                {title}
+                            <h3 className="news_preview_title">
+                                <a href={"/news/" + newsId}>{title}</a>
                             </h3>
                         </Col>
                         <Col xsm={4} sm={2} md={1}>
@@ -99,13 +96,11 @@ export default class NewsPreview extends Component {
                         Reposts
                         <span>{repostsNumber}</span>
                     </a>
-                    {alteringDate == null ?
-                        <span className={"my_date"} style={{float: "right"}}>
-                            {NewsPreview.getDateByString(creationDate).toLocaleDateString()}
-                        </span> :
-                        <span className={"my_date"} style={{float: "right"}}>
-                            {NewsPreview.getDateByString(alteringDate).toLocaleDateString()}
-                        </span>}
+                    <span className={"my_date"} style={{float: "right"}}>
+                        <span style={{marginRight: 10}}>
+                            {Comment.getPrettyTimeDateString(alteringDate == null ? creationDate : alteringDate)}
+                        </span>
+                    </span>
                 </div>
             </Panel.Footer>
         </Panel>;

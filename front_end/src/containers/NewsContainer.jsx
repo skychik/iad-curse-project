@@ -5,6 +5,9 @@ import * as actionCreators from "../actions";
 import {bindActionCreators} from "redux";
 import News from "../components/News";
 import {Redirect} from "react-router-dom";
+import CommentsContainer from "./CommentsContainer";
+import Panel from "react-bootstrap/lib/Panel";
+import {Glyphicon, OverlayTrigger, Tooltip} from "react-bootstrap";
 
 // props:
 //  news - News in JSON
@@ -18,16 +21,15 @@ class NewsContainer extends React.Component {
         //console.log(this.props.match.params.number);
         const number = parseInt(this.props.match.params.number, 10);
         if (isNaN(number)) {
-            console.log("didMount:NaN");
+            // console.log("didMount:NaN");
             this.setNews(null);
             return;
         }
-        console.log("didMount:not NaN");
+        // console.log("didMount:not NaN");
 
         const promise = api.res("news").res(number.toString()).get();
         promise.then((response) => {
             const news = JSON.parse(JSON.stringify(response));
-            console.log(news);
             this.setNews(news);
         });
     }
@@ -41,19 +43,21 @@ class NewsContainer extends React.Component {
     render() {
         //console.log("NewsContainer.render");
         const newsData = this.props.news;
-        console.log('---data:---');
-        console.log(newsData);
-        console.log('---data---');
+        // console.log('---data:---');
+        // console.log(newsData);
+        // console.log('---data---');
 
         if (newsData == null) {
-            console.log("render:null");
+            // console.log("render:null");
             return <h1>This news doesn't exist(incorrect news number)</h1>
         }
         if (Object.keys(newsData).length === 0) {
             return <h1>Loading</h1>
         }
 
-        console.log("render:not null");
+        const loopTip = (<Tooltip id="tooltip_username">Put your Loop :)</Tooltip>);
+        const poopTip = (<Tooltip id="tooltip_username">Put your Poop ;(</Tooltip>);
+        const repostTip = (<Tooltip id="tooltip_username">Repost</Tooltip>);
 
         return (
             <div className="News_container">
@@ -64,19 +68,40 @@ class NewsContainer extends React.Component {
                       title={newsData.title}
                       content={newsData.content}
                       creationDate={newsData.creationDate}
-                      alteringDate={newsData.alteringDate}
-                      commentsNumber={newsData.commentsNumber}
-                      loopsNumber={newsData.loopsNumber}
-                      poopsNumber={newsData.poopsNumber}
-                      repostsNumber={newsData.repostsNumber}/>
-                {/*comments*/}
+                      alteringDate={newsData.alteringDate}/>
+                <div className="news_footer">
+                    <span className="news_footer_comments">
+                        Comments <span>{newsData.commentsNumber}</span>
+                    </span>
+                    <OverlayTrigger placement="top" overlay={poopTip}>
+                        <a className={"my_button"} style={{float: "right"}}>
+                            <Glyphicon glyph="trash" />
+                            <span>{newsData.poopsNumber}</span>
+                        </a>
+                    </OverlayTrigger>
+                    <OverlayTrigger placement="top" overlay={loopTip}>
+                        <a className={"my_button"} style={{float: "right"}}>
+                            <Glyphicon glyph="repeat" />
+                            <span>{newsData.loopsNumber}</span>
+                        </a>
+                    </OverlayTrigger>
+                    <OverlayTrigger placement="top" overlay={repostTip}>
+                        <a className={"my_button"} style={{float: "right"}}>
+                            <Glyphicon glyph="retweet" />
+                            <span>{newsData.repostsNumber}</span>
+                        </a>
+                    </OverlayTrigger>
+                </div>
+                <CommentsContainer newsId={newsData.id}/>
             </div>
         )
     }
 }
 
 const mapStateToProps = (state) => {
-    return {news: state.news}
+    return {
+        news: state.news,
+    }
 };
 
 const mapDispatchToProps = (dispatch) => {

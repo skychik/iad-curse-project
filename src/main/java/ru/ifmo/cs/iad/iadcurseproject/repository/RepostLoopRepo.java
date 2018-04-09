@@ -14,7 +14,7 @@ import ru.ifmo.cs.iad.iadcurseproject.entity.RepostLoop;
 import java.util.List;
 
 //@RepositoryRestResource(collectionResourceRel = "repost_loop", path = "repost_loop")
-public interface RepostLoopRepo extends JpaRepository<Performer, Long> {
+public interface RepostLoopRepo extends JpaRepository<RepostLoop, Long> {
 	//@RestResource(exported = false)
 	@Query("select l from RepostLoop l where l.repost.id = :repostId")
 	List<RepostLoop> getAllByRepostId(@Param("repostId") long repostId);
