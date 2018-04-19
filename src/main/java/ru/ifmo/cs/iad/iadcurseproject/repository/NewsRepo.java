@@ -16,6 +16,10 @@ public interface NewsRepo extends JpaRepository<News, Long> {
 	List<News> getAllForUserId(@Param("userId") long userId, Pageable pagination);
 
 	//@RestResource(exported = false)
+	@Query("select n from News n where n.author.id = :userId")
+	List<News> getAllByUserId(@Param("userId") long userId, Pageable pagination);
+
+	//@RestResource(exported = false)
 	@Query("select n from News n where n.id = :newsId")
 	News getOneByNewsId(@Param("newsId") long newsId);
 

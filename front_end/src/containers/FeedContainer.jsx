@@ -46,8 +46,9 @@ class FeedContainer extends React.Component {
                 return <NewsPreview className="NewsPreview"
                                     key={idx}
                                     newsId={newsPreview.id}
-                                    authorId={newsPreview.authorId}
-                                    authorUsername={newsPreview.authorUsername}
+                                    authorId={newsPreview.author.id}
+                                    authorUsername={newsPreview.author.username}
+                                    authorAvatar={newsPreview.author.photo}
                                     title={newsPreview.title}
                                     contentPreview={newsPreview.contentPreview}
                                     creationDate={newsPreview.creationDate}

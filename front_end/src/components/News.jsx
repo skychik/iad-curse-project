@@ -3,23 +3,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
-import Panel from "react-bootstrap/lib/Panel";
-import {
-    Badge,
-    Button,
-    Col,
-    Glyphicon,
-    Grid,
-    Image,
-    Label,
-    OverlayTrigger, PageHeader,
-    Row,
-    Thumbnail,
-    Tooltip
-} from "react-bootstrap";
-import * as bootstrapUtils from "react-bootstrap/es/utils/bootstrapUtils";
-import RestClient from "another-rest-client";
-import Comment from "./Comment";
+import {PageHeader} from "react-bootstrap";
+import UserPhoto from "./UserPhoto";
+import DateTime from "./DateTime";
 
 export default class News extends Component {
     constructor(props) {
@@ -35,14 +21,14 @@ export default class News extends Component {
         // });
     }
 
-    static getDateByString(str) {
-        return new Date(parseInt(str.substring(0, 4)), parseInt(str.substring(5, 7)), parseInt(str.substring(8, 10)),
-            parseInt(str.substring(11, 13)), parseInt(str.substring(14, 16)), parseInt(str.substring(17, 19)),
-            parseInt(str.substring(20, 22)));
-    }
+    // static getDateByString(str) {
+    //     return new Date(parseInt(str.substring(0, 4)), parseInt(str.substring(5, 7)), parseInt(str.substring(8, 10)),
+    //         parseInt(str.substring(11, 13)), parseInt(str.substring(14, 16)), parseInt(str.substring(17, 19)),
+    //         parseInt(str.substring(20, 22)));
+    // }
 
     render() {
-        const { authorId, authorUsername, creationDate, alteringDate, title, content } = this.props;
+        const { authorId, authorUsername, creationDate, alteringDate, title, content, authorAvatar } = this.props;
 
         if (this.id ==null) return <h1>This news doesn't exist(no such news number)</h1>;
 
@@ -50,20 +36,17 @@ export default class News extends Component {
 
         return <div>
             <div className="page_header_info">
-                <a href={"/id" + authorId}>
-                    <span className="page_header_info_img_container">
-                        <img src={"/photo/usr/icon" + authorId + ".jpg"}
-                             onError="this.onerror=null; this.src=/photo/usr/default.png" />
-                    </span>
-                    <span className="page_header_info_username">{authorUsername}</span>
-                </a>
+                <UserPhoto userId={authorId} username={authorUsername} withTooltip={false} photo={authorAvatar} />
+                {/*<a href={"/id" + authorId}>*/}
+                    {/*<span className="page_header_info_img_container">*/}
+                        {/*<img src={"/photo/usr/icon" + authorId + ".jpg"}*/}
+                             {/*onError={() => {this.onerror=null; this.src="/photo/usr/default.png"}} />*/}
+                    {/*</span>*/}
+                    {/*<span className="page_header_info_username">{authorUsername}</span>*/}
+                {/*</a>*/}
                 {alteringDate == null ?
-                    <time dateTime={creationDate.substr(0, 19)}>  {/*without milliseconds and time zone*/}
-                        {Comment.getPrettyTimeDateString(creationDate)}
-                    </time> :
-                    <time dateTime={alteringDate.substr(0, 19)}>  {/*without milliseconds and time zone*/}
-                        {Comment.getPrettyTimeDateString(alteringDate)}
-                    </time>}
+                    <DateTime date={(creationDate)}/> :
+                    <DateTime date={(alteringDate)}/>}
             </div>
             <PageHeader bsClass="page_header">
                     {title}
@@ -77,6 +60,7 @@ News.propTypes = {
     newsId: PropTypes.number.isRequired,
     authorId: PropTypes.number.isRequired,
     authorUsername: PropTypes.string.isRequired,
+    authorAvatar: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     creationDate: PropTypes.string.isRequired,

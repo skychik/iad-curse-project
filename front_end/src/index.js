@@ -14,15 +14,25 @@ import Welcome from './components/welcome'
 import { createStore } from "redux"
 import { Route, Switch, Redirect } from 'react-router-dom'
 import createHistory from 'history/createBrowserHistory'
-import {ConnectedRouter} from 'react-router-redux'
+import { ConnectedRouter } from 'react-router-redux'
 import PageNotFound from "./components/PageNotFound";
-import NewsContainer from "./containers/NewsContainer";
+import RestClient from "another-rest-client";
+
+function makeRestApi () {
+    return new RestClient('http://localhost:8080').res({
+        user: 0,
+    });
+}
 
 const store = createStore(
     reducers,
     { // initial state
+        restApi: makeRestApi(),
         page: null,
         feed: null,
+        news: null,
+        comments: null,
+        profile: null,
         routing: null,
     });
 const history = createHistory();

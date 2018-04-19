@@ -13,8 +13,7 @@ import java.sql.Timestamp;
 @ToString
 public class NewsForFeedDTO {
 	private Long id;
-	private Long authorId;
-	private String authorUsername;
+	private UserDTO author;
 	private String title;
 	private String contentPreview;
 	private Timestamp creationDate;
@@ -26,8 +25,7 @@ public class NewsForFeedDTO {
 
 	public NewsForFeedDTO(News news, Long commentsNumber, Long loopsNumber, Long poopsNumber, Long repostsNumber) {
 		this.id = news.getId();
-		this.authorId = news.getAuthor().getId();
-		this.authorUsername = news.getAuthor().getUsername();
+		this.author = new UserDTO(news.getAuthor());
 		this.title = news.getTitle();
 		this.contentPreview = news.getContentPreview();
 		this.creationDate = news.getCreationDate();

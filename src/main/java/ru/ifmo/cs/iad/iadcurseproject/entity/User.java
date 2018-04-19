@@ -152,7 +152,7 @@ public class User implements Serializable {
 	public void setBirthDate(Timestamp birthDate) {
 		this.birthDate = birthDate;
 	}
-	public boolean isSex() {
+	public boolean getSex() {
 		return sex;
 	}
 	public void setSex(boolean sex) {

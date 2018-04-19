@@ -3,10 +3,7 @@ import RestClient from "another-rest-client";
 import {connect} from "react-redux";
 import * as actionCreators from "../actions";
 import {bindActionCreators} from "redux";
-import News from "../components/News";
-import {Redirect} from "react-router-dom";
 import Comment from "../components/Comment";
-import {PageHeader} from "react-bootstrap";
 
 class CommentsContainer extends React.Component {
     componentDidMount() {
@@ -20,7 +17,7 @@ class CommentsContainer extends React.Component {
         // }
         // console.log("didMount:not NaN");
 
-        const promise = api.res("comments").res("for").get({newsId:this.props.newsId});
+        const promise = api.res("comments").res("for").get({newsId: this.props.newsId});
         promise.then((response) => {
             const news = JSON.parse(JSON.stringify(response));
             // console.log(news);
@@ -35,8 +32,9 @@ class CommentsContainer extends React.Component {
     }
 
     render() {
+        if (!this.props.comments) return "Loading...";
+
         const commentsData = this.props.comments;
-        const total = commentsData.total;
         console.log(commentsData);
 
         if (Object.keys(commentsData).length === 0) {
@@ -51,6 +49,7 @@ class CommentsContainer extends React.Component {
                                 newsId={comment.newsId}
                                 userId={comment.user.id}
                                 username={comment.user.username}
+                                avatar={comment.user.photo}
                                 content={comment.content}
                                 creationDate={comment.creationDate}
                                 loopsNumber={comment.loopsNumber}

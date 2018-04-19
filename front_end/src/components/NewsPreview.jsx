@@ -4,23 +4,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
 import Panel from "react-bootstrap/lib/Panel";
-import {
-    Badge,
-    Button,
-    Col,
-    Glyphicon,
-    Grid,
-    Image,
-    Label,
-    OverlayTrigger,
-    Row,
-    Thumbnail,
-    Tooltip
-} from "react-bootstrap";
-import * as bootstrapUtils from "react-bootstrap/es/utils/bootstrapUtils";
-import RestClient from "another-rest-client";
-import {Link} from "react-router-dom";
-import Comment from "./Comment";
+import { Col, Row } from "react-bootstrap";
+import UserPhoto from "./UserPhoto";
+import DateTime from "./DateTime";
 
 export default class NewsPreview extends Component {
     componentDidMount() {
@@ -31,47 +17,43 @@ export default class NewsPreview extends Component {
         // });
     }
 
-    static getDateByString(str) {
-        return new Date(parseInt(str.substring(0, 4)), parseInt(str.substring(5, 7)), parseInt(str.substring(8, 10)),
-            parseInt(str.substring(11, 13)), parseInt(str.substring(14, 16)), parseInt(str.substring(17, 19)),
-            parseInt(str.substring(20, 22)));
-    }
+    // static getDateByString(str) {
+    //     return new Date(parseInt(str.substring(0, 4)), parseInt(str.substring(5, 7)), parseInt(str.substring(8, 10)),
+    //         parseInt(str.substring(11, 13)), parseInt(str.substring(14, 16)), parseInt(str.substring(17, 19)),
+    //         parseInt(str.substring(20, 22)));
+    // }
 
     render() {
         const { newsId, authorId, authorUsername, creationDate, alteringDate, title, contentPreview,
-            commentsNumber, loopsNumber, poopsNumber, repostsNumber } = this.props;
+            commentsNumber, loopsNumber, poopsNumber, repostsNumber, authorAvatar } = this.props;
         const markdown = <ReactMarkdown source={contentPreview} />;
-
-        const tooltip = (
-            <Tooltip id="tooltip_username">
-                {authorUsername}
-            </Tooltip>
-        );
 
         return <Panel>
             <Panel.Heading>
                     <Row>
-                        <Col xsm={8} sm={10} md={11}>
+                        <div style={{display: "inline-block"}}>
                             <h3 className="news_preview_title">
                                 <a href={"/news/" + newsId}>{title}</a>
                             </h3>
-                        </Col>
-                        <Col xsm={4} sm={2} md={1}>
+                        </div>
+                        <div style={{display: "inline-block", width: "74px", float: "right"}}>
+                            <UserPhoto userId={authorId} username={authorUsername} withTooltip={true}
+                                       photo={authorAvatar} />
                         {/*<div style={{color: "transparent",float: "right", marginRight: 10}}>*/}
-                            {authorId === null ?
-                                <Button href={"/id" + authorId} bsSize="small">
-                                    <OverlayTrigger placement="top" overlay={tooltip}>
-                                        <Glyphicon glyph="user"/>
-                                    </OverlayTrigger>
-                                </Button> :
-                                <OverlayTrigger placement="top" overlay={tooltip}>
-                                    <a href={"/id" + authorId}>
-                                        <Image src={"/photo/usr/icon" + authorId + ".jpg"} rounded/>
-                                    </a>
-                                </OverlayTrigger>
-                            } {/* TODO: 32x32 */}
+                            {/*{authorId === null ?*/}
+                                {/*<Button href={"/id" + authorId} bsSize="small">*/}
+                                    {/*<OverlayTrigger placement="top" overlay={tooltip}>*/}
+                                        {/*<Glyphicon glyph="user"/>*/}
+                                    {/*</OverlayTrigger>*/}
+                                {/*</Button> :*/}
+                                {/*<OverlayTrigger placement="top" overlay={tooltip}>*/}
+                                    {/*<a href={"/id" + authorId}>*/}
+                                        {/*<Image src={"/photo/usr/icon" + authorId + ".jpg"} rounded/>*/}
+                                    {/*</a>*/}
+                                {/*</OverlayTrigger>*/}
+                            {/*} /!* TODO: 32x32 *!/*/}
                         {/*</div>*/}
-                        </Col>
+                        </div>
                     </Row>
             </Panel.Heading>
             <Panel.Body>
@@ -98,7 +80,7 @@ export default class NewsPreview extends Component {
                     </a>
                     <span className={"my_date"} style={{float: "right"}}>
                         <span style={{marginRight: 10}}>
-                            {Comment.getPrettyTimeDateString(alteringDate == null ? creationDate : alteringDate)}
+                            <DateTime date={alteringDate == null ? creationDate : alteringDate} />
                         </span>
                     </span>
                 </div>
@@ -111,6 +93,7 @@ NewsPreview.propTypes = {
     newsId: PropTypes.number.isRequired,
     authorId: PropTypes.number.isRequired,
     authorUsername: PropTypes.string.isRequired,
+    authorAvatar: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     contentPreview: PropTypes.string.isRequired,
     creationDate: PropTypes.string.isRequired,

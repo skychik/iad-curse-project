@@ -8,7 +8,7 @@ import EventsContainer from "./EventsContainer";
 import ProfileContainer from "./ProfileContainer";
 import PageNotFound from "../components/PageNotFound";
 import { Switch, Route } from 'react-router';
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import LogoImg from '../images/logo.png'
 // import client from 'rest'
 // import * as actionCreators from "../actions";
@@ -19,14 +19,7 @@ import Grid  from 'react-bootstrap/lib/Grid';
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
 import NavItem  from 'react-bootstrap/lib/NavItem';
-import FormGroup from "react-bootstrap/lib/FormGroup";
-import FormControl from "react-bootstrap/lib/FormControl";
-import Button from "react-bootstrap/lib/Button";
 import Image from "react-bootstrap/lib/Image";
-import NavDropdown from "react-bootstrap/lib/NavDropdown";
-import MenuItem from "react-bootstrap/lib/MenuItem";
-import {Thumbnail} from "react-bootstrap";
-import RestClient from "another-rest-client";
 
 
 class AppContainer extends React.Component {

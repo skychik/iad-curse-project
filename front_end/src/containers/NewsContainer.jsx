@@ -4,9 +4,7 @@ import {connect} from "react-redux";
 import * as actionCreators from "../actions";
 import {bindActionCreators} from "redux";
 import News from "../components/News";
-import {Redirect} from "react-router-dom";
 import CommentsContainer from "./CommentsContainer";
-import Panel from "react-bootstrap/lib/Panel";
 import {Glyphicon, OverlayTrigger, Tooltip} from "react-bootstrap";
 
 // props:
@@ -63,8 +61,9 @@ class NewsContainer extends React.Component {
             <div className="News_container">
                 <News className="News"
                       newsId={newsData.id}
-                      authorId={newsData.authorId}
-                      authorUsername={newsData.authorUsername}
+                      authorId={newsData.author.id}
+                      authorUsername={newsData.author.username}
+                      authorAvatar={newsData.author.photo}
                       title={newsData.title}
                       content={newsData.content}
                       creationDate={newsData.creationDate}

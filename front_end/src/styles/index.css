@@ -18,13 +18,18 @@
   padding: 10px;
   font-size: 13px; }
 
-.page_header_info_img_container > img {
+.img_container > img {
   border: 0;
   border-radius: 3px;
-  width: 18px;
-  height: 18px; }
+  width: 24px;
+  height: 24px; }
 
-.page_header_info_username {
+.username {
+  margin-left: 8px; }
+
+time {
+  font-size: 13px;
+  color: #5f5f5f;
   margin-left: 8px; }
 
 .page_header {
@@ -47,20 +52,6 @@
 
 .comment_children {
   border-left: solid 1px #efefef; }
-
-time {
-  font-size: 13px;
-  color: #5f5f5f;
-  margin-left: 8px; }
-
-.comment_img_container > img {
-  border: 0;
-  border-radius: 3px;
-  width: 24px;
-  height: 24px; }
-
-.comment_username {
-  margin-left: 8px; }
 
 .news_footer {
   padding: 10px 15px;
@@ -111,6 +102,93 @@ time {
 .my_date {
   font-style: italic;
   padding: 4px; }
+
+.full_avatar {
+  width: 256px;
+  height: 256px; }
+
+.profile {
+  margin: 20px 0; }
+
+/* Profile sidebar */
+.profile-sidebar {
+  padding: 20px 0 10px 0; }
+
+.profile-userpic img {
+  float: none;
+  margin: 0 auto;
+  width: 50%;
+  height: 50%;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  border-radius: 50% !important; }
+
+.profile-usertitle {
+  text-align: center;
+  margin-top: 20px; }
+
+.profile-usertitle-name {
+  color: #222222;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 7px; }
+
+.profile-usertitle-performer {
+  text-transform: uppercase;
+  color: #222222;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 15px; }
+
+.profile-userbuttons {
+  text-align: center;
+  margin-top: 10px; }
+
+.profile-userbuttons .btn {
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 15px;
+  margin-right: 5px; }
+
+.profile-userbuttons .btn:last-child {
+  margin-right: 0px; }
+
+.profile-usermenu {
+  margin-top: 30px; }
+
+.profile-usermenu ul li {
+  border-bottom: 1px solid #f0f4f7; }
+
+.profile-usermenu ul li:last-child {
+  border-bottom: none; }
+
+.profile-usermenu ul li a {
+  color: #343940;
+  font-size: 14px;
+  font-weight: 400; }
+
+.profile-usermenu ul li a i {
+  margin-right: 8px;
+  font-size: 14px; }
+
+.profile-usermenu ul li a:hover {
+  background-color: #fafcfd;
+  color: #008cba; }
+
+.profile-usermenu ul li.active {
+  border-bottom: none; }
+
+.profile-usermenu ul li.active a {
+  background-color: #f6f9fb;
+  border-left: 2px solid #008cba;
+  margin-left: -2px; }
+
+/* Profile Content */
+.profile-content {
+  padding: 20px;
+  background: #fff;
+  min-height: 460px; }
 
 body {
   margin: 0;

@@ -20,6 +20,9 @@ public class Performer implements Serializable {
 	@Column(name = "id", nullable = false)
 	private Long id;
 
+	@Column(name = "performer_id", nullable = false)
+	private String performerId;
+
 	@Column(name = "name", nullable = false)
 	private String name;
 
@@ -42,6 +45,12 @@ public class Performer implements Serializable {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getPerformerId() {
+		return performerId;
+	}
+	public void setPerformerId(String performerId) {
+		this.performerId = performerId;
 	}
 	public String getName() {
 		return name;

@@ -11,11 +11,13 @@ import ru.ifmo.cs.iad.iadcurseproject.entity.User;
 public class UserDTO {
 	private Long id;
 	private String username;
+	private String photo = "default.png";
 
-	public UserDTO(){}
+	public UserDTO() {}
 
 	public UserDTO(User user) {
-		this.id = user.getId();
-		this.username = user.getUsername();
+		id = user.getId();
+		username = user.getUsername();
+		if (user.getPhoto() != null) photo = user.getPhoto();
 	}
 }
