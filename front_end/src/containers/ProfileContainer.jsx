@@ -3,15 +3,8 @@ import * as actionCreators from "../actions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import RestClient from "another-rest-client";
-import UserPhoto from "../components/UserPhoto";
 import {Button, Col, Glyphicon, Image, Row} from "react-bootstrap";
 import NewsPreview from "../components/NewsPreview";
-import NewsContainer from "./NewsContainer";
-import MentorsContainer from "./MentorsContainer";
-import FeedContainer from "./FeedContainer";
-import LoopsContainer from "./LoopsContainer";
-import PageNotFound from "../components/PageNotFound";
-import EventsContainer from "./EventsContainer";
 import {Link, Route, Switch} from "react-router-dom";
 
 class ProfileContainer extends React.Component {
@@ -81,14 +74,14 @@ class ProfileContainer extends React.Component {
                     <div className="profile-usermenu">
                         <ul className="nav">
                             <li className="active">
-                                <a href="#">
+                                <Link href="#">
                                     <Glyphicon glyph="home" /> News
-                                </a>
+                                </Link>
                             </li>
                             <li className="active">
-                                <a href="#">
+                                <Link href="#">
                                     <Glyphicon glyph="home" /> Performers
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>

@@ -6,6 +6,7 @@ import {bindActionCreators} from "redux";
 import News from "../components/News";
 import CommentsContainer from "./CommentsContainer";
 import {Glyphicon, OverlayTrigger, Tooltip} from "react-bootstrap";
+import {Link} from "react-router-dom";
 
 // props:
 //  news - News in JSON
@@ -73,22 +74,22 @@ class NewsContainer extends React.Component {
                         Comments <span>{newsData.commentsNumber}</span>
                     </span>
                     <OverlayTrigger placement="top" overlay={poopTip}>
-                        <a className={"my_button"} style={{float: "right"}}>
+                        <Link className={"my_button"} style={{float: "right"}}>
                             <Glyphicon glyph="trash" />
                             <span>{newsData.poopsNumber}</span>
-                        </a>
+                        </Link>
                     </OverlayTrigger>
                     <OverlayTrigger placement="top" overlay={loopTip}>
-                        <a className={"my_button"} style={{float: "right"}}>
+                        <Link className={"my_button"} style={{float: "right"}}>
                             <Glyphicon glyph="repeat" />
                             <span>{newsData.loopsNumber}</span>
-                        </a>
+                        </Link>
                     </OverlayTrigger>
                     <OverlayTrigger placement="top" overlay={repostTip}>
-                        <a className={"my_button"} style={{float: "right"}}>
+                        <Link className={"my_button"} style={{float: "right"}}>
                             <Glyphicon glyph="retweet" />
                             <span>{newsData.repostsNumber}</span>
-                        </a>
+                        </Link>
                     </OverlayTrigger>
                 </div>
                 <CommentsContainer newsId={newsData.id}/>

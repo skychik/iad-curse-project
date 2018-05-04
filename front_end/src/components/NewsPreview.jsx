@@ -4,9 +4,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
 import Panel from "react-bootstrap/lib/Panel";
-import { Col, Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import UserPhoto from "./UserPhoto";
 import DateTime from "./DateTime";
+import {Link} from "react-router-dom";
 
 export default class NewsPreview extends Component {
     componentDidMount() {
@@ -33,7 +34,7 @@ export default class NewsPreview extends Component {
                     <Row>
                         <div style={{display: "inline-block"}}>
                             <h3 className="news_preview_title">
-                                <a href={"/news/" + newsId}>{title}</a>
+                                <Link href={"/news/" + newsId}>{title}</Link>
                             </h3>
                         </div>
                         <div style={{display: "inline-block", width: "74px", float: "right"}}>
@@ -61,23 +62,23 @@ export default class NewsPreview extends Component {
             </Panel.Body>
             <Panel.Footer>
                 <div>
-                    <a className={"my_button"}>
+                    <Link className={"my_button"}>
                         Comments
                         <span>{commentsNumber}</span>
-                    </a>
+                    </Link>
 
-                    <a className={"my_button"} style={{float: "right"}}>
+                    <Link className={"my_button"} style={{float: "right"}}>
                         Poops
                         <span>{poopsNumber}</span>
-                    </a>
-                    <a className={"my_button"} style={{float: "right"}}>
+                    </Link>
+                    <Link className={"my_button"} style={{float: "right"}}>
                         Loops
                         <span>{loopsNumber}</span>
-                    </a>
-                    <a className={"my_button"} style={{float: "right"}}>
+                    </Link>
+                    <Link className={"my_button"} style={{float: "right"}}>
                         Reposts
                         <span>{repostsNumber}</span>
-                    </a>
+                    </Link>
                     <span className={"my_date"} style={{float: "right"}}>
                         <span style={{marginRight: 10}}>
                             <DateTime date={alteringDate == null ? creationDate : alteringDate} />

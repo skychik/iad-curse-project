@@ -190,6 +190,134 @@ time {
   background: #fff;
   min-height: 460px; }
 
+.LoginContainer {
+  background: url(../images/welcome-background2.jpg);
+  background-size: 100%;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  position: relative;
+  text-align: center; }
+
+.login-inner {
+  width: 300px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); }
+
+.login-title {
+  font-weight: bold; }
+
+.login-form-container {
+  margin-top: 40px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 0; }
+
+.login-label {
+  font-weight: bold;
+  text-align: left;
+  margin: 0 0 0 20px; }
+
+.login-input-group > .form-control {
+  background-color: rgba(255, 255, 255, 0.6); }
+
+.RegisterContainer {
+  background: #bababa url(../images/welcome-background2.jpg);
+  background-size: 100%;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  position: relative;
+  text-align: center; }
+
+.register-inner {
+  width: 500px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); }
+
+.register-title {
+  font-weight: bold; }
+
+.register-form-container {
+  margin-top: 40px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 0; }
+
+.register-label {
+  font-weight: bold;
+  text-align: left;
+  margin: 0 0 0 20px; }
+
+.register-input-group > .form-control {
+  background-color: rgba(255, 255, 255, 0.6); }
+
+.register-radios {
+  text-align: left; }
+
+.register-radio-container {
+  border: 1px solid #cccccc;
+  color: #999999;
+  font-size: 15px;
+  margin: 0;
+  padding: 0 12px 9px 12px;
+  background-color: rgba(255, 255, 255, 0.6); }
+
+.register-radio-container > .radio-inline {
+  font-size: 15px; }
+
+.register-submit-container {
+  margin-top: 10px; }
+
+.Welcome {
+  background: url(../images/welcome-background2.jpg);
+  background-size: 100%;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  position: relative;
+  text-align: center; }
+
+.welcome-case {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); }
+
+.PageNotFound {
+  background-color: rgba(255, 0, 11, 0.16);
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  position: relative;
+  text-align: center; }
+
+.PageNotFound :first-child {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); }
+
 body {
   margin: 0;
   padding: 0;

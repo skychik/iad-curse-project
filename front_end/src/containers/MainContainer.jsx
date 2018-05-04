@@ -2,6 +2,14 @@ import React from 'react';
 import * as actionCreators from "../actions";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import Welcome from "../components/Welcome";
+import AppContainer from "./AppContainer";
+import PageNotFound from "../components/PageNotFound";
+import LoginContainer from "./LoginContainer";
+import {Route, Switch, Redirect, withRouter} from 'react-router-dom';
+import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect';
+import { userIsAuthenticated } from '../auth'
+import RegisterContainer from "./RegisterContainer";
 
 class MainContainer extends React.Component {
     //newsRendering = null;
@@ -16,14 +24,31 @@ class MainContainer extends React.Component {
 
         return (
             <div className="MainContainer">
-                {this.props.children}
+                <Switch>
+                    <Route exact path='/' render={() => <Redirect to='welcome' />}/>
+                    <Route path='/welcome' component={Welcome} />
+                    <Route path='/feed' component={userIsAuthenticated(AppContainer)} />
+                    <Route path='/news/:number' component={AppContainer} />
+                    <Route path='/events' component={userIsAuthenticated(AppContainer)} />
+                    <Route path='/mentors' component={userIsAuthenticated(AppContainer)} />
+                    <Route path='/loops' component={userIsAuthenticated(AppContainer)} />
+                    <Route path='/profile' component={userIsAuthenticated(AppContainer)} />
+                    <Route path="/login" component={LoginContainer} />
+                    <Route path="/register" component={RegisterContainer} />
+                    <Route exact path='/page_not_found' component={PageNotFound}/>
+                    <Route render={() => <Redirect to='/page_not_found' /> } />
+                </Switch>
             </div>
         );
     }
 }
 
+// const mapStateToProps = (state) => {
+//     return {session: state.session}
+// };
+
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(actionCreators, dispatch);
 };
 
-export default connect(undefined, mapDispatchToProps)(MainContainer);
+export default withRouter(connect(undefined, mapDispatchToProps)(MainContainer));

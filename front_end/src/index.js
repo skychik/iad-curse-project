@@ -10,50 +10,38 @@ import registerServiceWorker from './registerServiceWorker'; // for offline
 import { Provider } from 'react-redux'
 import reducers from "./reducers/index"
 import MainContainer from './containers/MainContainer'
-import Welcome from './components/welcome'
+import Welcome from './components/Welcome'
+import LoginContainer from "./containers/LoginContainer"
 import { createStore } from "redux"
-import { Route, Switch, Redirect } from 'react-router-dom'
 import createHistory from 'history/createBrowserHistory'
 import { ConnectedRouter } from 'react-router-redux'
 import PageNotFound from "./components/PageNotFound";
-import RestClient from "another-rest-client";
+// import RestClient from "another-rest-client";
 
-function makeRestApi () {
-    return new RestClient('http://localhost:8080').res({
-        user: 0,
-    });
-}
+// function makeRestApi () {
+//     return new RestClient('http://localhost:8080').res({
+//         user: 0,
+//     });
+// }
 
 const store = createStore(
     reducers,
     { // initial state
-        restApi: makeRestApi(),
+        session: null,
         page: null,
         feed: null,
         news: null,
         comments: null,
         profile: null,
         routing: null,
-    });
+    }, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
 const history = createHistory();
 
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
-            <MainContainer>
-                <Switch>
-                    <Route exact path='/' render={() => <Redirect to='welcome' />}/>
-                    <Route path='/welcome' component={Welcome} />
-                    <Route path='/feed' component={AppContainer} />
-                    <Route path='/news/:number' component={AppContainer} />
-                    <Route path='/events' component={AppContainer} />
-                    <Route path='/mentors' component={AppContainer} />
-                    <Route path='/loops' component={AppContainer} />
-                    <Route path='/profile' component={AppContainer} />
-                    <Route exact path='/page_not_found' component={PageNotFound}/>
-                    <Route render={() => <Redirect to='/page_not_found' /> } />
-                </Switch>
-            </MainContainer>
+            <MainContainer/>
         </ConnectedRouter>
     </Provider>,
     document.getElementById('root')

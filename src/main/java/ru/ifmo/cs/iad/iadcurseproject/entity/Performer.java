@@ -26,6 +26,9 @@ public class Performer implements Serializable {
 	@Column(name = "name", nullable = false)
 	private String name;
 
+	@Column(name = "photo")
+	private String photo;
+
 	@Column(name = "status", nullable = false)
 	private String status;
 
@@ -57,6 +60,12 @@ public class Performer implements Serializable {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 	public String getStatus() {
 		return status;

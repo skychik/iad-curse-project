@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {Glyphicon, OverlayTrigger, Tooltip} from "react-bootstrap";
 import UserPhoto from "./UserPhoto";
 import DateTime from "./DateTime";
+import {Link} from "react-router-dom";
 
 export default class Comment extends Component {
     render() {
@@ -23,16 +24,16 @@ export default class Comment extends Component {
                     </a>*/}
                     <DateTime date={creationDate} />
                     <OverlayTrigger placement="top" overlay={loopTip} style={{float: "right"}}>
-                        <a className={"my_button"} style={{float: "right"}}>
+                        <Link className={"my_button"} style={{float: "right"}}>
                             <Glyphicon glyph="repeat" />
                             <span>{loopsNumber}</span>
-                        </a>
+                        </Link>
                     </OverlayTrigger>
                     <OverlayTrigger placement="top" overlay={poopTip} style={{float: "right"}}>
-                        <a className={"my_button"} style={{float: "right"}}>
+                        <Link className={"my_button"} style={{float: "right"}}>
                             <Glyphicon glyph="trash" />
                             <span>{poopsNumber}</span>
-                        </a>
+                        </Link>
                     </OverlayTrigger>
                 </div>
                 {/*<span className="my_comment_dot" >•</span>*/}
