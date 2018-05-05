@@ -9,4 +9,6 @@ export const setProfile = restApi.setProfile;
 export const setNews = restApi.setNews;
 export const setComments = restApi.setComments;
 export const setUserId = sessionApi.setUserId;
-export const setStartValidation = registrationApi.setStartValidation;
+export const startValidation = registrationApi.startValidation;
+export const setValidation = registrationApi.setValidation;
+export const initValidation = registrationApi.initValidation;
