@@ -27,6 +27,7 @@ import PageNotFound from "./components/PageNotFound";
 const store = createStore(
     reducers,
     { // initial state
+        registration: null,
         session: null,
         page: null,
         feed: null,
