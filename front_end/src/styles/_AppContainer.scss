@@ -1,82 +1,87 @@
-$header_background_color : crimson;
-$header_button_text_height : 17px;
-$header_button_padding: 4px;
-$header_button_radius : 3px;
-$header_button_height : $header_button_text_height + 2 * $header_button_padding;
-$header_button_margin : 3px;
-$header_logo_margin : $header_button_margin;
-$header_padding: 8px;
-$header_height : $header_button_height + 2 * $header_button_margin;
+//$header_background_color : crimson;
+//$header_button_text_height : 17px;
+//$header_button_padding: 4px;
+//$header_button_radius : 3px;
+//$header_button_height : $header_button_text_height + 2 * $header_button_padding;
+//$header_button_margin : 3px;
+//$header_logo_margin : $header_button_margin;
+//$header_padding: 8px;
+//$header_height : $header_button_height + 2 * $header_button_margin;
+//
+//table {
+//  border: 0;
+//  border-spacing: 0;
+//}
+//
+//td {
+//  padding: 0;
+//}
+//
+//.AppContainer {
+//  text-align: left;
+//}
+//
+//.AppContainer-title {
+//  font-size: 1.5em;
+//}
+//
+//.AppContainer-intro {
+//  font-size: large;
+//}
+//
+//.AppContainer-header {
+//  background-color: #222;
+//  height: $header_height;
+//  padding: $header_padding;
+//  color: white;
+//}
+//
+//.AppContainer-header_img-frame {
+//  display:inline-block;
+//}
+//
+//.AppContainer-logo {
+//  //animation: AppContainer-logo-spin infinite 20s linear;
+//  vertical-align: center;
+//  height: $header_button_height;
+//  margin: $header_logo_margin
+//}
+//
+//.AppContainer-header_buttons {
+//  display:inline-block;
+//  border-radius: $header_button_radius;
+//  background: $header_background_color;
+//  padding: $header_button_padding;
+//  margin: $header_button_margin;
+//  width: 80px;
+//  height: $header_button_text_height;
+//  color: black;
+//  text-decoration: none;
+//  text-align: center;
+//  font-size: $header_button_text_height;
+//}
+//.AppContainer-header_buttons:hover {
+//  background: lighten($header_background_color, 50%);
+//}
+//
+//.AppContainer-header_buttons_context {
+//  display:inline-block;
+//}
+//
+//.AppContainer-header_fix {
+//  height: 100%;
+//  display:inline-block;
+//}
+//
+//.AppContainer-header_spring {
+//  display: inline-block;
+//  margin: 0 auto;
+//}
+//.right-align-block {
+//  float: right;
+//}
 
-table {
-  border: 0;
-  border-spacing: 0;
-}
-
-td {
-  padding: 0;
-}
-
-.AppContainer {
-  text-align: left;
-}
-
-.AppContainer-title {
-  font-size: 1.5em;
-}
-
-.AppContainer-intro {
-  font-size: large;
-}
-
-.AppContainer-header {
-  background-color: #222;
-  height: $header_height;
-  padding: $header_padding;
-  color: white;
-}
-
-.AppContainer-header_img-frame {
-  display:inline-block;
-}
-
-.AppContainer-logo {
-  //animation: AppContainer-logo-spin infinite 20s linear;
-  vertical-align: center;
-  height: $header_button_height;
-  margin: $header_logo_margin
-}
-
-.AppContainer-header_buttons {
-  display:inline-block;
-  border-radius: $header_button_radius;
-  background: $header_background_color;
-  padding: $header_button_padding;
-  margin: $header_button_margin;
-  width: 80px;
-  height: $header_button_text_height;
-  color: black;
-  text-decoration: none;
-  text-align: center;
-  font-size: $header_button_text_height;
-}
-.AppContainer-header_buttons:hover {
-  background: lighten($header_background_color, 50%);
-}
-
-.AppContainer-header_buttons_context {
-  display:inline-block;
-}
-
-.AppContainer-header_fix {
-  height: 100%;
-  display:inline-block;
-}
-
-.AppContainer-header_spring {
-  display: inline-block;
-  margin: 0 auto;
-}
-.right-align-block {
-  float: right;
+.header-logout {
+  color: #008cba;
+  text-decoration: underline;
 }

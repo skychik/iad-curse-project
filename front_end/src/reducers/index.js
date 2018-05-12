@@ -7,12 +7,12 @@ import { feedReducer } from './feedReducer';
 import { newsReducer } from './newsReducer';
 import { commentsReducer } from './commentsReducer';
 import { profileReducer } from "./profileReducer";
-import { sessionReducer } from "./sessionReducer";
-import { registrationReducer } from "./registrationReducer";
+import { mySessionReducer } from "./mySessionReducer";
+import { signinFormReducer } from "./signinFormReducer";
 
 const reducers = combineReducers({
-    registration: registrationReducer,
-    session: sessionReducer,
+    signinForm: signinFormReducer,
+    session: mySessionReducer,
     page: pageReducer,
     feed: feedReducer,
     news: newsReducer,

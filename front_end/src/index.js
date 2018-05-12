@@ -27,7 +27,7 @@ import PageNotFound from "./components/PageNotFound";
 const store = createStore(
     reducers,
     { // initial state
-        registration: {
+        signinForm: {
             firstName: null,
             surname: null,
             sex: null,
@@ -35,14 +35,18 @@ const store = createStore(
             login: null,
             password: null,
             confirmation: null,
+            registrationSubmitEnabled: false,
+            signinSubmitEnabled: false,
+            formChanged: true,
             validation: {
-                firstName: null,
-                surname: null,
-                sex: null,
-                email: null,
-                login: null,
-                password: null,
-                confirmation: null,
+                firstName: false,
+                surname: false,
+                sex: false,
+                email: false,
+                loginCorrect: false,
+                loginExists: false,
+                password: false,
+                confirmation: false,
             },
             validationStarted: {
                 firstName: false,

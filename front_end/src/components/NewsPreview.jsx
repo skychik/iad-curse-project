@@ -4,10 +4,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
 import Panel from "react-bootstrap/lib/Panel";
-import { Row } from "react-bootstrap";
+import {Glyphicon, OverlayTrigger, Row} from "react-bootstrap";
 import UserPhoto from "./UserPhoto";
 import DateTime from "./DateTime";
 import {Link} from "react-router-dom";
+import PLoopButton from "./PLoopButton";
 
 export default class NewsPreview extends Component {
     componentDidMount() {
@@ -30,11 +31,11 @@ export default class NewsPreview extends Component {
         const markdown = <ReactMarkdown source={contentPreview} />;
 
         return <Panel>
-            <Panel.Heading>
+            <Panel.Heading>{/* style={{backgroundColor: "rgba(238, 238, 238, 0.5)"}}*/}
                     <Row>
                         <div style={{display: "inline-block"}}>
                             <h3 className="news_preview_title">
-                                <Link href={"/news/" + newsId}>{title}</Link>
+                                <Link to={"/news/" + newsId}>{title}</Link>
                             </h3>
                         </div>
                         <div style={{display: "inline-block", width: "74px", float: "right"}}>
@@ -57,28 +58,22 @@ export default class NewsPreview extends Component {
                         </div>
                     </Row>
             </Panel.Heading>
-            <Panel.Body>
+            <Panel.Body style={{paddingTop: "0", paddingBottom: "0"}}>
                 <div id={"wrapper"}>{markdown}</div>
             </Panel.Body>
             <Panel.Footer>
                 <div>
-                    <Link className={"my_button"}>
+                    <span className={"my_button"}>
                         Comments
                         <span>{commentsNumber}</span>
-                    </Link>
+                    </span>
 
-                    <Link className={"my_button"} style={{float: "right"}}>
-                        Poops
-                        <span>{poopsNumber}</span>
-                    </Link>
-                    <Link className={"my_button"} style={{float: "right"}}>
-                        Loops
-                        <span>{loopsNumber}</span>
-                    </Link>
-                    <Link className={"my_button"} style={{float: "right"}}>
-                        Reposts
-                        <span>{repostsNumber}</span>
-                    </Link>
+                    <PLoopButton isLoop={false} action={null} counter={poopsNumber} tooltip={"Put your Poop ;("} float={"right"}/>
+                    <PLoopButton isLoop={true} action={null} counter={loopsNumber} tooltip={"Put your Loop :)"} float={"right"}/>
+                    {/*<span className={"my_button"} style={{float: "right"}}>*/}
+                        {/*Reposts*/}
+                        {/*<span>{repostsNumber}</span>*/}
+                    {/*</span>*/}
                     <span className={"my_date"} style={{float: "right"}}>
                         <span style={{marginRight: 10}}>
                             <DateTime date={alteringDate == null ? creationDate : alteringDate} />

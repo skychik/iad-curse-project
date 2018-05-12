@@ -10,6 +10,7 @@ import {Route, Switch, Redirect, withRouter} from 'react-router-dom';
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect';
 import { userIsAuthenticated } from '../auth'
 import RegisterContainer from "./RegisterContainer";
+import cookie from "react-cookies";
 
 class MainContainer extends React.Component {
     //newsRendering = null;
@@ -21,6 +22,7 @@ class MainContainer extends React.Component {
         //     .then((news) => asyncRenderNews(news))
         //
         //     .catch((error) => console.log("Error occured: " + error.message));
+        console.log("is cookie correct=" + ((cookie.load("userId") !== undefined) && (cookie.load("userId") !== "") && (cookie.load("userId") !== null)));
 
         return (
             <div className="MainContainer">
@@ -32,7 +34,7 @@ class MainContainer extends React.Component {
                     <Route path='/events' component={userIsAuthenticated(AppContainer)} />
                     <Route path='/mentors' component={userIsAuthenticated(AppContainer)} />
                     <Route path='/loops' component={userIsAuthenticated(AppContainer)} />
-                    <Route path='/profile' component={userIsAuthenticated(AppContainer)} />
+                    <Route path="/id" component={userIsAuthenticated(AppContainer)} />
                     <Route path="/login" component={LoginContainer} />
                     <Route path="/register" component={RegisterContainer} />
                     <Route exact path='/page_not_found' component={PageNotFound}/>

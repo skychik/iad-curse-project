@@ -11,5 +11,5 @@ import java.util.List;
 //@RepositoryRestResource(collectionResourceRel = "user", path = "user")
 public interface UserRepo extends JpaRepository<User, Long> {
 	//@RestResource(exported = false)
-	//List<User> findAllById(Long id);
+	User findByUsername(String username);
 }

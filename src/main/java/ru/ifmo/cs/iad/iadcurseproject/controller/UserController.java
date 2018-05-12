@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.web.bind.annotation.*;
-import ru.ifmo.cs.iad.iadcurseproject.dto.NewsDTO;
-import ru.ifmo.cs.iad.iadcurseproject.dto.NewsForFeedDTO;
-import ru.ifmo.cs.iad.iadcurseproject.dto.PerformerDTO;
-import ru.ifmo.cs.iad.iadcurseproject.dto.ProfileDTO;
+import ru.ifmo.cs.iad.iadcurseproject.dto.*;
 import ru.ifmo.cs.iad.iadcurseproject.entity.News;
 import ru.ifmo.cs.iad.iadcurseproject.entity.Performer;
 import ru.ifmo.cs.iad.iadcurseproject.entity.User;
@@ -78,5 +75,27 @@ public class UserController {
 				by(Sort.Order.by("breakupDate").nullsLast(), Sort.Order.by("creationDate"))));
 
 		return performerList.stream().map(PerformerDTO::new).collect(Collectors.toList());
+	}
+
+	@GetMapping("/doesExist")
+	public @ResponseBody boolean getLoginExistence(@RequestParam(value = "username") String username) {
+		User user = userRepo.findByUsername(username);
+		return user != null;
+	}
+
+	@GetMapping("/signin")
+	public @ResponseBody String signin(@RequestParam(value = "username") String username,
+	                                    @RequestParam(value = "password") String password) {
+		User user = userRepo.findByUsername(username);
+		if (user == null) return "";
+		return user.getPassword().equals(password) ? user.getId().toString() : "";
+	}
+
+	@PostMapping(path="/register", consumes = "application/json", produces = "application/json")
+	public void addMember(@RequestBody UserRegistrationDTO userDTO) {
+		logger.info("register request=" + userDTO.toString());
+		User user = userDTO.makeUser();
+		userRepo.save(user);
+		logger.info("user registered=" + user.toString());
 	}
 }

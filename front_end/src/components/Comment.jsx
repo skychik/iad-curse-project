@@ -4,6 +4,7 @@ import {Glyphicon, OverlayTrigger, Tooltip} from "react-bootstrap";
 import UserPhoto from "./UserPhoto";
 import DateTime from "./DateTime";
 import {Link} from "react-router-dom";
+import PLoopButton from "./PLoopButton";
 
 export default class Comment extends Component {
     render() {
@@ -23,18 +24,8 @@ export default class Comment extends Component {
                         <span className="comment_username">{username}</span>
                     </a>*/}
                     <DateTime date={creationDate} />
-                    <OverlayTrigger placement="top" overlay={loopTip} style={{float: "right"}}>
-                        <Link className={"my_button"} style={{float: "right"}}>
-                            <Glyphicon glyph="repeat" />
-                            <span>{loopsNumber}</span>
-                        </Link>
-                    </OverlayTrigger>
-                    <OverlayTrigger placement="top" overlay={poopTip} style={{float: "right"}}>
-                        <Link className={"my_button"} style={{float: "right"}}>
-                            <Glyphicon glyph="trash" />
-                            <span>{poopsNumber}</span>
-                        </Link>
-                    </OverlayTrigger>
+                    <PLoopButton isLoop={false} action={null} counter={poopsNumber} tooltip={"Put your Poop ;("} float={"right"}/>
+                    <PLoopButton isLoop={true} action={null} counter={loopsNumber} tooltip={"Put your Loop :)"} float={"right"}/>
                 </div>
                 {/*<span className="my_comment_dot" >•</span>*/}
                 <span className="my_text">

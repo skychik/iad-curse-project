@@ -20,6 +20,7 @@ import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
 import NavItem  from 'react-bootstrap/lib/NavItem';
 import Image from "react-bootstrap/lib/Image";
+import cookie from 'react-cookies';
 
 
 class AppContainer extends React.Component {
@@ -30,37 +31,30 @@ class AppContainer extends React.Component {
                     <Navbar.Header>
                         <div style={{marginLeft:15}}>
                             <Navbar.Brand>
-                                <Image src={LogoImg} alt="brand" rounded />
+                                {/*<Image src={LogoImg} alt="brand" rounded />*/}<span>Make loop not poop</span>
                             </Navbar.Brand>
                         </div>
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav>
-                            <NavItem eventKey={1} href="/feed">
-                                Feed
-                            </NavItem>
-                            <NavItem eventKey={2} href="/events">
-                                Events
-                            </NavItem>
-                            <NavItem eventKey={3} href="/mentors">
-                                Mentors
-                            </NavItem>
-                            <NavItem eventKey={4} href="/loops">
-                                Loops
-                            </NavItem>
+                            <NavItem eventKey={1} href="/feed">Feed</NavItem>
+                            <NavItem eventKey={2} href="/events">Events</NavItem>
+                            <NavItem eventKey={3} href="/mentors">Mentors</NavItem>
+                            <NavItem eventKey={4} href="/loops">Loops</NavItem>
                         </Nav>
-                        <Nav pullRight>
+                        <Nav style={{marginRight: 0}} pullRight>
                             {/*<Navbar.Form>*/}
                                 {/*<FormGroup>*/}
                                     {/*<FormControl type="text" placeholder="Search" />*/}
                                 {/*</FormGroup>{' '}*/}
                                 {/*<Button type="submit">Submit</Button>*/}
                             {/*</Navbar.Form>*/}
-                            <NavItem eventKey={5} href="/profile">
-                                <div style={{marginRight:15}}>
-                                    Profile
-                                </div>
+                            <NavItem eventKey={5} href={"/login"}>
+                                <div className="header-logout">log out</div>
+                            </NavItem>
+                            <NavItem eventKey={6} href={"/id/" + cookie.load("userId")} style={{paddingRight:15}}>
+                                <div>Profile</div>
                             </NavItem>
                         </Nav>
                     </Navbar.Collapse>
@@ -98,7 +92,7 @@ class AppContainer extends React.Component {
                     <Route path='/events' component={EventsContainer} />
                     <Route path='/mentors' component={MentorsContainer} />
                     <Route path='/loops' component={LoopsContainer} />
-                    <Route path='/profile' component={ProfileContainer} />
+                    <Route path='/id/:number' component={ProfileContainer} />
                     <Route path='/news/:number' component={NewsContainer} />
                     <Route path='/page_not_found' component={PageNotFound}/>
                     <Route render={() => <Redirect to='/page_not_found' /> } />

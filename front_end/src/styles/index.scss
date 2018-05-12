@@ -1,4 +1,4 @@
-//@import "AppContainer";
+@import "AppContainer";
 @import "News";
 //@import "NewsContainer";
 //@import "buttons";
@@ -8,6 +8,7 @@
 @import "RegisterContainer";
 @import "Welcome";
 @import "PageNotFound";
+@import "FeedContainer";
 
 body {
   margin: 0;

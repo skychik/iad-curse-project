@@ -7,6 +7,7 @@ import News from "../components/News";
 import CommentsContainer from "./CommentsContainer";
 import {Glyphicon, OverlayTrigger, Tooltip} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import PLoopButton from "../components/PLoopButton";
 
 // props:
 //  news - News in JSON
@@ -17,20 +18,16 @@ class NewsContainer extends React.Component {
 
     componentDidMount() {
         let api = new RestClient('http://localhost:8080'); // TODO: make static
-        //console.log(this.props.match.params.number);
         const number = parseInt(this.props.match.params.number, 10);
         if (isNaN(number)) {
-            // console.log("didMount:NaN");
             this.setNews(null);
-            return;
+        } else {
+            const promise = api.res("news").res(number.toString()).get();
+            promise.then((response) => {
+                const news = JSON.parse(JSON.stringify(response));
+                this.setNews(news);
+            });
         }
-        // console.log("didMount:not NaN");
-
-        const promise = api.res("news").res(number.toString()).get();
-        promise.then((response) => {
-            const news = JSON.parse(JSON.stringify(response));
-            this.setNews(news);
-        });
     }
 
     setNews(news) {
@@ -73,24 +70,14 @@ class NewsContainer extends React.Component {
                     <span className="news_footer_comments">
                         Comments <span>{newsData.commentsNumber}</span>
                     </span>
-                    <OverlayTrigger placement="top" overlay={poopTip}>
-                        <Link className={"my_button"} style={{float: "right"}}>
-                            <Glyphicon glyph="trash" />
-                            <span>{newsData.poopsNumber}</span>
-                        </Link>
-                    </OverlayTrigger>
-                    <OverlayTrigger placement="top" overlay={loopTip}>
-                        <Link className={"my_button"} style={{float: "right"}}>
-                            <Glyphicon glyph="repeat" />
-                            <span>{newsData.loopsNumber}</span>
-                        </Link>
-                    </OverlayTrigger>
-                    <OverlayTrigger placement="top" overlay={repostTip}>
-                        <Link className={"my_button"} style={{float: "right"}}>
-                            <Glyphicon glyph="retweet" />
-                            <span>{newsData.repostsNumber}</span>
-                        </Link>
-                    </OverlayTrigger>
+                    <PLoopButton isLoop={false} action={null} counter={newsData.poopsNumber} tooltip={"Put your Poop ;("} float={"right"}/>
+                    <PLoopButton isLoop={true} action={null} counter={newsData.loopsNumber} tooltip={"Put your Loop :)"} float={"right"}/>
+                    {/*<OverlayTrigger placement="top" overlay={repostTip}>*/}
+                        {/*<span className={"my_button"} style={{float: "right"}}>*/}
+                            {/*<Glyphicon glyph="retweet" />*/}
+                            {/*<span>{newsData.repostsNumber}</span>*/}
+                        {/*</span>*/}
+                    {/*</OverlayTrigger>*/}
                 </div>
                 <CommentsContainer newsId={newsData.id}/>
             </div>

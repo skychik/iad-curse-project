@@ -42,19 +42,19 @@ class CommentsContainer extends React.Component {
         }
 
         return <div className="comments_container">
-            {commentsData.comments.map((comment, idx) => {
-                return <Comment key={idx}
-                                comments={comment.comments}
-                                id={comment.id}
-                                newsId={comment.newsId}
-                                userId={comment.user.id}
-                                username={comment.user.username}
-                                avatar={comment.user.photo}
-                                content={comment.content}
-                                creationDate={comment.creationDate}
-                                loopsNumber={comment.loopsNumber}
-                                poopsNumber={comment.poopsNumber}/>
-            })}
+                {commentsData.comments.map((comment, idx) => {
+                    return <Comment key={idx}
+                                    comments={comment.comments}
+                                    id={comment.id}
+                                    newsId={comment.newsId}
+                                    userId={comment.user.id}
+                                    username={comment.user.username}
+                                    avatar={comment.user.photo}
+                                    content={comment.content}
+                                    creationDate={comment.creationDate}
+                                    loopsNumber={comment.loopsNumber}
+                                    poopsNumber={comment.poopsNumber}/>
+                })}
             </div>
     }
 }

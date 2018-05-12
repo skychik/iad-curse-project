@@ -20,8 +20,9 @@ import java.util.Set;
 @ToString(of = {"id"})
 public class User implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
+	@SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq")
+	@Column(name = "id")
 	private Long id;
 
 	@Column(name = "login", nullable = false)
@@ -44,7 +45,7 @@ public class User implements Serializable {
 	private Timestamp birthDate;
 
 	@Column(name = "sex")
-	private boolean sex; // if false then боевой вертолет Apache
+	private Boolean sex; // if false then боевой вертолет Apache
 
 	@Column(name = "photo_addr")
 	private String photo;
@@ -152,10 +153,10 @@ public class User implements Serializable {
 	public void setBirthDate(Timestamp birthDate) {
 		this.birthDate = birthDate;
 	}
-	public boolean getSex() {
+	public Boolean getSex() {
 		return sex;
 	}
-	public void setSex(boolean sex) {
+	public void setSex(Boolean sex) {
 		this.sex = sex;
 	}
 	public String getPhoto() {

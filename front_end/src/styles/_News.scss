@@ -10,7 +10,7 @@
   vertical-align: middle;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-left: 15px;
+  margin-left: 30px;
 }
 
 .news_preview_title > a {
@@ -32,7 +32,7 @@
 // --------------------------
 
 .page_header_info {
-  background-color: #f5f5f5;
+  background-color: rgba(238, 238, 238, 0.5);
   padding: 10px;
   font-size: 13px;
 }
@@ -66,6 +66,15 @@ time {
   text-overflow: ellipsis;
 }
 
+// ----------------------------
+// --------- Content ----------
+// ----------------------------
+
+#wrapper {
+  background-color: rgba(238, 238, 238, 0.2);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 
 // ----------------------------
 // --------- Comments ---------
@@ -79,10 +88,11 @@ time {
 
 .comment_head {
   margin-bottom: 8px;
+  padding-right: 15px;
 }
 
 .comment_children {
-  border-left: solid 1px #efefef;;
+  border-left: solid 1px #333333;;
 }
 
 
@@ -92,7 +102,7 @@ time {
 
 .news_footer {
   padding: 10px 15px;
-  background-color: #f5f5f5;
+  background-color: rgba(238, 238, 238, 0.5);
   //border-top: 1px solid #dddddd;
   //border-bottom: 1px solid #dddddd;
 }
@@ -123,7 +133,10 @@ time {
   -ms-hyphens: auto;
 }
 
-.my_button {
+
+// ------------------ Button ------------------
+
+%my_button, .my_button {
   font-family: "Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;
   border: 1px solid #4582ec;
   display: inline-block;
@@ -131,23 +144,74 @@ time {
   border-radius: 5px;
   margin-left: 10px;
   font-size: 15px;
+  color: #4582ec;
 }
 
-.my_button :last-child {
+%my_button_hover, .my_button:hover {
+  text-decoration: none; /* Убираем подчеркивание */
+  color: #3857c0; /* Цвет ссылки при наведении на нее курсора мыши */
+  border-color: #3857c0;
+}
+
+%my_button_last-child, .my_button :last-child {
   margin-left: 5px;
   padding-left: 5px;
   border-left: 1px solid #4582ec;
 }
 
-.my_button :last-child:hover {
+%my_button_last-child_hover, .my_button :last-child:hover {
   border-left: 1px solid #3857c0;
 }
 
-.my_button:hover {
-  text-decoration: none; /* Убираем подчеркивание */
-  color: #3857c0; /* Цвет ссылки при наведении на нее курсора мыши */
-  border-color: #3857c0;
+// ------------ Poop Button ------------
+
+.poop_button {
+  @extend %my_button;
+  border-color: #5b2e22;
+  color: #5b2e22;
 }
+
+.poop_button:hover { // trash can opens (find new glyphicon)
+  @extend %my_button_hover;
+  border-color: #b56447;
+  color: #b56447;
+}
+
+.poop_button :last-child {
+  @extend %my_button_last-child;
+  border-left: 1px solid #5b2e22;
+}
+
+.poop_button :last-child:hover {
+  @extend %my_button_last-child_hover;
+  border-left: 1px solid #b56447;
+}
+
+// ------------ Loop Button ------------
+
+.loop_button {
+  @extend %my_button;
+  border-color: #008cba;
+  color: #008cba;
+}
+
+.loop_button:hover { // loop starts circling
+  @extend %my_button_hover;
+  border-color: #00b5a6;
+  color: #00b5a6;
+}
+
+.loop_button :last-child {
+  @extend %my_button_last-child;
+  border-left: 1px solid #008cba;
+}
+
+.loop_button :last-child:hover {
+  @extend %my_button_last-child_hover;
+  border-left: 1px solid #00b5a6;
+}
+
+
 
 .my_date {
   font-style: italic;

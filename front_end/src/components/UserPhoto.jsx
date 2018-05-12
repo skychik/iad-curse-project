@@ -13,19 +13,19 @@ export default class UserPhoto extends Component {
 
         if (this.props.withTooltip) {
             return this.props.userId === null ?
-                <Button href={"/id" + this.props.userId} bsSize="small">
+                <Button href={"/id/" + this.props.userId} bsSize="small">
                     <OverlayTrigger placement="top" overlay={tooltip}>
                         <Glyphicon glyph="user"/>
                     </OverlayTrigger>
                 </Button>
                 :
                 <OverlayTrigger placement="top" overlay={tooltip}>
-                    <Link href={"/id" + this.props.userId}>
-                        <Image src={"/photo/usr/" + this.props.photo} />
+                    <Link to={"/id/" + this.props.userId}>
+                        <Image src={"/photo/usr/" + this.props.photo} style={{borderRadius: "3px"}}/>
                     </Link>
                 </OverlayTrigger>
         } else {
-            return <Link href={"/id" + this.props.userId}>
+            return <Link to={"/id/" + this.props.userId}>
                 <span className="img_container">
                     <img src={"/photo/usr/" + this.props.photo} alt="logo"/>
                 </span>

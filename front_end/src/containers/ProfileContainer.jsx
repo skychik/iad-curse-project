@@ -6,17 +6,23 @@ import RestClient from "another-rest-client";
 import {Button, Col, Glyphicon, Image, Row} from "react-bootstrap";
 import NewsPreview from "../components/NewsPreview";
 import {Link, Route, Switch} from "react-router-dom";
+import cookie from 'react-cookies';
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
         let api = new RestClient('http://localhost:8080'); // TODO: make static
-        api.res("user");
-        const promise = api.user(1).get();
-        promise.then((response) => {
-            const profile = JSON.parse(JSON.stringify(response));
-            console.log(profile);
-            this.setProfile(profile);
-        });
+        const number = parseInt(this.props.match.params.number, 10);
+        if (isNaN(number)) {
+            this.setProfile(null);
+        } else {
+            api.res("user");
+            const promise = api.user(number).get();
+            promise.then((response) => {
+                const profile = JSON.parse(JSON.stringify(response));
+                console.log(profile);
+                this.setProfile(profile);
+            });
+        }
     }
 
     setProfile(profile) {
@@ -24,10 +30,17 @@ class ProfileContainer extends React.Component {
     }
 
     render() {
-        if (!this.props.profile) return "Loading...";
+        const profileData = this.props.profile;
+
+        if (profileData == null) {
+            return <h1>This profile doesn't exist(incorrect id number)</h1>
+        }
+        if (Object.keys(profileData).length === 0) {
+            return <h1>Loading...</h1>
+        }
 
         const { id, username, firstName, surname, patronymic, birthDate, sex, photo,
-            news, performers } = this.props.profile;
+            news, performers } = profileData;
         const feedContainer =  news != null ?
             news.map((newsPreview, idx) => {
                 return <NewsPreview className="NewsPreview"
@@ -46,6 +59,8 @@ class ProfileContainer extends React.Component {
                                     repostsNumber={newsPreview.repostsNumber}
                 />;
             }) : "No news";
+        console.log("feedContainer");
+        console.log(feedContainer);
         const performersContainer = performers != null ?
             performers.map((performer, idx) => {
                 return <Link key={idx}>
@@ -74,12 +89,12 @@ class ProfileContainer extends React.Component {
                     <div className="profile-usermenu">
                         <ul className="nav">
                             <li className="active">
-                                <Link href="#">
+                                <Link to="#">
                                     <Glyphicon glyph="home" /> News
                                 </Link>
                             </li>
                             <li className="active">
-                                <Link href="#">
+                                <Link to="#">
                                     <Glyphicon glyph="home" /> Performers
                                 </Link>
                             </li>
@@ -90,8 +105,10 @@ class ProfileContainer extends React.Component {
             <Col md={9}>
                 <div className="profile-content">
                     <Switch>
-                        <Route path='/profile/performers' component={performersContainer} />
-                        <Route component={feedContainer} />
+                        <Route path='/id/:number/performers' component={() => <div>{performersContainer}</div>} />
+                        <Route component={() => <div>{feedContainer.length === 0 ?
+                            <span className={"profile-no-news"}>No news</span>
+                            : feedContainer}</div>} />
                     </Switch>
                 </div>
             </Col>
