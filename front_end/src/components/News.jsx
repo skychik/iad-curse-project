@@ -48,7 +48,7 @@ export default class News extends Component {
                     <DateTime date={(creationDate)}/> :
                     <DateTime date={(alteringDate)}/>}
             </div>
-            <PageHeader bsClass="page_header">
+            <PageHeader bsClass="page_header"> {/* TODO: переносить текст */}
                     {title}
             </PageHeader>
             <div id={"wrapper"}>{markdown}</div>

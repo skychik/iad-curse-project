@@ -36,6 +36,14 @@ class NewsContainer extends React.Component {
         return this.props.setNews(news);
     }
 
+    putLoopOnNewsId(newsId) {
+        return this.props.putLoopOnNewsId(newsId)
+    }
+
+    putPoopOnNewsId(newsId) {
+        return this.props.putPoopOnNewsId(newsId)
+    }
+
     render() {
         //console.log("NewsContainer.render");
         const newsData = this.props.news;
@@ -70,8 +78,8 @@ class NewsContainer extends React.Component {
                     <span className="news_footer_comments">
                         Comments <span>{newsData.commentsNumber}</span>
                     </span>
-                    <PLoopButton isLoop={false} action={null} counter={newsData.poopsNumber} tooltip={"Put your Poop ;("} float={"right"}/>
-                    <PLoopButton isLoop={true} action={null} counter={newsData.loopsNumber} tooltip={"Put your Loop :)"} float={"right"}/>
+                    <PLoopButton isLoop={false} action={this.putPoopOnNewsId(newsData.id)} counter={newsData.poopsNumber} tooltip={"Put your Poop ;("} float={"right"}/>
+                    <PLoopButton isLoop={true} action={this.putLoopOnNewsId(newsData.id)} counter={newsData.loopsNumber} tooltip={"Put your Loop :)"} float={"right"}/>
                     {/*<OverlayTrigger placement="top" overlay={repostTip}>*/}
                         {/*<span className={"my_button"} style={{float: "right"}}>*/}
                             {/*<Glyphicon glyph="retweet" />*/}

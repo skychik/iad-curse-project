@@ -11,14 +11,12 @@ import ru.ifmo.cs.iad.iadcurseproject.dto.CommentDTO;
 import ru.ifmo.cs.iad.iadcurseproject.dto.CommentsInfoDTO;
 import ru.ifmo.cs.iad.iadcurseproject.dto.NewsDTO;
 import ru.ifmo.cs.iad.iadcurseproject.dto.NewsForFeedDTO;
-import ru.ifmo.cs.iad.iadcurseproject.entity.Comment;
-import ru.ifmo.cs.iad.iadcurseproject.entity.CommentLoop;
-import ru.ifmo.cs.iad.iadcurseproject.entity.CommentPoop;
-import ru.ifmo.cs.iad.iadcurseproject.entity.News;
+import ru.ifmo.cs.iad.iadcurseproject.entity.*;
 import ru.ifmo.cs.iad.iadcurseproject.repository.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,6 +27,7 @@ import static org.springframework.data.domain.Sort.by;
 @RequestMapping("/comments")
 public class CommentsController {
 	private final NewsRepo newsRepo;
+	private final UserRepo userRepo;
 	private final CommentRepo commentRepo;
 	private final CommentLoopRepo commentLoopRepo;
 	private final CommentPoopRepo commentPoopRepo;
@@ -43,10 +42,11 @@ public class CommentsController {
 
 	private Logger logger = LoggerFactory.getLogger("application");
 
-	public CommentsController(NewsRepo newsRepo, CommentRepo commentRepo, CommentLoopRepo commentLoopRepo,
+	public CommentsController(NewsRepo newsRepo, UserRepo userRepo, CommentRepo commentRepo, CommentLoopRepo commentLoopRepo,
 	                          CommentPoopRepo commentPoopRepo, RepostRepo repostRepo, NewsLoopRepo newsLoopRepo,
 	                          NewsPoopRepo newsPoopRepo, RepostLoopRepo repostLoopRepo, RepostPoopRepo repostPoopRepo) {
 		this.newsRepo = newsRepo;
+		this.userRepo = userRepo;
 		this.commentRepo = commentRepo;
 		this.commentLoopRepo = commentLoopRepo;
 		this.commentPoopRepo = commentPoopRepo;
@@ -121,5 +121,29 @@ public class CommentsController {
 			queue = queueBuff;
 		}
 		return false;
+	}
+
+	@GetMapping("/commentId}/loop")
+	public @ResponseBody Boolean putLoop(@PathVariable(value = "commentId") long commentId,
+	                                     @RequestParam(value = "userId") long userId) {
+		logger.info("loop commentId=" + commentId + "by userId=" + userId);
+		CommentLoop loop = new CommentLoop();
+		loop.setComment(commentRepo.getOne(commentId));
+		loop.setUser(userRepo.getOne(userId));
+		loop.setDate(new Timestamp(System.currentTimeMillis()));
+		commentLoopRepo.save(loop);
+		return true;
+	}
+
+	@GetMapping("/{commentId}/poop")
+	public @ResponseBody Boolean putPoop(@PathVariable(value = "commentId") long commentId,
+	                                     @RequestParam(value = "userId") long userId) {
+		logger.info("poop commentId=" + commentId + "by userId=" + userId);
+		CommentPoop poop = new CommentPoop();
+		poop.setComment(commentRepo.getOne(commentId));
+		poop.setUser(userRepo.getOne(userId));
+		poop.setDate(new Timestamp(System.currentTimeMillis()));
+		commentPoopRepo.save(poop);
+		return true;
 	}
 }

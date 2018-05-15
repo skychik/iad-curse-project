@@ -21,6 +21,8 @@ import Navbar from 'react-bootstrap/lib/Navbar';
 import NavItem  from 'react-bootstrap/lib/NavItem';
 import Image from "react-bootstrap/lib/Image";
 import cookie from 'react-cookies';
+import {userIsAuthenticated} from "../auth";
+import MakeNewsContainer from "./MakeNewsContainer";
 
 
 class AppContainer extends React.Component {
@@ -89,6 +91,7 @@ class AppContainer extends React.Component {
                 {/*</div>*/}
                 <Switch>
                     <Route exact path='/feed' component={FeedContainer} />
+                    <Route path='/make-news' component={MakeNewsContainer} />
                     <Route path='/events' component={EventsContainer} />
                     <Route path='/mentors' component={MentorsContainer} />
                     <Route path='/loops' component={LoopsContainer} />

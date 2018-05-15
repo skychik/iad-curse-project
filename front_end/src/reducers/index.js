@@ -9,6 +9,9 @@ import { commentsReducer } from './commentsReducer';
 import { profileReducer } from "./profileReducer";
 import { mySessionReducer } from "./mySessionReducer";
 import { signinFormReducer } from "./signinFormReducer";
+import { newsMakerReducer } from "./newsMakerReducer";
+import {newsPLoopReducer} from "./newsPLoopReducer";
+import {commentsPLoopReducer} from "./commentsPLoopReducer";
 
 const reducers = combineReducers({
     signinForm: signinFormReducer,
@@ -16,9 +19,12 @@ const reducers = combineReducers({
     page: pageReducer,
     feed: feedReducer,
     news: newsReducer,
+    newsMaker: newsMakerReducer,
     comments: commentsReducer,
     profile: profileReducer,
     routing: routerReducer,
+    newsPLoopFeedback: newsPLoopReducer,
+    commentsPLoopFeedback: commentsPLoopReducer,
 });
 
 export default reducers;

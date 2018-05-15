@@ -28,3 +28,32 @@ export function setComments(data) {
         payload: data,
     }
 }
+
+export function putLoopOnNewsId(id) {
+    return {
+        type: 'NEWS_LOOP',
+        payload: id,
+    }
+}
+
+export function putPoopOnNewsId(id) {
+    return {
+        type: 'NEWS_POOP',
+        payload: id,
+    }
+}
+
+export function putLoopOnCommentId(id) {
+    return {
+        type: 'COMMENTS_LOOP',
+        payload: id,
+    }
+}
+
+export function putPoopOnCommentId(id) {
+    return {
+        type: 'COMMENTS_POOP',
+        payload: id,
+    }
+}
+

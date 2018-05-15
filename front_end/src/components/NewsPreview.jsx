@@ -33,28 +33,28 @@ export default class NewsPreview extends Component {
         return <Panel>
             <Panel.Heading>{/* style={{backgroundColor: "rgba(238, 238, 238, 0.5)"}}*/}
                     <Row>
-                        <div style={{display: "inline-block"}}>
+                        <div style={{display: "block", width: "74px", float: "right"}}>
+                            <UserPhoto userId={authorId} username={authorUsername} withTooltip={true}
+                                       photo={authorAvatar} size={64}/>
+                            {/*<div style={{color: "transparent",float: "right", marginRight: 10}}>*/}
+                            {/*{authorId === null ?*/}
+                            {/*<Button href={"/id" + authorId} bsSize="small">*/}
+                            {/*<OverlayTrigger placement="top" overlay={tooltip}>*/}
+                            {/*<Glyphicon glyph="user"/>*/}
+                            {/*</OverlayTrigger>*/}
+                            {/*</Button> :*/}
+                            {/*<OverlayTrigger placement="top" overlay={tooltip}>*/}
+                            {/*<a href={"/id" + authorId}>*/}
+                            {/*<Image src={"/photo/usr/icon" + authorId + ".jpg"} rounded/>*/}
+                            {/*</a>*/}
+                            {/*</OverlayTrigger>*/}
+                            {/*} /!* TODO: 32x32 *!/*/}
+                            {/*</div>*/}
+                        </div>
+                        <div style={{display: "block", marginRight: "94px"}}>
                             <h3 className="news_preview_title">
                                 <Link to={"/news/" + newsId}>{title}</Link>
                             </h3>
-                        </div>
-                        <div style={{display: "inline-block", width: "74px", float: "right"}}>
-                            <UserPhoto userId={authorId} username={authorUsername} withTooltip={true}
-                                       photo={authorAvatar} />
-                        {/*<div style={{color: "transparent",float: "right", marginRight: 10}}>*/}
-                            {/*{authorId === null ?*/}
-                                {/*<Button href={"/id" + authorId} bsSize="small">*/}
-                                    {/*<OverlayTrigger placement="top" overlay={tooltip}>*/}
-                                        {/*<Glyphicon glyph="user"/>*/}
-                                    {/*</OverlayTrigger>*/}
-                                {/*</Button> :*/}
-                                {/*<OverlayTrigger placement="top" overlay={tooltip}>*/}
-                                    {/*<a href={"/id" + authorId}>*/}
-                                        {/*<Image src={"/photo/usr/icon" + authorId + ".jpg"} rounded/>*/}
-                                    {/*</a>*/}
-                                {/*</OverlayTrigger>*/}
-                            {/*} /!* TODO: 32x32 *!/*/}
-                        {/*</div>*/}
                         </div>
                     </Row>
             </Panel.Heading>
@@ -68,8 +68,8 @@ export default class NewsPreview extends Component {
                         <span>{commentsNumber}</span>
                     </span>
 
-                    <PLoopButton isLoop={false} action={null} counter={poopsNumber} tooltip={"Put your Poop ;("} float={"right"}/>
-                    <PLoopButton isLoop={true} action={null} counter={loopsNumber} tooltip={"Put your Loop :)"} float={"right"}/>
+                    <PLoopButton isLoop={false} action={this.props.putPoopOnNewsId(newsId)} counter={poopsNumber} tooltip={"Put your Poop ;("} float={"right"}/>
+                    <PLoopButton isLoop={true} action={this.props.putLoopOnNewsId(newsId)} counter={loopsNumber} tooltip={"Put your Loop :)"} float={"right"}/>
                     {/*<span className={"my_button"} style={{float: "right"}}>*/}
                         {/*Reposts*/}
                         {/*<span>{repostsNumber}</span>*/}

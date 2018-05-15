@@ -9,7 +9,7 @@ import ru.ifmo.cs.iad.iadcurseproject.entity.User;
 import java.sql.Timestamp;
 
 @Getter
-@Relation(value = "news", collectionRelation = "news")
+@Relation(value = "newsForFeed", collectionRelation = "newsForFeed")
 @ToString
 public class NewsForFeedDTO {
 	private Long id;

@@ -17,8 +17,9 @@ import java.util.Set;
 @ToString
 public class News implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "news_id_seq")
+	@SequenceGenerator(name = "news_id_seq", sequenceName = "news_id_seq")
+	@Column(name = "id")
 	private Long id;
 
 	@ManyToOne

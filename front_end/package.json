@@ -6,6 +6,7 @@
     "another-rest-client": "^0.4.2",
     "babel-preset-react": "^6.24.1",
     "bootstrap": "^4.1.0",
+    "bootstrap-markdown": "^2.10.0",
     "history": "^4.7.2",
     "jquery": "^3.3.1",
     "lodash": "^4.17.10",

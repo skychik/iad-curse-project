@@ -62,6 +62,11 @@ const store = createStore(
         page: null,
         feed: null,
         news: null,
+        newsMaker: {
+            content: null,
+            title: null,
+            answer: null,
+        },
         comments: null,
         profile: null,
         routing: null,

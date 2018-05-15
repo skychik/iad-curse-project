@@ -8,12 +8,19 @@ import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.web.bind.annotation.*;
 import ru.ifmo.cs.iad.iadcurseproject.dto.NewsDTO;
 import ru.ifmo.cs.iad.iadcurseproject.dto.NewsForFeedDTO;
+import ru.ifmo.cs.iad.iadcurseproject.dto.NewsPostedDTO;
+import ru.ifmo.cs.iad.iadcurseproject.dto.UserRegistrationDTO;
 import ru.ifmo.cs.iad.iadcurseproject.entity.News;
+import ru.ifmo.cs.iad.iadcurseproject.entity.NewsLoop;
+import ru.ifmo.cs.iad.iadcurseproject.entity.NewsPoop;
+import ru.ifmo.cs.iad.iadcurseproject.entity.User;
 import ru.ifmo.cs.iad.iadcurseproject.repository.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.domain.PageRequest.of;
@@ -25,6 +32,7 @@ import static org.springframework.data.util.Streamable.empty;
 @RequestMapping("/news")
 public class NewsController {
 	private final NewsRepo newsRepo;
+	private final UserRepo userRepo;
 	private final CommentRepo commentRepo;
 	private final RepostRepo repostRepo;
 	private final NewsLoopRepo newsLoopRepo;
@@ -38,9 +46,10 @@ public class NewsController {
 	private Logger logger = LoggerFactory.getLogger("application");
 
 	@Autowired
-	public NewsController(NewsRepo newsRepo, CommentRepo commentRepo, RepostRepo repostRepo, NewsLoopRepo newsLoopRepo,
+	public NewsController(NewsRepo newsRepo, UserRepo userRepo, CommentRepo commentRepo, RepostRepo repostRepo, NewsLoopRepo newsLoopRepo,
 	                      NewsPoopRepo newsPoopRepo, RepostLoopRepo repostLoopRepo, RepostPoopRepo repostPoopRepo) {
 		this.newsRepo = newsRepo;
+		this.userRepo = userRepo;
 		this.commentRepo = commentRepo;
 		this.repostRepo = repostRepo;
 		this.newsLoopRepo = newsLoopRepo;
@@ -131,6 +140,44 @@ public class NewsController {
 	@GetMapping("/{newsId}/poops_number")
 	public @ResponseBody long getPoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
 		return newsPoopRepo.countAllByNewsId(newsId);
+	}
+
+	@PostMapping(path="/post", consumes = "application/json", produces = "application/json")
+	public String addMember(@RequestBody NewsPostedDTO newsDTO) {
+		logger.info("add news=" + newsDTO.toString());
+		Optional<User> user = userRepo.findById(newsDTO.getAuthorId());
+		if (!user.isPresent()) {
+			logger.info("User with id=" + newsDTO.getAuthorId() + " doesn't exist");
+			return null;
+		}
+		News news = newsDTO.makeNews(user.get());
+		News savedNews = newsRepo.save(news);
+		logger.info("news saved=" + savedNews.toString());
+		return savedNews.getId().toString();
+	}
+
+	@GetMapping("/{newsId}/loop")
+	public @ResponseBody Boolean putLoop(@PathVariable(value = "newsId") long newsId,
+	                        @RequestParam(value = "userId") long userId) {
+		logger.info("loop newsId=" + newsId + "by userId=" + userId);
+		NewsLoop loop = new NewsLoop();
+		loop.setNews(newsRepo.getOne(newsId));
+		loop.setUser(userRepo.getOne(userId));
+		loop.setDate(new Timestamp(System.currentTimeMillis()));
+		newsLoopRepo.save(loop);
+		return true;
+	}
+
+	@GetMapping("/{newsId}/poop")
+	public @ResponseBody Boolean putPoop(@PathVariable(value = "newsId") long newsId,
+	                                     @RequestParam(value = "userId") long userId) {
+		logger.info("poop newsId=" + newsId + "by userId=" + userId);
+		NewsPoop poop = new NewsPoop();
+		poop.setNews(newsRepo.getOne(newsId));
+		poop.setUser(userRepo.getOne(userId));
+		poop.setDate(new Timestamp(System.currentTimeMillis()));
+		newsPoopRepo.save(poop);
+		return true;
 	}
 
 	public int likeNewsByNewsId() {

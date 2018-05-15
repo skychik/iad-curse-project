@@ -21,13 +21,17 @@ export default class UserPhoto extends Component {
                 :
                 <OverlayTrigger placement="top" overlay={tooltip}>
                     <Link to={"/id/" + this.props.userId}>
-                        <Image src={"/photo/usr/" + this.props.photo} style={{borderRadius: "3px"}}/>
+                        <Image src={"/photo/usr/" + this.props.photo}
+                               style={{borderRadius: "3px", width: this.props.size? this.props.size : null,
+                                   height: this.props.size? this.props.size : null}}/>
                     </Link>
                 </OverlayTrigger>
         } else {
             return <Link to={"/id/" + this.props.userId}>
                 <span className="img_container">
-                    <img src={"/photo/usr/" + this.props.photo} alt="logo"/>
+                    <img src={"/photo/usr/" + this.props.photo} alt="logo"
+                         style={{width: this.props.size? this.props.size : null,
+                             height: this.props.size? this.props.size : null}}/>
                 </span>
                 <span className="username">@{this.props.username}</span>
             </Link>
@@ -40,4 +44,5 @@ UserPhoto.propTypes = {
     userId: PropTypes.number.isRequired,
     username: PropTypes.string.isRequired,
     photo: PropTypes.string.isRequired,
+    size: PropTypes.number,
 };

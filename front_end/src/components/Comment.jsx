@@ -7,6 +7,14 @@ import {Link} from "react-router-dom";
 import PLoopButton from "./PLoopButton";
 
 export default class Comment extends Component {
+    putPoopOnCommentId(commentId) {
+        return this.props.putPoopOnCommentId(commentId)
+    }
+
+    putLoopOnCommentId(commentId) {
+        return this.props.putLoopOnCommentId(commentId)
+    }
+
     render() {
         const { comments, userId, username, content, creationDate, loopsNumber, poopsNumber, avatar} = this.props;
 
@@ -24,8 +32,8 @@ export default class Comment extends Component {
                         <span className="comment_username">{username}</span>
                     </a>*/}
                     <DateTime date={creationDate} />
-                    <PLoopButton isLoop={false} action={null} counter={poopsNumber} tooltip={"Put your Poop ;("} float={"right"}/>
-                    <PLoopButton isLoop={true} action={null} counter={loopsNumber} tooltip={"Put your Loop :)"} float={"right"}/>
+                    <PLoopButton isLoop={false} action={this.putPoopOnCommentId(this.props.id)} counter={poopsNumber} tooltip={"Put your Poop ;("} float={"right"}/>
+                    <PLoopButton isLoop={true} action={this.putLoopOnCommentId(this.props.id)} counter={loopsNumber} tooltip={"Put your Loop :)"} float={"right"}/>
                 </div>
                 {/*<span className="my_comment_dot" >•</span>*/}
                 <span className="my_text">

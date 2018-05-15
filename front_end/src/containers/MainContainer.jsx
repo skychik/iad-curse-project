@@ -30,6 +30,7 @@ class MainContainer extends React.Component {
                     <Route exact path='/' render={() => <Redirect to='welcome' />}/>
                     <Route path='/welcome' component={Welcome} />
                     <Route path='/feed' component={userIsAuthenticated(AppContainer)} />
+                    <Route path='/make-news' component={userIsAuthenticated(AppContainer)} />
                     <Route path='/news/:number' component={AppContainer} />
                     <Route path='/events' component={userIsAuthenticated(AppContainer)} />
                     <Route path='/mentors' component={userIsAuthenticated(AppContainer)} />
