@@ -16,7 +16,8 @@ import java.sql.Timestamp;
 @ToString
 public class AchievementReceiving implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "achievement_receiving_id_seq")
+	@SequenceGenerator(name = "achievement_receiving_id_seq", sequenceName = "achievement_receiving_id_seq", allocationSize = 1)
 	@Column(name = "id", nullable = false)
 	private Long id;
 

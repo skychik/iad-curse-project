@@ -10,7 +10,7 @@ import { profileReducer } from "./profileReducer";
 import { mySessionReducer } from "./mySessionReducer";
 import { signinFormReducer } from "./signinFormReducer";
 import { newsMakerReducer } from "./newsMakerReducer";
-import {newsPLoopReducer} from "./newsPLoopReducer";
+//import {newsPLoopReducer} from "./newsPLoopReducer";
 import {commentsPLoopReducer} from "./commentsPLoopReducer";
 
 const reducers = combineReducers({
@@ -23,7 +23,7 @@ const reducers = combineReducers({
     comments: commentsReducer,
     profile: profileReducer,
     routing: routerReducer,
-    newsPLoopFeedback: newsPLoopReducer,
+//    newsPLoopFeedback: newsPLoopReducer,
     commentsPLoopFeedback: commentsPLoopReducer,
 });
 

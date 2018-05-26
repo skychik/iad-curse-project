@@ -12,9 +12,12 @@ import reducers from "./reducers/index"
 import MainContainer from './containers/MainContainer'
 import Welcome from './components/Welcome'
 import LoginContainer from "./containers/LoginContainer"
-import { createStore } from "redux"
+import {applyMiddleware, createStore} from "redux"
+import thunk from "redux-thunk"
+import promise from "redux-promise-middleware"
 import createHistory from 'history/createBrowserHistory'
 import { ConnectedRouter } from 'react-router-redux'
+import { composeWithDevTools } from 'redux-devtools-extension';
 import PageNotFound from "./components/PageNotFound";
 // import RestClient from "another-rest-client";
 
@@ -70,7 +73,7 @@ const store = createStore(
         comments: null,
         profile: null,
         routing: null,
-    }, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+    }, composeWithDevTools(applyMiddleware(promise(), thunk)));
 
 const history = createHistory();
 

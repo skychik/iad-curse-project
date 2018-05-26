@@ -16,7 +16,8 @@ import java.sql.Timestamp;
 @ToString(exclude = {"user", "news"})
 public class NewsPoop extends Poop implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "news_poop_id_seq")
+	@SequenceGenerator(name = "news_poop_id_seq", sequenceName = "news_poop_id_seq", allocationSize = 1)
 	@Column(name = "id", nullable = false)
 	private Long id;
 

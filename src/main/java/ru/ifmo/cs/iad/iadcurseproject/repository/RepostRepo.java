@@ -11,6 +11,7 @@ import ru.ifmo.cs.iad.iadcurseproject.entity.Performer;
 import ru.ifmo.cs.iad.iadcurseproject.entity.Repost;
 
 //@RepositoryRestResource(collectionResourceRel = "repost", path = "repost")
+@Deprecated
 public interface RepostRepo extends JpaRepository<Repost, Long> {
 	//@RestResource(exported = false)
 	@Query("select r from Repost r where r.news.id = :newsId")

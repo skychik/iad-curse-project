@@ -16,7 +16,8 @@ import java.sql.Timestamp;
 @ToString(exclude = {"user", "comment"})
 public class CommentLoop extends Loop implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_loop_id_seq")
+	@SequenceGenerator(name = "comment_loop_id_seq", sequenceName = "comment_loop_id_seq", allocationSize = 1)
 	@Column(name = "id", nullable = false)
 	private Long id;
 

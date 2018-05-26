@@ -16,7 +16,8 @@ import java.util.Set;
 @ToString
 public class Performer implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "performer_id_seq")
+	@SequenceGenerator(name = "performer_id_seq", sequenceName = "performer_id_seq", allocationSize = 1)
 	@Column(name = "id", nullable = false)
 	private Long id;
 

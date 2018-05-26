@@ -12,6 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "repost", schema = "public")
 @ToString(exclude = {"news", "author", "repostLoops", "repostPoops"})
+@Deprecated
 public class Repost implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

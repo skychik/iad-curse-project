@@ -1,25 +1,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {Glyphicon, OverlayTrigger, Tooltip} from "react-bootstrap";
 import UserPhoto from "./UserPhoto";
 import DateTime from "./DateTime";
-import {Link} from "react-router-dom";
 import PLoopButton from "./PLoopButton";
 
 export default class Comment extends Component {
-    putPoopOnCommentId(commentId) {
-        return this.props.putPoopOnCommentId(commentId)
-    }
-
-    putLoopOnCommentId(commentId) {
-        return this.props.putLoopOnCommentId(commentId)
-    }
-
     render() {
-        const { comments, userId, username, content, creationDate, loopsNumber, poopsNumber, avatar} = this.props;
+        const { comments, userId, username, content, creationDate, loopsNumber, loopWasPut, poopsNumber, poopWasPut, avatar} = this.props;
 
-        const loopTip = (<Tooltip id="tooltip_username">Put your Loop :)</Tooltip>);
-        const poopTip = (<Tooltip id="tooltip_username">Put your Poop ;(</Tooltip>);
+        const putLoopOnCommentId = () => this.props.putLoopOnCommentId(this.props.id);
+        const putPoopOnCommentId = () => this.props.putPoopOnCommentId(this.props.id);
+        const removeLoopOnCommentId = () => this.props.removeLoopOnCommentId(this.props.id);
+        const removePoopOnCommentId = () => this.props.removePoopOnCommentId(this.props.id);
 
         return <ul className="comment">
                 <div className="comment_head">
@@ -32,8 +24,10 @@ export default class Comment extends Component {
                         <span className="comment_username">{username}</span>
                     </a>*/}
                     <DateTime date={creationDate} />
-                    <PLoopButton isLoop={false} action={this.putPoopOnCommentId(this.props.id)} counter={poopsNumber} tooltip={"Put your Poop ;("} float={"right"}/>
-                    <PLoopButton isLoop={true} action={this.putLoopOnCommentId(this.props.id)} counter={loopsNumber} tooltip={"Put your Loop :)"} float={"right"}/>
+                    <PLoopButton isLoop={false} putAction={putPoopOnCommentId} removeAction={removePoopOnCommentId}
+                                 counter={poopsNumber} tooltip={"Put your Poop ;("} float={"right"} wasPut={poopWasPut}/>
+                    <PLoopButton isLoop={true} putAction={putLoopOnCommentId} removeAction={removeLoopOnCommentId}
+                                 counter={loopsNumber} tooltip={"Put your Loop :)"} float={"right"} wasPut={loopWasPut}/>
                 </div>
                 {/*<span className="my_comment_dot" >•</span>*/}
                 <span className="my_text">
@@ -52,7 +46,13 @@ export default class Comment extends Component {
                                      content={c.content}
                                      creationDate={c.creationDate}
                                      loopsNumber={c.loopsNumber}
-                                     poopsNumber={c.poopsNumber}/>
+                                     loopWasPut={c.loopWasPut}
+                                     poopsNumber={c.poopsNumber}
+                                     poopWasPut={c.poopWasPut}
+                                     putLoopOnCommentId={this.props.putLoopOnCommentId}
+                                     putPoopOnCommentId={this.props.putPoopOnCommentId}
+                                     removeLoopOnCommentId={this.props.removeLoopOnCommentId}
+                                     removePoopOnCommentId={this.props.removePoopOnCommentId}/>
                         </li>})}
                 </div>
             </ul>
@@ -69,5 +69,11 @@ Comment.propTypes = {
     content: PropTypes.string.isRequired,
     creationDate: PropTypes.string.isRequired,
     loopsNumber: PropTypes.number.isRequired,
+    loopWasPut: PropTypes.bool.isRequired,
     poopsNumber: PropTypes.number.isRequired,
+    poopWasPut: PropTypes.bool.isRequired,
+    putLoopOnCommentId: PropTypes.func.isRequired,
+    putPoopOnCommentId: PropTypes.func.isRequired,
+    removeLoopOnCommentId: PropTypes.func.isRequired,
+    removePoopOnCommentId: PropTypes.func.isRequired,
 };

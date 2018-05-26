@@ -23,6 +23,8 @@ public interface NewsRepo extends JpaRepository<News, Long> {
 	@Query("select n from News n where n.id = :newsId")
 	News getOneByNewsId(@Param("newsId") long newsId);
 
+	void removeById(Long id);
+
 //	@Query(value = "SELECT u.id AS id, u.login AS authorLogin, n.content_preview AS contentPreview, " +
 //			"count(lop) AS loopsNumber, count(pop) AS poopsNumber, count(com) AS commentsNumber, " +
 //			"count(rep) AS repostsNumber, n.creation_date AS creationDate, n.altering_date AS " +

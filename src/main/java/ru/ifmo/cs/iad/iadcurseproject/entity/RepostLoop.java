@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "repost_loop", schema = "public")
 @ToString
+@Deprecated
 public class RepostLoop extends Loop implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

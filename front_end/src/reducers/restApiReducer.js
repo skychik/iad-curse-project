@@ -9,10 +9,10 @@
 // //     return null;
 // // }
 //
-// export function restApiReducer (state = {}, action) {
-//     switch (action.type) {
+// export function restApiReducer (state = {}, putAction) {
+//     switch (putAction.type) {
 //         case 'RECEIVE_DATA':
-//             switch (action.payload) {
+//             switch (putAction.payload) {
 //                 case 'news':
 //
 //                 default:

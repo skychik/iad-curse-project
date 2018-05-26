@@ -18,12 +18,13 @@ public class NewsDTO {
 	private Timestamp creationDate;
 	private Long commentsNumber;
 	private Long loopsNumber;
+	private Boolean loopWasPut;
 	private Long poopsNumber;
-	private Long repostsNumber;
+	private Boolean poopWasPut;
 
 	public NewsDTO(){}
 
-	public NewsDTO(News news, Long commentsNumber, Long loopsNumber, Long poopsNumber, Long repostsNumber) {
+	public NewsDTO(News news, Long commentsNumber, Long loopsNumber, boolean loopWasPut, Long poopsNumber, boolean poopWasPut) {
 		this.id = news.getId();
 		this.author = new UserDTO(news.getAuthor());
 		this.title = news.getTitle();
@@ -31,7 +32,8 @@ public class NewsDTO {
 		this.creationDate = news.getCreationDate();
 		this.commentsNumber = commentsNumber;
 		this.loopsNumber = loopsNumber;
+		this.loopWasPut = loopWasPut;
 		this.poopsNumber = poopsNumber;
-		this.repostsNumber = repostsNumber;
+		this.poopWasPut = poopWasPut;
 	}
 }

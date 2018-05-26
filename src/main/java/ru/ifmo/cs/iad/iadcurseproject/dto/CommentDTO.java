@@ -21,11 +21,13 @@ public class CommentDTO {
 	private Timestamp creationDate;
 	private Timestamp alteringDate;
 	private Long loopsNumber;
+	private Boolean loopWasPut;
 	private Long poopsNumber;
+	private Boolean poopWasPut;
 
 	public CommentDTO(){}
 
-	public CommentDTO(Comment comment, Long loopsNumber, Long poopsNumber) {
+	public CommentDTO(Comment comment, Long loopsNumber, boolean loopWasPut, Long poopsNumber, boolean poopWasPut) {
 		this.id = comment.getId();
 		this.newsId = comment.getNews().getId();
 		this.user = new UserDTO(comment.getUser());
@@ -34,7 +36,9 @@ public class CommentDTO {
 		this.creationDate = comment.getCreationDate();
 		this.alteringDate = comment.getAlteringDate();
 		this.loopsNumber = loopsNumber;
+		this.loopWasPut = loopWasPut;
 		this.poopsNumber = poopsNumber;
+		this.poopWasPut = poopWasPut;
 	}
 
 	public void addComment(CommentDTO comment) {

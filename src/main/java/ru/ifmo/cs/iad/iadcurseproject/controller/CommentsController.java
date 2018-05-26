@@ -1,16 +1,12 @@
 package ru.ifmo.cs.iad.iadcurseproject.controller;
 
-import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import ru.ifmo.cs.iad.iadcurseproject.dto.CommentDTO;
-import ru.ifmo.cs.iad.iadcurseproject.dto.CommentsInfoDTO;
-import ru.ifmo.cs.iad.iadcurseproject.dto.NewsDTO;
-import ru.ifmo.cs.iad.iadcurseproject.dto.NewsForFeedDTO;
+import ru.ifmo.cs.iad.iadcurseproject.dto.*;
 import ru.ifmo.cs.iad.iadcurseproject.entity.*;
 import ru.ifmo.cs.iad.iadcurseproject.repository.*;
 
@@ -18,7 +14,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.springframework.data.domain.PageRequest.of;
 import static org.springframework.data.domain.Sort.by;
@@ -58,13 +53,14 @@ public class CommentsController {
 	}
 
 	@GetMapping("/for")
-	public @ResponseBody CommentsInfoDTO getNewsForUserId(@RequestParam(value = "newsId") long newsId,
+	public @ResponseBody CommentsInfoDTO getCommentsForNewsId(@RequestParam(value = "newsId") long newsId,
+	                                 @RequestParam(value = "userId") long userId,
 	                                 @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
 	                                 @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
 		List<Comment> commentList = commentRepo.getAllForNewsId(newsId, of(pageNumber, pageSize,
 				by(Sort.Order.by("onCommentId").nullsFirst(), Sort.Order.by("creationDate"))));
 
-		List<CommentDTO> list = makeCommentDTOList(commentList);
+		List<CommentDTO> list = makeCommentDTOList(commentList, userId);
 		list.sort((CommentDTO c1, CommentDTO c2) -> c1.getCreationDate().before(c2.getCreationDate()) ? 1 : 0);
 		for (CommentDTO dto : list) {
 			dto.sortComments();
@@ -72,32 +68,35 @@ public class CommentsController {
 		return new CommentsInfoDTO(list, (long) commentList.size());
 	}
 
-	private List<CommentDTO> makeCommentDTOList(List<Comment> commentList) {
+	private List<CommentDTO> makeCommentDTOList(List<Comment> commentList, long userId) {
 		List<CommentDTO> rootDTOs = new LinkedList<>();
 		List<Comment> commentsToBeAdded = new LinkedList<>(commentList);
-		boolean someCommentWasAdded = true;
+		boolean isSomeCommentAdded = true;
 
-		while(!commentsToBeAdded.isEmpty() && someCommentWasAdded) {
-			someCommentWasAdded = false;
+		while(!commentsToBeAdded.isEmpty() && isSomeCommentAdded) {
+			isSomeCommentAdded = false;
 			List<Comment> commentsToBeAddedBuff = new LinkedList<>(commentsToBeAdded);
 			for (Comment comment : commentsToBeAdded) {
-				CommentDTO dto = new CommentDTO(comment, commentLoopRepo.countAllByCommentId(comment.getId()),
-						commentPoopRepo.countAllByCommentId(comment.getId()));
+				CommentDTO dto = new CommentDTO(comment,
+						commentLoopRepo.countAllByCommentId(comment.getId()),
+						commentLoopRepo.getByCommentIdAndUserId(comment.getId(), userId) != null,
+						commentPoopRepo.countAllByCommentId(comment.getId()),
+						commentPoopRepo.getByCommentIdAndUserId(comment.getId(), userId) != null);
 
 				// if no parents
 				if (comment.getOnCommentId() == null) {
-					logger.info("adding comment, id=" + dto.getId());
+					logger.info("adding comment, id=" + dto.getId() + ":");
 					rootDTOs.add(dto);
 					commentsToBeAddedBuff.remove(comment);
-					someCommentWasAdded = true;
+					isSomeCommentAdded = true;
 				} else if (addCommentToList(rootDTOs, dto, comment.getOnCommentId())) {
 					commentsToBeAddedBuff.remove(comment);
-					someCommentWasAdded = true;
+					isSomeCommentAdded = true;
 				} else logger.info("cant add comment, id=" + dto.getId());
 			}
 			commentsToBeAdded = commentsToBeAddedBuff;
 		}
-		if (!someCommentWasAdded) {
+		if (!isSomeCommentAdded) {
 			throw new IllegalArgumentException("There're comments without parents:" +
 					commentsToBeAdded.toString() + "\nfor list:" + commentList.toString());
 		}
@@ -123,27 +122,59 @@ public class CommentsController {
 		return false;
 	}
 
-	@GetMapping("/commentId}/loop")
-	public @ResponseBody Boolean putLoop(@PathVariable(value = "commentId") long commentId,
-	                                     @RequestParam(value = "userId") long userId) {
-		logger.info("loop commentId=" + commentId + "by userId=" + userId);
+	@GetMapping("/{commentId}/loop/put")
+	public @ResponseBody IdValueSucceedDTP putLoop(@PathVariable(value = "commentId") long commentId,
+	                          @RequestParam(value = "userId") long userId) {
+		logger.info("put loop commentId=" + commentId + "by userId=" + userId);
+		if (commentLoopRepo.getByCommentIdAndUserId(commentId, userId) != null) {
+			return new IdValueSucceedDTP(commentId, commentLoopRepo.countAllByCommentId(commentId), false);
+		}
 		CommentLoop loop = new CommentLoop();
 		loop.setComment(commentRepo.getOne(commentId));
 		loop.setUser(userRepo.getOne(userId));
 		loop.setDate(new Timestamp(System.currentTimeMillis()));
 		commentLoopRepo.save(loop);
-		return true;
+		return new IdValueSucceedDTP(commentId, commentLoopRepo.countAllByCommentId(commentId), true);
 	}
 
-	@GetMapping("/{commentId}/poop")
-	public @ResponseBody Boolean putPoop(@PathVariable(value = "commentId") long commentId,
-	                                     @RequestParam(value = "userId") long userId) {
-		logger.info("poop commentId=" + commentId + "by userId=" + userId);
+	@GetMapping("/{commentId}/poop/put")
+	public @ResponseBody IdValueSucceedDTP putPoop(@PathVariable(value = "commentId") long commentId,
+	                          @RequestParam(value = "userId") long userId) {
+		logger.info("put poop commentId=" + commentId + "by userId=" + userId);
+		if (commentPoopRepo.getByCommentIdAndUserId(commentId, userId) != null) {
+			return new IdValueSucceedDTP(commentId, commentPoopRepo.countAllByCommentId(commentId), false);
+		}
 		CommentPoop poop = new CommentPoop();
 		poop.setComment(commentRepo.getOne(commentId));
 		poop.setUser(userRepo.getOne(userId));
 		poop.setDate(new Timestamp(System.currentTimeMillis()));
 		commentPoopRepo.save(poop);
-		return true;
+		return new IdValueSucceedDTP(commentId, commentPoopRepo.countAllByCommentId(commentId), true);
+	}
+
+	@GetMapping("/{commentId}/loop/remove")
+	public @ResponseBody IdValueSucceedDTP removeLoop(@PathVariable(value = "commentId") long commentId,
+	                             @RequestParam(value = "userId") long userId) {
+		logger.info("remove loop commentId=" + commentId + "by userId=" + userId);
+		CommentLoop loop = commentLoopRepo.getByCommentIdAndUserId(commentId, userId);
+		if (loop == null) {
+			return new IdValueSucceedDTP(commentId, commentLoopRepo.countAllByCommentId(commentId), false);
+		}
+		commentLoopRepo.removeById(loop.getId());
+		return new IdValueSucceedDTP(commentId, commentLoopRepo.countAllByCommentId(commentId), true);
+	}
+
+	@GetMapping("/{commentId}/poop/remove")
+	public @ResponseBody IdValueSucceedDTP removePoop(@PathVariable(value = "commentId") long commentId,
+	                             @RequestParam(value = "userId") long userId) {
+		logger.info("remove poop commentId=" + commentId + "by userId=" + userId);
+		CommentPoop poop = commentPoopRepo.getByCommentIdAndUserId(commentId, userId);
+//		logger.info("poopid=" + poop);
+		if (poop == null) {
+			return new IdValueSucceedDTP(commentId, commentPoopRepo.countAllByCommentId(commentId), false);
+		}
+		commentPoopRepo.removeById(poop.getId());
+		return new IdValueSucceedDTP(commentId, commentPoopRepo.countAllByCommentId(commentId),
+				!commentPoopRepo.existsById(poop.getId()));
 	}
 }

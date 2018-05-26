@@ -1,12 +1,9 @@
 import React from 'react';
-import RestClient from "another-rest-client";
 import {connect} from "react-redux";
 import * as actionCreators from "../actions";
 import {bindActionCreators} from "redux";
 import News from "../components/News";
 import CommentsContainer from "./CommentsContainer";
-import {Glyphicon, OverlayTrigger, Tooltip} from "react-bootstrap";
-import {Link} from "react-router-dom";
 import PLoopButton from "../components/PLoopButton";
 
 // props:
@@ -17,39 +14,24 @@ class NewsContainer extends React.Component {
     // }
 
     componentDidMount() {
-        let api = new RestClient('http://localhost:8080'); // TODO: make static
+        this.setNews();
+    }
+
+    setNews() {
         const number = parseInt(this.props.match.params.number, 10);
         if (isNaN(number)) {
-            this.setNews(null);
+            this.props.setNews(null);
         } else {
-            const promise = api.res("news").res(number.toString()).get();
-            promise.then((response) => {
-                const news = JSON.parse(JSON.stringify(response));
-                this.setNews(news);
-            });
+            this.props.setNews(number.toString());
         }
-    }
-
-    setNews(news) {
-        // console.log("news: ");
-        // console.log(news);
-        return this.props.setNews(news);
-    }
-
-    putLoopOnNewsId(newsId) {
-        return this.props.putLoopOnNewsId(newsId)
-    }
-
-    putPoopOnNewsId(newsId) {
-        return this.props.putPoopOnNewsId(newsId)
     }
 
     render() {
         //console.log("NewsContainer.render");
         const newsData = this.props.news;
-        // console.log('---data:---');
-        // console.log(newsData);
-        // console.log('---data---');
+        console.log('---data:---');
+        console.log(newsData);
+        console.log('---data---');
 
         if (newsData == null) {
             // console.log("render:null");
@@ -59,9 +41,10 @@ class NewsContainer extends React.Component {
             return <h1>Loading</h1>
         }
 
-        const loopTip = (<Tooltip id="tooltip_username">Put your Loop :)</Tooltip>);
-        const poopTip = (<Tooltip id="tooltip_username">Put your Poop ;(</Tooltip>);
-        const repostTip = (<Tooltip id="tooltip_username">Repost</Tooltip>);
+        const putLoopOnNewsId = () => this.props.putLoopOnNewsId(newsData.id);
+        const putPoopOnNewsId = () => this.props.putPoopOnNewsId(newsData.id);
+        const removeLoopOnNewsId = () => this.props.removeLoopOnNewsId(newsData.id);
+        const removePoopOnNewsId = () => this.props.removePoopOnNewsId(newsData.id);
 
         return (
             <div className="News_container">
@@ -78,8 +61,12 @@ class NewsContainer extends React.Component {
                     <span className="news_footer_comments">
                         Comments <span>{newsData.commentsNumber}</span>
                     </span>
-                    <PLoopButton isLoop={false} action={this.putPoopOnNewsId(newsData.id)} counter={newsData.poopsNumber} tooltip={"Put your Poop ;("} float={"right"}/>
-                    <PLoopButton isLoop={true} action={this.putLoopOnNewsId(newsData.id)} counter={newsData.loopsNumber} tooltip={"Put your Loop :)"} float={"right"}/>
+                    <PLoopButton isLoop={false} putAction={putPoopOnNewsId} removeAction={removePoopOnNewsId}
+                                 counter={newsData.poopsNumber} tooltip={"Put your Poop ;("} float={"right"}
+                                 wasPut={newsData.poopWasPut}/>
+                    <PLoopButton isLoop={true} putAction={putLoopOnNewsId} removeAction={removeLoopOnNewsId}
+                                 counter={newsData.loopsNumber} tooltip={"Put your Loop :)"} float={"right"}
+                                 wasPut={newsData.loopWasPut}/>
                     {/*<OverlayTrigger placement="top" overlay={repostTip}>*/}
                         {/*<span className={"my_button"} style={{float: "right"}}>*/}
                             {/*<Glyphicon glyph="retweet" />*/}

@@ -102,8 +102,8 @@ export function signinFormReducer(state = {}, action) {
                         formChanged: true,};}
                 // case "patronymic": {
                 //     const transitionalState = {...state,
-                //         patronymic: action.payload.value,
-                //         validation: {...state.validation, patronymic: validator.isAlpha(action.payload.value) ? "success" : "error"} };
+                //         patronymic: putAction.payload.value,
+                //         validation: {...state.validation, patronymic: validator.isAlpha(putAction.payload.value) ? "success" : "error"} };
                 //     return {...transitionalState, submitEnabled: doesRegistrationSubmitEnabled(transitionalState)};}
                 case "sex": {
                     const transitionalState = {...state,

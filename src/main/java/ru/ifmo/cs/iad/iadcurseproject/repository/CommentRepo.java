@@ -20,4 +20,6 @@ public interface CommentRepo extends JpaRepository<Comment, Long> {
 	//@RestResource(exported = false)
 	@Query("select count(c) from Comment c where c.news.id = :id")
 	long countAllByNewsId(@Param("id") Long id);
+
+	void deleteById(Long id);
 }

@@ -17,7 +17,8 @@ import java.util.Set;
 @ToString(exclude = {"user", "news"})
 public class Comment implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_id_seq")
+	@SequenceGenerator(name = "comment_id_seq", sequenceName = "comment_id_seq", allocationSize = 1)
 	@Column(name = "id", nullable = false)
 	private Long id;
 

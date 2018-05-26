@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
 import Panel from "react-bootstrap/lib/Panel";
-import {Glyphicon, OverlayTrigger, Row} from "react-bootstrap";
+import {Row} from "react-bootstrap";
 import UserPhoto from "./UserPhoto";
 import DateTime from "./DateTime";
 import {Link} from "react-router-dom";
@@ -27,7 +27,7 @@ export default class NewsPreview extends Component {
 
     render() {
         const { newsId, authorId, authorUsername, creationDate, alteringDate, title, contentPreview,
-            commentsNumber, loopsNumber, poopsNumber, repostsNumber, authorAvatar } = this.props;
+            commentsNumber, loopsNumber, poopsNumber, authorAvatar } = this.props;
         const markdown = <ReactMarkdown source={contentPreview} />;
 
         return <Panel>
@@ -68,8 +68,12 @@ export default class NewsPreview extends Component {
                         <span>{commentsNumber}</span>
                     </span>
 
-                    <PLoopButton isLoop={false} action={this.props.putPoopOnNewsId(newsId)} counter={poopsNumber} tooltip={"Put your Poop ;("} float={"right"}/>
-                    <PLoopButton isLoop={true} action={this.props.putLoopOnNewsId(newsId)} counter={loopsNumber} tooltip={"Put your Loop :)"} float={"right"}/>
+                    <PLoopButton isLoop={false} putAction={this.props.putPoopOnNewsId}
+                                 removeAction={this.props.removePoopOnNewsId} counter={poopsNumber}
+                                 tooltip={"Put your Poop ;("} float={"right"} wasPut={this.props.poopWasPut}/>
+                    <PLoopButton isLoop={true} putAction={this.props.putLoopOnNewsId}
+                                 removeAction={this.props.removeLoopOnNewsId} counter={loopsNumber}
+                                 tooltip={"Put your Loop :)"} float={"right"} wasPut={this.props.loopWasPut}/>
                     {/*<span className={"my_button"} style={{float: "right"}}>*/}
                         {/*Reposts*/}
                         {/*<span>{repostsNumber}</span>*/}
@@ -96,6 +100,12 @@ NewsPreview.propTypes = {
     alteringDate: PropTypes.string,
     commentsNumber: PropTypes.number.isRequired,
     loopsNumber: PropTypes.number.isRequired,
+    loopWasPut: PropTypes.bool.isRequired,
     poopsNumber: PropTypes.number.isRequired,
-    repostsNumber: PropTypes.number.isRequired,
+    poopWasPut: PropTypes.bool.isRequired,
+    putLoopOnNewsId: PropTypes.func.isRequired,
+    putPoopOnNewsId: PropTypes.func.isRequired,
+    removeLoopOnNewsId: PropTypes.func.isRequired,
+    removePoopOnNewsId: PropTypes.func.isRequired,
+    repostsNumber: PropTypes.number,
 };

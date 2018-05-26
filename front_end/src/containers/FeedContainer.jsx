@@ -1,28 +1,16 @@
 import React from 'react';
-import RestClient from "another-rest-client";
 import {connect} from "react-redux";
 import * as actionCreators from "../actions";
 import {bindActionCreators} from "redux";
 import NewsPreview from "../components/NewsPreview";
-import cookie from 'react-cookies';
 import {Button, Glyphicon, OverlayTrigger, PageHeader, Tooltip} from "react-bootstrap";
 import {Link} from "react-router-dom";
 
 // props:
 //  news - News in JSON
 class FeedContainer extends React.Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.setFeed = this.setFeed.bind(this);
-    // }
-
     componentDidMount() {
-        let api = new RestClient('http://localhost:8080'); // TODO: make static
-        const promise = api.res("news").res("for").get({userId: cookie.load("userId")});
-        promise.then((response) => {
-            const feed = JSON.parse(JSON.stringify(response));
-            this.setFeed(feed);
-        });
+        this.props.setFeed();
     }
 
     shouldComponentUpdate() {
@@ -33,12 +21,6 @@ class FeedContainer extends React.Component {
         return true;
     }
 
-    setFeed(feed) {
-        // console.log("news: ");
-        // console.log(news);
-        return this.props.setFeed(feed); // after this this.props.content=data
-    }
-
     render() {
         const data = this.props.feed;
         // console.log('---data:---');
@@ -46,6 +28,11 @@ class FeedContainer extends React.Component {
         // console.log('---data---');
         const feedContainer =  data != null ?
             data.map((newsPreview, idx) => {
+                const putLoopOnNewsId = () => this.props.putLoopOnNewsId(newsPreview.id);
+                const putPoopOnNewsId = () => this.props.putPoopOnNewsId(newsPreview.id);
+                const removeLoopOnNewsId = () => this.props.removeLoopOnNewsId(newsPreview.id);
+                const removePoopOnNewsId = () => this.props.removePoopOnNewsId(newsPreview.id);
+
                 return <NewsPreview className="NewsPreview"
                                     key={idx}
                                     newsId={newsPreview.id}
@@ -58,8 +45,13 @@ class FeedContainer extends React.Component {
                                     alteringDate={newsPreview.alteringDate}
                                     commentsNumber={newsPreview.commentsNumber}
                                     loopsNumber={newsPreview.loopsNumber}
+                                    loopWasPut={newsPreview.loopWasPut}
                                     poopsNumber={newsPreview.poopsNumber}
-                                    repostsNumber={newsPreview.repostsNumber}
+                                    poopWasPut={newsPreview.poopWasPut}
+                                    putLoopOnNewsId={putLoopOnNewsId}
+                                    putPoopOnNewsId={putPoopOnNewsId}
+                                    removeLoopOnNewsId={removeLoopOnNewsId}
+                                    removePoopOnNewsId={removePoopOnNewsId}
                              />;
             }) : [];
 
@@ -70,14 +62,14 @@ class FeedContainer extends React.Component {
                 <PageHeader style={{textAlign: "center"}}>
                     Feed
                 </PageHeader>
-                <p style={{height: "39px", marginBottom: "21px"}}>
+                <div style={{height: "39px", marginBottom: "21px"}}>
                     <OverlayTrigger placement="top" overlay={makeNewsTip}>
                         <Button bsStyle="link" style={{float: "right", width: "120px", border: "1px solid black"}}>
                             <Link to="/make-news" style={{color: "black"}}><Glyphicon glyph="pencil"/></Link>
                         </Button>
                     </OverlayTrigger>
-                </p>
-                <p>{feedContainer.length === 0 ? <span className={"feed-no-news"}>No news</span> : feedContainer}</p>
+                </div>
+                <div>{feedContainer.length === 0 ? <span className={"feed-no-news"}>No news</span> : feedContainer}</div>
             </div>
         )
     }

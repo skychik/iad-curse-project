@@ -64,7 +64,7 @@ time {
   padding-right: 15px; }
 
 .comment_children {
-  border-left: solid 1px #333333; }
+  border-left: solid 1px rgba(51, 51, 51, 0.5); }
 
 .news_footer {
   padding: 10px 15px;
@@ -88,57 +88,71 @@ time {
   -webkit-hyphens: auto;
   -ms-hyphens: auto; }
 
-.poop_button, .loop_button, .my_button {
+.poop_button, .poop_button_active, .loop_button, .loop_button_active, .my_button {
   font-family: "Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;
-  border: 1px solid #4582ec;
+  border: 1px solid #aca7b9;
   display: inline-block;
   padding: 2px 5px;
   border-radius: 5px;
   margin-left: 10px;
   font-size: 15px;
-  color: #4582ec; }
+  color: #aca7b9; }
 
-.poop_button:hover, .loop_button:hover, .my_button:hover {
+.poop_button:hover, .poop_button_active:hover, .loop_button:hover, .loop_button_active:hover, .my_button:hover {
   text-decoration: none;
   /* Убираем подчеркивание */
-  color: #3857c0;
+  color: #79797e;
   /* Цвет ссылки при наведении на нее курсора мыши */
-  border-color: #3857c0; }
+  border-color: #79797e; }
 
-.poop_button :last-child, .loop_button :last-child, .my_button :last-child {
+.poop_button :last-child, .poop_button_active :last-child, .loop_button :last-child, .loop_button_active :last-child, .my_button :last-child {
   margin-left: 5px;
   padding-left: 5px;
-  border-left: 1px solid #4582ec; }
+  border-left: 1px solid #aca7b9; }
 
-.poop_button :last-child:hover, .loop_button :last-child:hover, .my_button :last-child:hover {
-  border-left: 1px solid #3857c0; }
-
-.poop_button {
-  border-color: #5b2e22;
-  color: #5b2e22; }
+.poop_button :last-child:hover, .poop_button_active :last-child:hover, .loop_button :last-child:hover, .loop_button_active :last-child:hover, .my_button :last-child:hover {
+  border-left: 1px solid #79797e; }
 
 .poop_button:hover {
   border-color: #b56447;
   color: #b56447; }
 
-.poop_button :last-child {
-  border-left: 1px solid #5b2e22; }
-
 .poop_button :last-child:hover {
   border-left: 1px solid #b56447; }
 
-.loop_button {
-  border-color: #008cba;
-  color: #008cba; }
+.poop_button_active {
+  border-color: #5b2e22;
+  color: #5b2e22; }
+
+.poop_button_active:hover {
+  border-color: #b56447;
+  color: #b56447; }
+
+.poop_button_active :last-child {
+  border-left: 1px solid #5b2e22; }
+
+.poop_button_active :last-child:hover {
+  border-left: 1px solid #b56447; }
 
 .loop_button:hover {
   border-color: #00b5a6;
   color: #00b5a6; }
 
-.loop_button :last-child {
+.loop_button :last-child:hover {
+  border-left: 1px solid #00b5a6; }
+
+.loop_button_active {
+  border-color: #008cba;
+  color: #008cba; }
+
+.loop_button_active:hover {
+  border-color: #00b5a6;
+  color: #00b5a6; }
+
+.loop_button_active :last-child {
   border-left: 1px solid #008cba; }
 
-.loop_button :last-child:hover {
+.loop_button_active :last-child:hover {
   border-left: 1px solid #00b5a6; }
 
 .my_date {

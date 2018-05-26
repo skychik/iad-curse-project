@@ -15,7 +15,8 @@ import java.sql.Timestamp;
 @ToString
 public class JoiningPerformer implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "joining_performer_id_seq")
+	@SequenceGenerator(name = "joining_performer_id_seq", sequenceName = "joining_performer_id_seq", allocationSize = 1)
 	@Column(name = "id", nullable = false)
 	private Long id;
 

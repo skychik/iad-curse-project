@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "repost_poop", schema = "public")
 @ToString
+@Deprecated
 public class RepostPoop extends Poop implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

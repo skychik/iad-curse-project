@@ -35,7 +35,7 @@ class MainContainer extends React.Component {
                     <Route path='/events' component={userIsAuthenticated(AppContainer)} />
                     <Route path='/mentors' component={userIsAuthenticated(AppContainer)} />
                     <Route path='/loops' component={userIsAuthenticated(AppContainer)} />
-                    <Route path="/id" component={userIsAuthenticated(AppContainer)} />
+                    <Route path="/id" component={userIsAuthenticated(AppContainer)} /> // change to wall or smth; login in url, not id
                     <Route path="/login" component={LoginContainer} />
                     <Route path="/register" component={RegisterContainer} />
                     <Route exact path='/page_not_found' component={PageNotFound}/>

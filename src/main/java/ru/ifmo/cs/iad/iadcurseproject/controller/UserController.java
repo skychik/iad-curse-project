@@ -27,6 +27,7 @@ public class UserController {
 	private final CommentRepo commentRepo;
 	private final RepostRepo repostRepo;
 	private final NewsRepo newsRepo;
+	private final NewsLoopRepo newsLoopRepo;
 	private final NewsPoopRepo newsPoopRepo;
 	private final PerformerRepo performerRepo;
 	private final RepostPoopRepo repostPoopRepo;
@@ -38,11 +39,13 @@ public class UserController {
 
 	@Autowired
 	public UserController(UserRepo userRepo, CommentRepo commentRepo, RepostRepo repostRepo, NewsRepo newsRepo,
-	                      NewsPoopRepo newsPoopRepo, PerformerRepo performerRepo, RepostPoopRepo repostPoopRepo) {
+	                      NewsLoopRepo newsLoopRepo, NewsPoopRepo newsPoopRepo, PerformerRepo performerRepo,
+	                      RepostPoopRepo repostPoopRepo) {
 		this.userRepo = userRepo;
 		this.commentRepo = commentRepo;
 		this.repostRepo = repostRepo;
 		this.newsRepo = newsRepo;
+		this.newsLoopRepo = newsLoopRepo;
 		this.newsPoopRepo = newsPoopRepo;
 		this.performerRepo = performerRepo;
 		this.repostPoopRepo = repostPoopRepo;
@@ -60,8 +63,8 @@ public class UserController {
 				by(Sort.Order.by("alteringDate").nullsLast(), Sort.Order.by("creationDate"))));
 		List<NewsForFeedDTO> newsDTOS = newsList.stream()
 				.map((News news) -> new NewsForFeedDTO(news, (long) news.getComments().size(),
-						(long) news.getNewsLoops().size(), (long) news.getNewsPoops().size(),
-						(long) news.getReposts().size()))
+						(long) news.getNewsLoops().size(), newsLoopRepo.getByNewsIdAndUserId(news.getId(), userId) != null,
+						(long) news.getNewsPoops().size(),newsPoopRepo.getByNewsIdAndUserId(news.getId(), userId) != null))
 				.collect(Collectors.toList());
 		return new ProfileDTO(user, newsDTOS);
 	}
@@ -89,13 +92,5 @@ public class UserController {
 		User user = userRepo.findByUsername(username);
 		if (user == null) return "";
 		return user.getPassword().equals(password) ? user.getId().toString() : "";
-	}
-
-	@PostMapping(path="/register", consumes = "application/json", produces = "application/json")
-	public void addMember(@RequestBody UserRegistrationDTO userDTO) {
-		logger.info("register request=" + userDTO.toString());
-		User user = userDTO.makeUser();
-		userRepo.save(user);
-		logger.info("user registered=" + user.toString());
 	}
 }

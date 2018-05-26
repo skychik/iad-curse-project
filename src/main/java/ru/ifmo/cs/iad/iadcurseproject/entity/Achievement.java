@@ -15,7 +15,8 @@ import java.util.Set;
 @ToString
 public class Achievement implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "achievement_id_seq")
+	@SequenceGenerator(name = "achievement_id_seq", sequenceName = "achievement_id_seq", allocationSize = 1)
 	@Column(name = "id", nullable = false)
 	private Long id;
 
