@@ -155,9 +155,8 @@ public class NewsController {
 	}
 
 	@GetMapping("/{newsId}/loop/put")
-	public @ResponseBody
-	IdValueSucceedDTP putLoop(@PathVariable(value = "newsId") long newsId,
-	                          @RequestParam(value = "userId") long userId) {
+	public @ResponseBody IdValueSucceedDTP putLoop(@PathVariable(value = "newsId") long newsId,
+	                                               @RequestParam(value = "userId") long userId) {
 		logger.info("put loop newsId=" + newsId + "by userId=" + userId);
 		if (newsLoopRepo.getByNewsIdAndUserId(newsId, userId) != null) {
 			return new IdValueSucceedDTP(newsId, newsLoopRepo.countAllByNewsId(newsId), false);
@@ -171,9 +170,8 @@ public class NewsController {
 	}
 
 	@GetMapping("/{newsId}/poop/put")
-	public @ResponseBody
-	IdValueSucceedDTP putPoop(@PathVariable(value = "newsId") long newsId,
-	                          @RequestParam(value = "userId") long userId) {
+	public @ResponseBody IdValueSucceedDTP putPoop(@PathVariable(value = "newsId") long newsId,
+	                                               @RequestParam(value = "userId") long userId) {
 		logger.info("put poop newsId=" + newsId + "by userId=" + userId);
 		if (newsPoopRepo.getByNewsIdAndUserId(newsId, userId) != null) {
 			return new IdValueSucceedDTP(newsId, newsPoopRepo.countAllByNewsId(newsId), false);
@@ -186,9 +184,8 @@ public class NewsController {
 		return new IdValueSucceedDTP(newsId, newsPoopRepo.countAllByNewsId(newsId), true);
 	}
 	@GetMapping("/{newsId}/loop/remove")
-	public @ResponseBody
-	IdValueSucceedDTP removeLoop(@PathVariable(value = "newsId") long newsId,
-	                          @RequestParam(value = "userId") long userId) {
+	public @ResponseBody IdValueSucceedDTP removeLoop(@PathVariable(value = "newsId") long newsId,
+	                                                  @RequestParam(value = "userId") long userId) {
 		logger.info("remove loop newsId=" + newsId + "by userId=" + userId);
 		NewsLoop loop = newsLoopRepo.getByNewsIdAndUserId(newsId, userId);
 		if (loop == null) {
@@ -201,9 +198,8 @@ public class NewsController {
 	}
 
 	@GetMapping("/{newsId}/poop/remove")
-	public @ResponseBody
-	IdValueSucceedDTP removePoop(@PathVariable(value = "newsId") long newsId,
-	                          @RequestParam(value = "userId") long userId) {
+	public @ResponseBody IdValueSucceedDTP removePoop(@PathVariable(value = "newsId") long newsId,
+	                                                  @RequestParam(value = "userId") long userId) {
 		logger.info("remove poop newsId=" + newsId + "by userId=" + userId);
 		NewsPoop poop = newsPoopRepo.getByNewsIdAndUserId(newsId, userId);
 		if (poop == null) {

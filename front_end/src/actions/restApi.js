@@ -62,6 +62,15 @@ export function removePoopOnCommentId(id) {
     }
 }
 
+
+export function addNewComment(comment) {
+    return {
+        type: 'ADD_COMMENT',
+        payload: api.res("comments").res("add").get({userId: cookie.load("userId"), newsId: comment.newsId,
+            onCommentId: comment.onCommentId, content: comment.content}),
+    }
+}
+
 // ------------------------------------------------------ SETTERS ------------------------------------------------------
 
 export function setFeed() {

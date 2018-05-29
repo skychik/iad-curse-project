@@ -50,6 +50,8 @@ export const removeLoopOnCommentId = restApi.removeLoopOnCommentId;
 export const removePoopOnCommentId = restApi.removePoopOnCommentId;
 export const showAddComment = interfaceApi.showAddComment;
 export const hideAddComment = interfaceApi.hideAddComment;
+export const addNewComment = restApi.addNewComment;
+export const setNewCommentContent = interfaceApi.setNewCommentContent;
 
 //  ----------------------------  ----------------------------  ----------------------------
 //  ----------------------------  ----------------------------  ----------------------------

@@ -11,3 +11,10 @@ export function hideAddComment() {
         payload: null,
     }
 }
+
+export function setNewCommentContent(content) {
+    return {
+        type: 'SET_NEW_COMMENT_CONTENT',
+        payload: content,
+    }
+}

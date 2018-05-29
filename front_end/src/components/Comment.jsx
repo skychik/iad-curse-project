@@ -30,7 +30,8 @@ export default class Comment extends Component {
                                  counter={poopsNumber} tooltip={"Put your Poop ;("} float={"right"} wasPut={poopWasPut}/>
                     <PLoopButton isLoop={true} putAction={putLoopOnCommentId} removeAction={removeLoopOnCommentId}
                                  counter={loopsNumber} tooltip={"Put your Loop :)"} float={"right"} wasPut={loopWasPut}/>
-                    <Button onClick={showAddComment} bsStyle="primary">comment</Button>
+                    <Button onClick={showAddComment} bsStyle="primary" bsSize="xsmall"
+                            style={{float: "right", borderRadius: "5px"}}>comment</Button>
                 </div>
                 {/*<span className="my_comment_dot" >•</span>*/}
                 <span className="my_text">

@@ -122,6 +122,21 @@ public class CommentsController {
 		return false;
 	}
 
+	@GetMapping("/add")
+	public @ResponseBody Boolean addComment(@RequestParam(value = "userId") long userId,
+	                                        @RequestParam(value = "newsId") long newsId,
+	                                        @RequestParam(value = "onCommentId", required = false) Long onCommentId,
+	                                        @RequestParam(value = "content") String content) {
+		Comment comment = new Comment();
+		comment.setNews(newsRepo.getOne(newsId));
+		comment.setUser(userRepo.getOne(userId));
+		comment.setContent(content);
+		comment.setCreationDate(new Timestamp(System.currentTimeMillis()));
+		if (onCommentId != null) comment.setOnCommentId(onCommentId);
+		commentRepo.save(comment);
+		return true;
+	}
+
 	@GetMapping("/{commentId}/loop/put")
 	public @ResponseBody IdValueSucceedDTP putLoop(@PathVariable(value = "commentId") long commentId,
 	                          @RequestParam(value = "userId") long userId) {
