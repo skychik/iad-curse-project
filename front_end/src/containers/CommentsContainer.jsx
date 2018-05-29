@@ -38,7 +38,8 @@ class CommentsContainer extends React.Component {
                                     poopWasPut={comment.poopWasPut}
                                     putPoopOnCommentId={this.props.putPoopOnCommentId}
                                     removeLoopOnCommentId={this.props.removeLoopOnCommentId}
-                                    removePoopOnCommentId={this.props.removePoopOnCommentId}/>
+                                    removePoopOnCommentId={this.props.removePoopOnCommentId}
+                                    showAddComment={this.props.showAddComment}/>
                 })}
             </div>
     }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import UserPhoto from "./UserPhoto";
 import DateTime from "./DateTime";
 import PLoopButton from "./PLoopButton";
+import {Button} from "react-bootstrap";
 
 export default class Comment extends Component {
     render() {
@@ -12,6 +13,7 @@ export default class Comment extends Component {
         const putPoopOnCommentId = () => this.props.putPoopOnCommentId(this.props.id);
         const removeLoopOnCommentId = () => this.props.removeLoopOnCommentId(this.props.id);
         const removePoopOnCommentId = () => this.props.removePoopOnCommentId(this.props.id);
+        const showAddComment = () => this.props.showAddComment({...this.props, comments: null});
 
         return <ul className="comment">
                 <div className="comment_head">
@@ -28,6 +30,7 @@ export default class Comment extends Component {
                                  counter={poopsNumber} tooltip={"Put your Poop ;("} float={"right"} wasPut={poopWasPut}/>
                     <PLoopButton isLoop={true} putAction={putLoopOnCommentId} removeAction={removeLoopOnCommentId}
                                  counter={loopsNumber} tooltip={"Put your Loop :)"} float={"right"} wasPut={loopWasPut}/>
+                    <Button onClick={showAddComment} bsStyle="primary">comment</Button>
                 </div>
                 {/*<span className="my_comment_dot" >•</span>*/}
                 <span className="my_text">
@@ -52,7 +55,8 @@ export default class Comment extends Component {
                                      putLoopOnCommentId={this.props.putLoopOnCommentId}
                                      putPoopOnCommentId={this.props.putPoopOnCommentId}
                                      removeLoopOnCommentId={this.props.removeLoopOnCommentId}
-                                     removePoopOnCommentId={this.props.removePoopOnCommentId}/>
+                                     removePoopOnCommentId={this.props.removePoopOnCommentId}
+                                     showAddComment={this.props.showAddComment}/>
                         </li>})}
                 </div>
             </ul>
@@ -76,4 +80,5 @@ Comment.propTypes = {
     putPoopOnCommentId: PropTypes.func.isRequired,
     removeLoopOnCommentId: PropTypes.func.isRequired,
     removePoopOnCommentId: PropTypes.func.isRequired,
+    showAddComment: PropTypes.func.isRequired,
 };

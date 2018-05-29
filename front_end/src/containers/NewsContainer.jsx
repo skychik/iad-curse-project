@@ -5,6 +5,10 @@ import {bindActionCreators} from "redux";
 import News from "../components/News";
 import CommentsContainer from "./CommentsContainer";
 import PLoopButton from "../components/PLoopButton";
+import {Button, ControlLabel, FormControl, FormGroup, Modal, Panel, Well} from "react-bootstrap";
+import Comment from "../components/Comment";
+import UserPhoto from "../components/UserPhoto";
+import DateTime from "../components/DateTime";
 
 // props:
 //  news - News in JSON
@@ -27,11 +31,17 @@ class NewsContainer extends React.Component {
     }
 
     render() {
+        if (this.props.news === null) {
+            return null;
+        }
         //console.log("NewsContainer.render");
         const newsData = this.props.news;
         console.log('---data:---');
         console.log(newsData);
         console.log('---data---');
+        const commentingComm = this.props.news.commentingComm;
+        console.log("commentingComm:");
+        console.log(commentingComm);
 
         if (newsData == null) {
             // console.log("render:null");
@@ -45,6 +55,7 @@ class NewsContainer extends React.Component {
         const putPoopOnNewsId = () => this.props.putPoopOnNewsId(newsData.id);
         const removeLoopOnNewsId = () => this.props.removeLoopOnNewsId(newsData.id);
         const removePoopOnNewsId = () => this.props.removePoopOnNewsId(newsData.id);
+        const showAddNewComment = () => this.props.showAddComment(null);
 
         return (
             <div className="News_container">
@@ -75,6 +86,31 @@ class NewsContainer extends React.Component {
                     {/*</OverlayTrigger>*/}
                 </div>
                 <CommentsContainer newsId={newsData.id}/>
+                <Button bsStyle="primary" bsSize="large" onClick={showAddNewComment}>Add new comment</Button>
+                <Modal show={newsData.addCommentShowed} onHide={this.props.hideAddComment}
+                       bsSize="large" aria-labelledby="contained-modal-title-lg">
+                    <Modal.Header closeButton>
+                        <Modal.Title id="contained-modal-title-sm">Add comment</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <FormGroup controlId="formControlsTextarea">
+                            {commentingComm !== null ?
+                                <div>
+                                    <UserPhoto userId={commentingComm.userId} username={commentingComm.username}
+                                               withTooltip={false} photo={commentingComm.avatar} />
+                                    <DateTime date={commentingComm.creationDate} />
+                                    <Well>
+                                        {commentingComm.content}
+                                    </Well>
+                                </div> : null}
+                            <FormControl componentClass="textarea" placeholder="Write your comment..." style={{resize: "none"}}/>
+                        </FormGroup>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.props.hideAddComment}>Send</Button>
+                        <Button onClick={this.props.hideAddComment}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         )
     }

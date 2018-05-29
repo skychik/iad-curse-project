@@ -14,6 +14,7 @@ import * as restApi from "./restApi";
 import * as sessionApi from "./sessionApi";
 import * as signForm from "./signFormApi";
 import * as makingNewsApi from "./newsMakerApi";
+import * as interfaceApi from "./interfaceApi";
 
 
 //  ----------------------------  ----------------------------  ----------------------------
@@ -47,6 +48,8 @@ export const putLoopOnCommentId = restApi.putLoopOnCommentId;
 export const putPoopOnCommentId = restApi.putPoopOnCommentId;
 export const removeLoopOnCommentId = restApi.removeLoopOnCommentId;
 export const removePoopOnCommentId = restApi.removePoopOnCommentId;
+export const showAddComment = interfaceApi.showAddComment;
+export const hideAddComment = interfaceApi.hideAddComment;
 
 //  ----------------------------  ----------------------------  ----------------------------
 //  ----------------------------  ----------------------------  ----------------------------
