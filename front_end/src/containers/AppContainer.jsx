@@ -1,32 +1,26 @@
 import React from 'react';
-//import rest from './rest';
 import FeedContainer from './FeedContainer';
 import NewsContainer from './NewsContainer';
 import LoopsContainer from "./LoopsContainer";
-import MentorsContainer from "./MentorsContainer";
+import CoursesContainer from "./CoursesContainer";
 import EventsContainer from "./EventsContainer";
 import ProfileContainer from "./ProfileContainer";
 import PageNotFound from "../components/PageNotFound";
 import { Switch, Route } from 'react-router';
 import { Redirect } from "react-router-dom";
-import LogoImg from '../images/logo.png'
-// import client from 'rest'
-// import * as actionCreators from "../actions";
-// import {bindActionCreators} from "redux";
-// import {connect} from "react-redux";
-// import reducers from "../reducers"; // TODO: deal with 'connect' decorator
 import Grid  from 'react-bootstrap/lib/Grid';
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
 import NavItem  from 'react-bootstrap/lib/NavItem';
-import Image from "react-bootstrap/lib/Image";
 import cookie from 'react-cookies';
-import {userIsAuthenticated} from "../auth";
-import MakeNewsContainer from "./MakeNewsContainer";
+import CreateContainer from "./CreateContainer";
+import {Glyphicon, OverlayTrigger, Tooltip} from "react-bootstrap";
 
 
 class AppContainer extends React.Component {
     render() {
+        const createTip = (<Tooltip id="tooltip_username">Create!</Tooltip>);
+
         return (
             <Grid className="AppContainer">
                 <Navbar>
@@ -42,58 +36,33 @@ class AppContainer extends React.Component {
                         <Nav>
                             <NavItem eventKey={1} href="/feed">Feed</NavItem>
                             <NavItem eventKey={2} href="/events">Events</NavItem>
-                            <NavItem eventKey={3} href="/mentors">Mentors</NavItem>
+                            <NavItem eventKey={3} href="/courses">Courses</NavItem>
                             <NavItem eventKey={4} href="/loops">Loops</NavItem>
+                            <NavItem eventKey={5} href="/create">
+                                <div style={{height: "21px"}}>
+                                    <OverlayTrigger placement="bottom" overlay={createTip}>
+                                        <a href="/create" className="header-create-button">
+                                            <Glyphicon glyph="pencil" style={{color: "black", margin: "0px 0px 0px 33px"}}/>
+                                        </a>
+                                    </OverlayTrigger>
+                                </div>
+                            </NavItem>
                         </Nav>
                         <Nav style={{marginRight: 0}} pullRight>
-                            {/*<Navbar.Form>*/}
-                                {/*<FormGroup>*/}
-                                    {/*<FormControl type="text" placeholder="Search" />*/}
-                                {/*</FormGroup>{' '}*/}
-                                {/*<Button type="submit">Submit</Button>*/}
-                            {/*</Navbar.Form>*/}
-                            <NavItem eventKey={5} href={"/login"}>
+                            <NavItem eventKey={6} href={"/login"}>
                                 <div className="header-logout">log out</div>
                             </NavItem>
-                            <NavItem eventKey={6} href={"/id/" + cookie.load("userId")} style={{paddingRight:15}}>
+                            <NavItem eventKey={7} href={"/id/" + cookie.load("userId")} style={{paddingRight:15}}>
                                 <div>Profile</div>
                             </NavItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
-                {/*<div className="AppContainer-header">*/}
-                    {/*<div className="AppContainer-header_img-frame">*/}
-                        {/*<img className="AppContainer-logo" src={LogoImg} />*/}
-                        {/*/!*<div className="AppContainer-header_fix" />*!/*/}
-                    {/*</div>*/}
-                    {/*<Link className="AppContainer-header_buttons" to='/feed'>*/}
-                        {/*<div>Feed</div>*/}
-                        {/*/!*<div className="AppContainer-header_fix" />*!/*/}
-                    {/*</Link>*/}
-                    {/*<Link className="AppContainer-header_buttons" to='/events'>*/}
-                        {/*<div>Events</div>*/}
-                        {/*/!*<div className="AppContainer-header_fix" />*!/*/}
-                    {/*</Link>*/}
-                    {/*<Link className="AppContainer-header_buttons" to='/mentors'>*/}
-                        {/*<div>Mentors</div>*/}
-                        {/*/!*<div className="AppContainer-header_fix" />*!/*/}
-                    {/*</Link>*/}
-                    {/*<Link className="AppContainer-header_buttons" to='/loops'>*/}
-                        {/*<div>Loops</div>*/}
-                        {/*/!*<div className="AppContainer-header_fix" />*!/*/}
-                    {/*</Link>*/}
-                    {/*<div className="AppContainer-header_spring" />*/}
-                    {/*<Link className="AppContainer-header_buttons right-align-block" to='/profile'>*/}
-                        {/*<div>Profile</div>*/}
-                        {/*/!*<div className="AppContainer-header_fix" />*!/*/}
-                    {/*</Link>*/}
-                    {/*/!*<div className="AppContainer-header_fix" />*!/*/}
-                {/*</div>*/}
                 <Switch>
                     <Route exact path='/feed' component={FeedContainer} />
-                    <Route path='/make-news' component={MakeNewsContainer} />
+                    <Route path='/create' component={CreateContainer} />
                     <Route path='/events' component={EventsContainer} />
-                    <Route path='/mentors' component={MentorsContainer} />
+                    <Route path='/courses' component={CoursesContainer} />
                     <Route path='/loops' component={LoopsContainer} />
                     <Route path='/id/:number' component={ProfileContainer} />
                     <Route path='/news/:number' component={NewsContainer} />
@@ -109,42 +78,3 @@ class AppContainer extends React.Component {
 }
 
 export default AppContainer;
-
-
-// class NewsList extends Component{
-//     render() {
-//         var news = this.props.news.map(news =>
-//             <News key={news._links.self.href} news={news}/>
-//         );
-//         return (
-//             <table>
-//                 <tbody>
-//                 <tr>
-//                     <th>Id</th>
-//                     <th>Id User</th>
-//                     <th>xx</th>
-//                     <th>Creation Date</th>
-//                     <th>Alter Date</th>
-//                     <th>Tags</th>
-//                 </tr>
-//                 {news}
-//                 </tbody>
-//             </table>
-//         )
-//     }
-// }
-//
-// class News extends Component{
-//     render() {
-//         return (
-//             <tr>
-//                 <td>{this.props.news.id}</td>
-//                 <td>{this.props.news.id_user}</td>
-//                 <td>{this.props.news.content}</td>
-//                 <td>{this.props.news.creation_date}</td>
-//                 <td>{this.props.news.alter_date}</td>
-//                 <td>{this.props.news.tags}</td>
-//             </tr>
-//         )
-//     }
-// }

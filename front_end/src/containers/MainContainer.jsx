@@ -7,7 +7,6 @@ import AppContainer from "./AppContainer";
 import PageNotFound from "../components/PageNotFound";
 import LoginContainer from "./LoginContainer";
 import {Route, Switch, Redirect, withRouter} from 'react-router-dom';
-import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect';
 import { userIsAuthenticated } from '../auth'
 import RegisterContainer from "./RegisterContainer";
 import cookie from "react-cookies";
@@ -30,10 +29,10 @@ class MainContainer extends React.Component {
                     <Route exact path='/' render={() => <Redirect to='welcome' />}/>
                     <Route path='/welcome' component={Welcome} />
                     <Route path='/feed' component={userIsAuthenticated(AppContainer)} />
-                    <Route path='/make-news' component={userIsAuthenticated(AppContainer)} />
+                    <Route path='/create' component={userIsAuthenticated(AppContainer)} />
                     <Route path='/news/:number' component={AppContainer} />
                     <Route path='/events' component={userIsAuthenticated(AppContainer)} />
-                    <Route path='/mentors' component={userIsAuthenticated(AppContainer)} />
+                    <Route path='/courses' component={userIsAuthenticated(AppContainer)} />
                     <Route path='/loops' component={userIsAuthenticated(AppContainer)} />
                     <Route path="/id" component={userIsAuthenticated(AppContainer)} /> // change to wall or smth; login in url, not id
                     <Route path="/login" component={LoginContainer} />

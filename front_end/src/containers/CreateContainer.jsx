@@ -7,7 +7,7 @@ import cookie from "react-cookies";
 import {Redirect} from "react-router-dom";
 import RestClient from "another-rest-client";
 
-class MakeNewsContainer extends React.Component {
+class CreateContainer extends React.Component {
     constructor(props) {
         super(props);
 
@@ -74,4 +74,4 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(actionCreators, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MakeNewsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateContainer);

@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.ifmo.cs.iad.iadcurseproject.dto.*;
 import ru.ifmo.cs.iad.iadcurseproject.entity.*;
@@ -138,58 +137,62 @@ public class CommentsController {
 	}
 
 	@GetMapping("/{commentId}/loop/put")
-	public @ResponseBody IdValueSucceedDTP putLoop(@PathVariable(value = "commentId") long commentId,
+	public @ResponseBody
+	IdValueSucceedDTO putLoop(@PathVariable(value = "commentId") long commentId,
 	                          @RequestParam(value = "userId") long userId) {
 		logger.info("put loop commentId=" + commentId + "by userId=" + userId);
 		if (commentLoopRepo.getByCommentIdAndUserId(commentId, userId) != null) {
-			return new IdValueSucceedDTP(commentId, commentLoopRepo.countAllByCommentId(commentId), false);
+			return new IdValueSucceedDTO(commentId, commentLoopRepo.countAllByCommentId(commentId), false);
 		}
 		CommentLoop loop = new CommentLoop();
 		loop.setComment(commentRepo.getOne(commentId));
 		loop.setUser(userRepo.getOne(userId));
 		loop.setDate(new Timestamp(System.currentTimeMillis()));
 		commentLoopRepo.save(loop);
-		return new IdValueSucceedDTP(commentId, commentLoopRepo.countAllByCommentId(commentId), true);
+		return new IdValueSucceedDTO(commentId, commentLoopRepo.countAllByCommentId(commentId), true);
 	}
 
 	@GetMapping("/{commentId}/poop/put")
-	public @ResponseBody IdValueSucceedDTP putPoop(@PathVariable(value = "commentId") long commentId,
+	public @ResponseBody
+	IdValueSucceedDTO putPoop(@PathVariable(value = "commentId") long commentId,
 	                          @RequestParam(value = "userId") long userId) {
 		logger.info("put poop commentId=" + commentId + "by userId=" + userId);
 		if (commentPoopRepo.getByCommentIdAndUserId(commentId, userId) != null) {
-			return new IdValueSucceedDTP(commentId, commentPoopRepo.countAllByCommentId(commentId), false);
+			return new IdValueSucceedDTO(commentId, commentPoopRepo.countAllByCommentId(commentId), false);
 		}
 		CommentPoop poop = new CommentPoop();
 		poop.setComment(commentRepo.getOne(commentId));
 		poop.setUser(userRepo.getOne(userId));
 		poop.setDate(new Timestamp(System.currentTimeMillis()));
 		commentPoopRepo.save(poop);
-		return new IdValueSucceedDTP(commentId, commentPoopRepo.countAllByCommentId(commentId), true);
+		return new IdValueSucceedDTO(commentId, commentPoopRepo.countAllByCommentId(commentId), true);
 	}
 
 	@GetMapping("/{commentId}/loop/remove")
-	public @ResponseBody IdValueSucceedDTP removeLoop(@PathVariable(value = "commentId") long commentId,
+	public @ResponseBody
+	IdValueSucceedDTO removeLoop(@PathVariable(value = "commentId") long commentId,
 	                             @RequestParam(value = "userId") long userId) {
 		logger.info("remove loop commentId=" + commentId + "by userId=" + userId);
 		CommentLoop loop = commentLoopRepo.getByCommentIdAndUserId(commentId, userId);
 		if (loop == null) {
-			return new IdValueSucceedDTP(commentId, commentLoopRepo.countAllByCommentId(commentId), false);
+			return new IdValueSucceedDTO(commentId, commentLoopRepo.countAllByCommentId(commentId), false);
 		}
 		commentLoopRepo.removeById(loop.getId());
-		return new IdValueSucceedDTP(commentId, commentLoopRepo.countAllByCommentId(commentId), true);
+		return new IdValueSucceedDTO(commentId, commentLoopRepo.countAllByCommentId(commentId), true);
 	}
 
 	@GetMapping("/{commentId}/poop/remove")
-	public @ResponseBody IdValueSucceedDTP removePoop(@PathVariable(value = "commentId") long commentId,
+	public @ResponseBody
+	IdValueSucceedDTO removePoop(@PathVariable(value = "commentId") long commentId,
 	                             @RequestParam(value = "userId") long userId) {
 		logger.info("remove poop commentId=" + commentId + "by userId=" + userId);
 		CommentPoop poop = commentPoopRepo.getByCommentIdAndUserId(commentId, userId);
 //		logger.info("poopid=" + poop);
 		if (poop == null) {
-			return new IdValueSucceedDTP(commentId, commentPoopRepo.countAllByCommentId(commentId), false);
+			return new IdValueSucceedDTO(commentId, commentPoopRepo.countAllByCommentId(commentId), false);
 		}
 		commentPoopRepo.removeById(poop.getId());
-		return new IdValueSucceedDTP(commentId, commentPoopRepo.countAllByCommentId(commentId),
+		return new IdValueSucceedDTO(commentId, commentPoopRepo.countAllByCommentId(commentId),
 				!commentPoopRepo.existsById(poop.getId()));
 	}
 }

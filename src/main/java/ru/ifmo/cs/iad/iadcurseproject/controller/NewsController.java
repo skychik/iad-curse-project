@@ -141,7 +141,7 @@ public class NewsController {
 	}
 
 	@PostMapping(path="/post", consumes = "application/json", produces = "application/json")
-	public String addMember(@RequestBody NewsPostedDTO newsDTO) {
+	public String addNews(@RequestBody NewsPostedDTO newsDTO) {
 		logger.info("add news=" + newsDTO.toString());
 		Optional<User> user = userRepo.findById(newsDTO.getAuthorId());
 		if (!user.isPresent()) {
@@ -155,58 +155,62 @@ public class NewsController {
 	}
 
 	@GetMapping("/{newsId}/loop/put")
-	public @ResponseBody IdValueSucceedDTP putLoop(@PathVariable(value = "newsId") long newsId,
-	                                               @RequestParam(value = "userId") long userId) {
+	public @ResponseBody
+	IdValueSucceedDTO putLoop(@PathVariable(value = "newsId") long newsId,
+	                          @RequestParam(value = "userId") long userId) {
 		logger.info("put loop newsId=" + newsId + "by userId=" + userId);
 		if (newsLoopRepo.getByNewsIdAndUserId(newsId, userId) != null) {
-			return new IdValueSucceedDTP(newsId, newsLoopRepo.countAllByNewsId(newsId), false);
+			return new IdValueSucceedDTO(newsId, newsLoopRepo.countAllByNewsId(newsId), false);
 		}
 		NewsLoop loop = new NewsLoop();
 		loop.setNews(newsRepo.getOne(newsId));
 		loop.setUser(userRepo.getOne(userId));
 		loop.setDate(new Timestamp(System.currentTimeMillis()));
 		newsLoopRepo.save(loop);
-		return new IdValueSucceedDTP(newsId, newsLoopRepo.countAllByNewsId(newsId), true);
+		return new IdValueSucceedDTO(newsId, newsLoopRepo.countAllByNewsId(newsId), true);
 	}
 
 	@GetMapping("/{newsId}/poop/put")
-	public @ResponseBody IdValueSucceedDTP putPoop(@PathVariable(value = "newsId") long newsId,
-	                                               @RequestParam(value = "userId") long userId) {
+	public @ResponseBody
+	IdValueSucceedDTO putPoop(@PathVariable(value = "newsId") long newsId,
+	                          @RequestParam(value = "userId") long userId) {
 		logger.info("put poop newsId=" + newsId + "by userId=" + userId);
 		if (newsPoopRepo.getByNewsIdAndUserId(newsId, userId) != null) {
-			return new IdValueSucceedDTP(newsId, newsPoopRepo.countAllByNewsId(newsId), false);
+			return new IdValueSucceedDTO(newsId, newsPoopRepo.countAllByNewsId(newsId), false);
 		}
 		NewsPoop poop = new NewsPoop();
 		poop.setNews(newsRepo.getOne(newsId));
 		poop.setUser(userRepo.getOne(userId));
 		poop.setDate(new Timestamp(System.currentTimeMillis()));
 		newsPoopRepo.save(poop);
-		return new IdValueSucceedDTP(newsId, newsPoopRepo.countAllByNewsId(newsId), true);
+		return new IdValueSucceedDTO(newsId, newsPoopRepo.countAllByNewsId(newsId), true);
 	}
 	@GetMapping("/{newsId}/loop/remove")
-	public @ResponseBody IdValueSucceedDTP removeLoop(@PathVariable(value = "newsId") long newsId,
-	                                                  @RequestParam(value = "userId") long userId) {
+	public @ResponseBody
+	IdValueSucceedDTO removeLoop(@PathVariable(value = "newsId") long newsId,
+	                             @RequestParam(value = "userId") long userId) {
 		logger.info("remove loop newsId=" + newsId + "by userId=" + userId);
 		NewsLoop loop = newsLoopRepo.getByNewsIdAndUserId(newsId, userId);
 		if (loop == null) {
-			return new IdValueSucceedDTP(newsId, newsLoopRepo.countAllByNewsId(newsId), false);
+			return new IdValueSucceedDTO(newsId, newsLoopRepo.countAllByNewsId(newsId), false);
 		}
 		System.out.println(loop.toString());
 		newsLoopRepo.removeById(loop.getId());
 		System.out.println("deleted");
-		return new IdValueSucceedDTP(newsId, newsLoopRepo.countAllByNewsId(newsId), true);
+		return new IdValueSucceedDTO(newsId, newsLoopRepo.countAllByNewsId(newsId), true);
 	}
 
 	@GetMapping("/{newsId}/poop/remove")
-	public @ResponseBody IdValueSucceedDTP removePoop(@PathVariable(value = "newsId") long newsId,
-	                                                  @RequestParam(value = "userId") long userId) {
+	public @ResponseBody
+	IdValueSucceedDTO removePoop(@PathVariable(value = "newsId") long newsId,
+	                             @RequestParam(value = "userId") long userId) {
 		logger.info("remove poop newsId=" + newsId + "by userId=" + userId);
 		NewsPoop poop = newsPoopRepo.getByNewsIdAndUserId(newsId, userId);
 		if (poop == null) {
-			return new IdValueSucceedDTP(newsId, newsPoopRepo.countAllByNewsId(newsId), false);
+			return new IdValueSucceedDTO(newsId, newsPoopRepo.countAllByNewsId(newsId), false);
 		}
 		newsPoopRepo.removeById(poop.getId());
-		return new IdValueSucceedDTP(newsId, newsPoopRepo.countAllByNewsId(newsId), true);
+		return new IdValueSucceedDTO(newsId, newsPoopRepo.countAllByNewsId(newsId), true);
 	}
 
 	public int likeNewsByNewsId() {

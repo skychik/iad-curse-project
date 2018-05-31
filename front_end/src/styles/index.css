@@ -5,6 +5,14 @@
   color: #008cba;
   text-decoration: underline; }
 
+.header-create-button {
+  float: right;
+  width: 80px;
+  height: 21px;
+  border: 1px solid black;
+  background: white;
+  border-radius: 5px; }
+
 .news_preview_title {
   vertical-align: middle;
   overflow: hidden;

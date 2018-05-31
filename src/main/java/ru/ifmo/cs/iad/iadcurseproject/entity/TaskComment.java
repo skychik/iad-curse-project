@@ -1,13 +1,10 @@
 package ru.ifmo.cs.iad.iadcurseproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.hateoas.Identifiable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,14 +12,14 @@ import java.sql.Timestamp;
 import java.util.Set;
 
 @Entity
-@Table(name = "comment", schema = "public")
-@ToString(exclude = {"user", "news"})
+@Table(name = "task_comment", schema = "public")
+@ToString(exclude = {"user", "task"})
 @Getter
 @Setter
-public class Comment implements Serializable {
+public class TaskComment implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_id_seq")
-	@SequenceGenerator(name = "comment_id_seq", sequenceName = "comment_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_comment_id_seq")
+	@SequenceGenerator(name = "task_comment_id_seq", sequenceName = "task_comment_id_seq", allocationSize = 1)
 	@Column(name = "id", nullable = false)
 	private Long id;
 
@@ -32,9 +29,9 @@ public class Comment implements Serializable {
 	private User user;
 
 	@ManyToOne
-	@JoinColumn(name = "id_news", nullable = false)
+	@JoinColumn(name = "id_task", nullable = false)
 	@JsonManagedReference
-	private News news;
+	private CourseTask task;
 
 	@Column(name = "id_on_comment")
 	private Long onCommentId;
@@ -48,11 +45,11 @@ public class Comment implements Serializable {
 	@Column(name = "altering_date")
 	private Timestamp alteringDate;
 
-	@OneToMany(mappedBy="comment", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy="taskComment", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
 	@JsonBackReference
-	private Set<CommentLoop> commentLoops;
+	private Set<TaskCommentLoop> commentLoops;
 
-	@OneToMany(mappedBy="comment", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy="taskComment", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
 	@JsonBackReference
-	private Set<CommentPoop> commentPoops;
+	private Set<TaskCommentPoop> commentPoops;
 }

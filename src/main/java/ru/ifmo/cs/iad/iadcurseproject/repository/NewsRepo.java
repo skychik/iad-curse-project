@@ -5,11 +5,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import ru.ifmo.cs.iad.iadcurseproject.entity.News;
 
 import java.util.List;
 
 //@RepositoryRestResource(collectionResourceRel = "news", path = "news", excerptProjection = NewsForFeedProjection.class)
+@Repository
 public interface NewsRepo extends JpaRepository<News, Long> {
 	//@RestResource(exported = false)
 	@Query("select n from News n, Subscription s where n.author = s.onWhom and s.who.id = :userId")

@@ -3,6 +3,8 @@ package ru.ifmo.cs.iad.iadcurseproject.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.hateoas.Identifiable;
 import ru.ifmo.cs.iad.iadcurseproject.entity.custom.Poop;
@@ -14,6 +16,8 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "comment_poop", schema = "public")
 @ToString(exclude = {"user", "comment"})
+@Getter
+@Setter
 public class CommentPoop extends Poop implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_poop_id_seq")
@@ -33,30 +37,4 @@ public class CommentPoop extends Poop implements Serializable {
 
 	@Column(name = "date", nullable = false)
 	private Timestamp date;
-
-
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public Comment getComment() {
-		return comment;
-	}
-	public void setComment(Comment comment) {
-		this.comment = comment;
-	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	public Timestamp getDate() {
-		return date;
-	}
-	public void setDate(Timestamp date) {
-		this.date = date;
-	}
 }

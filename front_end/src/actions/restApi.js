@@ -62,6 +62,34 @@ export function removePoopOnCommentId(id) {
     }
 }
 
+export function putLoopOnTaskId(id) {
+    return {
+        type: 'PUT_COMMENT_LOOP',
+        payload: api.res("comments").res(id.toString()).res("loop").res("put").get({userId: cookie.load("userId")}),
+    }
+}
+
+export function putPoopOnTaskId(id) {
+    return {
+        type: 'PUT_COMMENT_POOP',
+        payload: api.res("comments").res(id.toString()).res("poop").res("put").get({userId: cookie.load("userId")}),
+    }
+}
+
+export function removeLoopOnTaskId(id) {
+    return {
+        type: 'REMOVE_COMMENT_LOOP',
+        payload: api.res("comments").res(id.toString()).res("loop").res("remove").get({userId: cookie.load("userId")}),
+    }
+}
+
+export function removePoopOnTaskId(id) {
+    return {
+        type: 'REMOVE_COMMENT_POOP',
+        payload: api.res("comments").res(id.toString()).res("poop").res("remove").get({userId: cookie.load("userId")}),
+    }
+}
+
 
 export function addNewComment(comment) {
     return {

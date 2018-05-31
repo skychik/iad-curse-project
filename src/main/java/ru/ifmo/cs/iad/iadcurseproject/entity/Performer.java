@@ -14,6 +14,7 @@ import java.util.Set;
 @Entity
 @Table(name = "performer", schema = "public")
 @ToString
+@Deprecated
 public class Performer implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "performer_id_seq")

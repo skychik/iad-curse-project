@@ -3,6 +3,8 @@ package ru.ifmo.cs.iad.iadcurseproject.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.hateoas.Identifiable;
 
@@ -13,6 +15,9 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "joining_performer", schema = "public")
 @ToString
+@Getter
+@Setter
+@Deprecated
 public class JoiningPerformer implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "joining_performer_id_seq")
@@ -35,36 +40,4 @@ public class JoiningPerformer implements Serializable {
 
 	@Column(name = "exit_date", nullable = false)
 	private Timestamp exitDate;
-
-
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public Performer getPerformer() {
-		return performer;
-	}
-	public void setPerformer(Performer performer) {
-		this.performer = performer;
-	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	public Timestamp getJoiningDate() {
-		return joiningDate;
-	}
-	public void setJoiningDate(Timestamp joiningDate) {
-		this.joiningDate = joiningDate;
-	}
-	public Timestamp getExitDate() {
-		return exitDate;
-	}
-	public void setExitDate(Timestamp exitDate) {
-		this.exitDate = exitDate;
-	}
 }

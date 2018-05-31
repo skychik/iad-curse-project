@@ -73,10 +73,10 @@ class NewsContainer extends React.Component {
             return <h1>Loading</h1>
         }
 
-        const putLoopOnNewsId = () => this.props.putLoopOnNewsId(newsData.id);
-        const putPoopOnNewsId = () => this.props.putPoopOnNewsId(newsData.id);
-        const removeLoopOnNewsId = () => this.props.removeLoopOnNewsId(newsData.id);
-        const removePoopOnNewsId = () => this.props.removePoopOnNewsId(newsData.id);
+        const putLoopOnNewsId = () => this.props.putLoopOnTaskId(newsData.id);
+        const putPoopOnNewsId = () => this.props.putPoopOnTaskId(newsData.id);
+        const removeLoopOnNewsId = () => this.props.removeLoopOnTaskId(newsData.id);
+        const removePoopOnNewsId = () => this.props.removePoopOnTaskId(newsData.id);
         const showAddNewComment = () => this.props.showAddComment({newsId: newsData.id, content: null});
 
         return (

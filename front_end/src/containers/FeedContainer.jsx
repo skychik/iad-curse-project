@@ -3,8 +3,7 @@ import {connect} from "react-redux";
 import * as actionCreators from "../actions";
 import {bindActionCreators} from "redux";
 import NewsPreview from "../components/NewsPreview";
-import {Button, Glyphicon, OverlayTrigger, PageHeader, Tooltip} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Glyphicon, OverlayTrigger, PageHeader, Tooltip} from "react-bootstrap";
 
 // props:
 //  news - News in JSON
@@ -28,10 +27,10 @@ class FeedContainer extends React.Component {
         // console.log('---data---');
         const feedContainer =  data != null ?
             data.map((newsPreview, idx) => {
-                const putLoopOnNewsId = () => this.props.putLoopOnNewsId(newsPreview.id);
-                const putPoopOnNewsId = () => this.props.putPoopOnNewsId(newsPreview.id);
-                const removeLoopOnNewsId = () => this.props.removeLoopOnNewsId(newsPreview.id);
-                const removePoopOnNewsId = () => this.props.removePoopOnNewsId(newsPreview.id);
+                const putLoopOnNewsId = () => this.props.putLoopOnTaskId(newsPreview.id);
+                const putPoopOnNewsId = () => this.props.putPoopOnTaskId(newsPreview.id);
+                const removeLoopOnNewsId = () => this.props.removeLoopOnTaskId(newsPreview.id);
+                const removePoopOnNewsId = () => this.props.removePoopOnTaskId(newsPreview.id);
 
                 return <NewsPreview className="NewsPreview"
                                     key={idx}
@@ -55,20 +54,11 @@ class FeedContainer extends React.Component {
                              />;
             }) : [];
 
-        const makeNewsTip = (<Tooltip id="tooltip_username">Make your News</Tooltip>);
-
         return(
             <div className="Feed_container">
                 <PageHeader style={{textAlign: "center"}}>
                     Feed
                 </PageHeader>
-                <div style={{height: "39px", marginBottom: "21px"}}>
-                    <OverlayTrigger placement="top" overlay={makeNewsTip}>
-                        <Button bsStyle="link" style={{float: "right", width: "120px", border: "1px solid black"}}>
-                            <Link to="/make-news" style={{color: "black"}}><Glyphicon glyph="pencil"/></Link>
-                        </Button>
-                    </OverlayTrigger>
-                </div>
                 <div>{feedContainer.length === 0 ? <span className={"feed-no-news"}>No news</span> : feedContainer}</div>
             </div>
         )

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ifmo.cs.iad.iadcurseproject.entity.CommentLoop;
 import ru.ifmo.cs.iad.iadcurseproject.entity.Performer;
@@ -13,6 +14,7 @@ import ru.ifmo.cs.iad.iadcurseproject.entity.Performer;
 import java.util.List;
 
 //@RepositoryRestResource(collectionResourceRel = "comment_loop", path = "comment_loop")
+@Repository
 public interface CommentLoopRepo extends JpaRepository<CommentLoop, Long> {
 	//@RestResource(exported = false)
 	@Query("select count(l) from CommentLoop l where l.comment.id = :id")

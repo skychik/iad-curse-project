@@ -3,6 +3,8 @@ package ru.ifmo.cs.iad.iadcurseproject.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.hateoas.Identifiable;
 
@@ -15,6 +17,8 @@ import java.util.Set;
 @Table(name = "news", schema = "public")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @ToString
+@Getter
+@Setter
 public class News implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "news_id_seq")
@@ -58,72 +62,4 @@ public class News implements Serializable {
 	@OneToMany(mappedBy="news", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
 	@JsonBackReference
 	private Set<Repost> reposts;
-
-
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public User getAuthor() {
-		return author;
-	}
-	public void setAuthor(User author) {
-		this.author = author;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public Timestamp getCreationDate() {
-		return creationDate;
-	}
-	public void setCreationDate(Timestamp creationDate) {
-		this.creationDate = creationDate;
-	}
-	public Timestamp getAlteringDate() {
-		return alteringDate;
-	}
-	public void setAlteringDate(Timestamp alteringDate) {
-		this.alteringDate = alteringDate;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-	public String getContentPreview() {
-		return contentPreview;
-	}
-	public void setContentPreview(String contentPreview) {
-		this.contentPreview = contentPreview;
-	}
-	public Set<Comment> getComments() {
-		return comments;
-	}
-	public void setComments(Set<Comment> comments) {
-		this.comments = comments;
-	}
-	public Set<NewsLoop> getNewsLoops() {
-		return newsLoops;
-	}
-	public void setNewsLoops(Set<NewsLoop> newsLoops) {
-		this.newsLoops = newsLoops;
-	}
-	public Set<NewsPoop> getNewsPoops() {
-		return newsPoops;
-	}
-	public void setNewsPoops(Set<NewsPoop> newsPoops) {
-		this.newsPoops = newsPoops;
-	}
-	public Set<Repost> getReposts() {
-		return reposts;
-	}
-	public void setReposts(Set<Repost> reposts) {
-		this.reposts = reposts;
-	}
 }
