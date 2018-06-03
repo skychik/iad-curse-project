@@ -18,3 +18,10 @@ export function setPostingNewsAnswer(data) {
         payload: data,
     }
 }
+
+export function setIsNewCourse(isNew) {
+    return {
+        type: 'SET_IS_NEW_COURSE',
+        payload: isNew,
+    }
+}

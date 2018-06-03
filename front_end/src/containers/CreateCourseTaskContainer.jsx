@@ -2,7 +2,7 @@ import * as actionCreators from "../actions";
 import {connect} from "react-redux";
 import React from "react";
 import {Redirect, Route, Switch} from "react-router-dom";
-import {Button, Col, Form, FormControl, Glyphicon, PageHeader, Row} from "react-bootstrap";
+import {Button, Checkbox, Col, Form, FormControl, Glyphicon, PageHeader, Row} from "react-bootstrap";
 import RestClient from "another-rest-client";
 import cookie from "react-cookies";
 import {bindActionCreators} from "redux";
@@ -29,6 +29,9 @@ class CreateCourseTaskContainer extends React.Component {
                 this.props.setNewsMakerTitle(event.target.value); break;
             case "content":
                 this.props.setNewsMakerContent(event.target.value); break;
+            case "new_course":
+                this.props.setIsNewCourse(event.target.checked);
+                break;
         }
     }
 
@@ -81,7 +84,11 @@ class CreateCourseTaskContainer extends React.Component {
                 </div>} />
             <Route path='/create/course/redactor' component={() =>
                 <Form onSubmit={this.handleSubmit} className="CourseCreateContainer">
-                    <FormControl name="title" type="text" placeholder="Title" onChange={this.handleChange}/>
+                    <Checkbox name="new_course" onClick={this.handleChange} defaultChecked={this.props.newsMaker.isNewCourse}>
+                        New Course?
+                    </Checkbox>
+                    <FormControl name="courseTitle" type="text" placeholder="Course Title" onChange={this.handleChange}/>
+                    <FormControl name="taskTitle" type="text" placeholder="Task Title" onChange={this.handleChange}/>
                     <FormControl componentClass="textarea" name="content" data-provide="markdown" rows="10" onChange={this.handleChange}/>
                     <hr/>
                     <Button type="submit">Submit</Button>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import UserPhoto from "./UserPhoto";
 import DateTime from "./DateTime";
 import PLoopButton from "./PLoopButton";
-import {Button} from "react-bootstrap";
+import {Button, Glyphicon} from "react-bootstrap";
 
 export default class Comment extends Component {
     render() {
@@ -30,8 +30,10 @@ export default class Comment extends Component {
                                  counter={poopsNumber} tooltip={"Put your Poop ;("} float={"right"} wasPut={poopWasPut}/>
                     <PLoopButton isLoop={true} putAction={putLoopOnCommentId} removeAction={removeLoopOnCommentId}
                                  counter={loopsNumber} tooltip={"Put your Loop :)"} float={"right"} wasPut={loopWasPut}/>
-                    <Button onClick={showAddComment} bsStyle="primary" bsSize="xsmall"
-                            style={{float: "right", borderRadius: "5px"}}>comment</Button>
+                    <Button onClick={showAddComment} bsStyle="default" bsSize="xsmall"
+                            style={{float: "right", borderRadius: "5px", backgroundColor: "#f6f6f6"}}>
+                        <Glyphicon glyph="comment" style={{top: "2.5px", color: "#555555"}}/>
+                    </Button>
                 </div>
                 {/*<span className="my_comment_dot" >•</span>*/}
                 <span className="my_text">

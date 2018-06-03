@@ -68,6 +68,7 @@ const store = createStore(
             content: null,
             title: null,
             answer: null,
+            isNewCourse: false,
         },
         comments: null,
         profile: null,

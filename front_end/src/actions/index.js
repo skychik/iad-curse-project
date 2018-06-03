@@ -38,6 +38,7 @@ export const setSigninSuccess = signForm.setSigninSuccess;
 export const setNewsMakerContent = makingNewsApi.setNewsMakerContent;
 export const setNewsMakerTitle = makingNewsApi.setNewsMakerTitle;
 export const setPostingNewsAnswer = makingNewsApi.setPostingNewsAnswer;
+export const setIsNewCourse = makingNewsApi.setIsNewCourse;
 export const putLoopOnNewsId = restApi.putLoopOnNewsId;
 export const putPoopOnNewsId = restApi.putPoopOnNewsId;
 export const removeLoopOnNewsId = restApi.removeLoopOnNewsId;

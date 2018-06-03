@@ -19,8 +19,6 @@ import {DropdownButton, Glyphicon, MenuItem, NavDropdown, OverlayTrigger, Toolti
 
 class AppContainer extends React.Component {
     render() {
-        const createTip = (<Tooltip id="tooltip_username">Create!</Tooltip>);
-
         return (
             <Grid>
                 <Navbar fluid>

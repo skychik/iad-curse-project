@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
 import Panel from "react-bootstrap/lib/Panel";
-import {Row} from "react-bootstrap";
+import {Glyphicon, Row} from "react-bootstrap";
 import UserPhoto from "./UserPhoto";
 import DateTime from "./DateTime";
 import {Link} from "react-router-dom";
@@ -62,10 +62,10 @@ export default class NewsPreview extends Component {
                 <div id={"wrapper"} style={{margin: "0"}}>{markdown}</div>
             </Panel.Body>
             <Panel.Footer>
-                <div>
-                    <span className={"my_button"}>
-                        Comments
-                        <span>{commentsNumber}</span>
+                <div style={{height: "25.43px"}}>
+                    <span className={"my_button"} style={{border: "none", color: "#aca7b9", cursor: "default"}}>
+                        <Glyphicon glyph="comment" />
+                        <span style={{marginLeft: "0", border: "none"}}>{commentsNumber}</span>
                     </span>
 
                     <PLoopButton isLoop={false} putAction={this.props.putPoopOnNewsId}
@@ -74,11 +74,7 @@ export default class NewsPreview extends Component {
                     <PLoopButton isLoop={true} putAction={this.props.putLoopOnNewsId}
                                  removeAction={this.props.removeLoopOnNewsId} counter={loopsNumber}
                                  tooltip={"Put your Loop :)"} float={"right"} wasPut={this.props.loopWasPut}/>
-                    {/*<span className={"my_button"} style={{float: "right"}}>*/}
-                        {/*Reposts*/}
-                        {/*<span>{repostsNumber}</span>*/}
-                    {/*</span>*/}
-                    <span className={"my_date"} style={{float: "right"}}>
+                    <span className={"my_date"} style={{float: "right", paddingTop: "2.5px"}}>
                         <span style={{marginRight: 10}}>
                             <DateTime date={alteringDate == null ? creationDate : alteringDate} />
                         </span>

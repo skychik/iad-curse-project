@@ -23,7 +23,7 @@
 .news_preview_title > a {
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #222222; }
+  color: black; }
 
 .news_preview_title :hover {
   color: #008cba;
@@ -105,7 +105,8 @@ time {
   border-radius: 5px;
   margin-left: 10px;
   font-size: 15px;
-  color: #aca7b9; }
+  color: #aca7b9;
+  cursor: pointer; }
 
 .poop_button:hover, .poop_button_active:hover, .loop_button:hover, .loop_button_active:hover, .my_button:hover {
   text-decoration: none;
@@ -113,6 +114,9 @@ time {
   color: #79797e;
   /* Цвет ссылки при наведении на нее курсора мыши */
   border-color: #79797e; }
+
+.poop_button :first-child, .poop_button_active :first-child, .loop_button :first-child, .loop_button_active :first-child, .my_button :first-child {
+  top: 2px; }
 
 .poop_button :last-child, .poop_button_active :last-child, .loop_button :last-child, .loop_button_active :last-child, .my_button :last-child {
   margin-left: 5px;

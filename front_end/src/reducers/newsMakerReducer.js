@@ -6,6 +6,8 @@ export function newsMakerReducer(state = {}, action) {
             return {...state, content: action.payload};
         case "POSTING_NEWS_ANSWER":
             return {...state, answer: action.payload};
+        case "SET_IS_NEW_COURSE":
+            return {...state, isNewCourse: action.payload};
         default:
             return state;
     }

@@ -16,7 +16,7 @@
 .news_preview_title > a {
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #222222;
+  color: black;
 }
 
 .news_preview_title :hover {
@@ -150,12 +150,17 @@ $button_color_hover: #79797e;
   margin-left: 10px;
   font-size: 15px;
   color: $button_color;
+  cursor: pointer;
 }
 
 %my_button_hover, .my_button:hover {
   text-decoration: none; /* Убираем подчеркивание */
   color: $button_color_hover; /* Цвет ссылки при наведении на нее курсора мыши */
   border-color: $button_color_hover;
+}
+
+%my_button_first-child, .my_button :first-child {
+  top: 2px;
 }
 
 %my_button_last-child, .my_button :last-child {
@@ -183,6 +188,10 @@ $poop_button_color_hover: #b56447;
   color: $poop_button_color_hover;
 }
 
+.poop_button :first-child {
+  @extend %my_button_first-child;
+}
+
 .poop_button :last-child {
   @extend %my_button_last-child;
 }
@@ -203,6 +212,10 @@ $poop_button_color_hover: #b56447;
   @extend %my_button_hover;
   border-color: $poop_button_color_hover;
   color: $poop_button_color_hover;
+}
+
+.poop_button_active :first-child {
+  @extend %my_button_first-child;
 }
 
 .poop_button_active :last-child {
@@ -230,6 +243,10 @@ $loop_button_color_hover: #00b5a6;
   color: $loop_button_color_hover;
 }
 
+.loop_button :first-child {
+  @extend %my_button_first-child;
+}
+
 .loop_button :last-child {
   @extend %my_button_last-child;
 }
@@ -255,6 +272,10 @@ $loop_button_color_hover: #00b5a6;
 .loop_button_active :last-child {
   @extend %my_button_last-child;
   border-left: 1px solid $loop_button_color_active;
+}
+
+.loop_button_active :first-child {
+  @extend %my_button_first-child;
 }
 
 .loop_button_active :last-child:hover {
