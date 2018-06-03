@@ -11,7 +11,6 @@
 //  ----------------------------  ----------------------------  ----------------------------
 //  ----------------------------  ----------------------------  ----------------------------
 import * as restApi from "./restApi";
-import * as sessionApi from "./sessionApi";
 import * as signForm from "./signFormApi";
 import * as makingNewsApi from "./newsMakerApi";
 import * as interfaceApi from "./interfaceApi";
@@ -30,7 +29,6 @@ export const setFeed = restApi.setFeed;
 export const setProfile = restApi.setProfile;
 export const setNews = restApi.setNews;
 export const setComments = restApi.setComments;
-export const setUserId = sessionApi.setUserId;
 export const startValidation = signForm.startValidation;
 export const setUserAttribute = signForm.setUserAttribute;
 export const initSignForm = signForm.initSignForm;
@@ -48,6 +46,14 @@ export const putLoopOnCommentId = restApi.putLoopOnCommentId;
 export const putPoopOnCommentId = restApi.putPoopOnCommentId;
 export const removeLoopOnCommentId = restApi.removeLoopOnCommentId;
 export const removePoopOnCommentId = restApi.removePoopOnCommentId;
+export const setCourseBackground = interfaceApi.setCourseBackground;
+export const setCurseTasks = restApi.setCurseTasks;
+export const setCurseTask = restApi.setCurseTask;
+export const findCurseTitle = restApi.findCurseTitle;
+export const addNewCourseTask = restApi.addNewCourseTask;
+export const initCourseWithTask = restApi.initCourseWithTask;
+export const completeCourseTask = restApi.completeCourseTask;
+export const undoCourseTask = restApi.undoCourseTask;
 export const putLoopOnTaskId = restApi.putLoopOnTaskId;
 export const putPoopOnTaskId = restApi.putPoopOnTaskId;
 export const removeLoopOnTaskId = restApi.removeLoopOnTaskId;

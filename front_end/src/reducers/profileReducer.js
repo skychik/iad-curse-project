@@ -1,6 +1,6 @@
 export function profileReducer(state = {}, action) {
     switch (action.type) {
-        case "PROFILE_RECEIVED":
+        case "FETCH_PROFILE_FULFILLED":
             return action.payload;
         default:
             return state;

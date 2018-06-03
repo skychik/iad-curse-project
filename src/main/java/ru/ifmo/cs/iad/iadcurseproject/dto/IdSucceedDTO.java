@@ -11,7 +11,7 @@ import org.springframework.hateoas.core.Relation;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ValueSucceedDTO {
-	private Object value;
+public class IdSucceedDTO {
+	private Long id;
 	private Boolean succeed;
 }

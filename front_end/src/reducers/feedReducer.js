@@ -1,6 +1,8 @@
 export function feedReducer(state = {}, action) {
     switch (action.type) {
-        case "FETCH_FEED_PENDING": break;
+        case "FETCH_FEED_PENDING":
+            console.log(action.payload);
+            break;
         case "FETCH_FEED_FULFILLED":
             return action.payload;
         case "PUT_NEWS_LOOP_FULFILLED":

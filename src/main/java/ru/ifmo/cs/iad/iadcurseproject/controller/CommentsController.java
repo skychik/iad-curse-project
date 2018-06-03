@@ -5,14 +5,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.web.bind.annotation.*;
-import ru.ifmo.cs.iad.iadcurseproject.dto.*;
-import ru.ifmo.cs.iad.iadcurseproject.entity.*;
+import ru.ifmo.cs.iad.iadcurseproject.dto.CommentDTO;
+import ru.ifmo.cs.iad.iadcurseproject.dto.CommentsInfoDTO;
+import ru.ifmo.cs.iad.iadcurseproject.dto.IdValueSucceedDTO;
+import ru.ifmo.cs.iad.iadcurseproject.entity.Comment;
+import ru.ifmo.cs.iad.iadcurseproject.entity.CommentLoop;
+import ru.ifmo.cs.iad.iadcurseproject.entity.CommentPoop;
 import ru.ifmo.cs.iad.iadcurseproject.repository.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 import static org.springframework.data.domain.PageRequest.of;
 import static org.springframework.data.domain.Sort.by;
@@ -25,37 +29,24 @@ public class CommentsController {
 	private final CommentRepo commentRepo;
 	private final CommentLoopRepo commentLoopRepo;
 	private final CommentPoopRepo commentPoopRepo;
-	private final RepostRepo repostRepo;
-	private final NewsLoopRepo newsLoopRepo;
-	private final NewsPoopRepo newsPoopRepo;
-	private final RepostLoopRepo repostLoopRepo;
-	private final RepostPoopRepo repostPoopRepo;
-
-	@PersistenceContext
-	private EntityManager em; // TODO: IS NULL
 
 	private Logger logger = LoggerFactory.getLogger("application");
 
 	public CommentsController(NewsRepo newsRepo, UserRepo userRepo, CommentRepo commentRepo, CommentLoopRepo commentLoopRepo,
-	                          CommentPoopRepo commentPoopRepo, RepostRepo repostRepo, NewsLoopRepo newsLoopRepo,
-	                          NewsPoopRepo newsPoopRepo, RepostLoopRepo repostLoopRepo, RepostPoopRepo repostPoopRepo) {
+	                          CommentPoopRepo commentPoopRepo) {
 		this.newsRepo = newsRepo;
 		this.userRepo = userRepo;
 		this.commentRepo = commentRepo;
 		this.commentLoopRepo = commentLoopRepo;
 		this.commentPoopRepo = commentPoopRepo;
-		this.repostRepo = repostRepo;
-		this.newsLoopRepo = newsLoopRepo;
-		this.newsPoopRepo = newsPoopRepo;
-		this.repostLoopRepo = repostLoopRepo;
-		this.repostPoopRepo = repostPoopRepo;
 	}
 
 	@GetMapping("/for")
-	public @ResponseBody CommentsInfoDTO getCommentsForNewsId(@RequestParam(value = "newsId") long newsId,
-	                                 @RequestParam(value = "userId") long userId,
-	                                 @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
-	                                 @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
+	@ResponseBody
+	public CommentsInfoDTO getCommentsForNewsId(@RequestParam(value = "newsId") long newsId,
+	                                     @CookieValue(value = "userId") long userId,
+	                                     @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
+	                                     @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
 		List<Comment> commentList = commentRepo.getAllForNewsId(newsId, of(pageNumber, pageSize,
 				by(Sort.Order.by("onCommentId").nullsFirst(), Sort.Order.by("creationDate"))));
 
@@ -122,7 +113,8 @@ public class CommentsController {
 	}
 
 	@GetMapping("/add")
-	public @ResponseBody Boolean addComment(@RequestParam(value = "userId") long userId,
+	@ResponseBody
+	public Boolean addComment(@CookieValue(value = "userId") long userId,
 	                                        @RequestParam(value = "newsId") long newsId,
 	                                        @RequestParam(value = "onCommentId", required = false) Long onCommentId,
 	                                        @RequestParam(value = "content") String content) {
@@ -137,9 +129,9 @@ public class CommentsController {
 	}
 
 	@GetMapping("/{commentId}/loop/put")
-	public @ResponseBody
-	IdValueSucceedDTO putLoop(@PathVariable(value = "commentId") long commentId,
-	                          @RequestParam(value = "userId") long userId) {
+	@ResponseBody
+	public IdValueSucceedDTO putLoop(@PathVariable(value = "commentId") long commentId,
+	                          @CookieValue(value = "userId") long userId) {
 		logger.info("put loop commentId=" + commentId + "by userId=" + userId);
 		if (commentLoopRepo.getByCommentIdAndUserId(commentId, userId) != null) {
 			return new IdValueSucceedDTO(commentId, commentLoopRepo.countAllByCommentId(commentId), false);
@@ -153,9 +145,9 @@ public class CommentsController {
 	}
 
 	@GetMapping("/{commentId}/poop/put")
-	public @ResponseBody
-	IdValueSucceedDTO putPoop(@PathVariable(value = "commentId") long commentId,
-	                          @RequestParam(value = "userId") long userId) {
+	@ResponseBody
+	public IdValueSucceedDTO putPoop(@PathVariable(value = "commentId") long commentId,
+	                          @CookieValue(value = "userId") long userId) {
 		logger.info("put poop commentId=" + commentId + "by userId=" + userId);
 		if (commentPoopRepo.getByCommentIdAndUserId(commentId, userId) != null) {
 			return new IdValueSucceedDTO(commentId, commentPoopRepo.countAllByCommentId(commentId), false);
@@ -169,9 +161,9 @@ public class CommentsController {
 	}
 
 	@GetMapping("/{commentId}/loop/remove")
-	public @ResponseBody
-	IdValueSucceedDTO removeLoop(@PathVariable(value = "commentId") long commentId,
-	                             @RequestParam(value = "userId") long userId) {
+	@ResponseBody
+	public IdValueSucceedDTO removeLoop(@PathVariable(value = "commentId") long commentId,
+	                             @CookieValue(value = "userId") long userId) {
 		logger.info("remove loop commentId=" + commentId + "by userId=" + userId);
 		CommentLoop loop = commentLoopRepo.getByCommentIdAndUserId(commentId, userId);
 		if (loop == null) {
@@ -182,9 +174,9 @@ public class CommentsController {
 	}
 
 	@GetMapping("/{commentId}/poop/remove")
-	public @ResponseBody
-	IdValueSucceedDTO removePoop(@PathVariable(value = "commentId") long commentId,
-	                             @RequestParam(value = "userId") long userId) {
+	@ResponseBody
+	public IdValueSucceedDTO removePoop(@PathVariable(value = "commentId") long commentId,
+	                             @CookieValue(value = "userId") long userId) {
 		logger.info("remove poop commentId=" + commentId + "by userId=" + userId);
 		CommentPoop poop = commentPoopRepo.getByCommentIdAndUserId(commentId, userId);
 //		logger.info("poopid=" + poop);

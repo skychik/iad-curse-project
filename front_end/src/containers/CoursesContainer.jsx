@@ -1,13 +1,28 @@
 import React from 'react';
+import * as actionCreators from "../actions";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
-class Mentors extends React.Component {
+class CoursesContainer extends React.Component {
+    componentWillMount() {
+        this.props.setCourseBackground(true);
+    }
+
     render() {
         return (
-            <div className="Mentors">
+            <div className="CoursesContainer">
                 <h2>{this.props.content}</h2>
             </div>
         )
     }
 }
 
-export default Mentors;
+const mapStateToProps = (state) => {
+    return {newsMaker: state.newsMaker}
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(actionCreators, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesContainer);

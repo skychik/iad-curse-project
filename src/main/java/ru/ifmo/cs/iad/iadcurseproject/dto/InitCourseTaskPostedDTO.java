@@ -12,7 +12,6 @@ import java.sql.Timestamp;
 @Relation(value = "course_task", collectionRelation = "course_task")
 @ToString
 public class InitCourseTaskPostedDTO {
-	private long authorId;
 	private String title;
 	private String content;
 	private CoursePostedDTO course;

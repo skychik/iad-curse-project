@@ -18,3 +18,10 @@ export function setNewCommentContent(content) {
         payload: content,
     }
 }
+
+export function setCourseBackground(isCourse) {
+    return {
+        type: 'COURSE_BACKGROUND',
+        payload: isCourse,
+    }
+}

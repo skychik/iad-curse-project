@@ -61,8 +61,7 @@ const store = createStore(
                 confirmation: false,
             },
         },
-        session: null,
-        page: null,
+        courseBackground: false,
         feed: null,
         news: null,
         newsMaker: {

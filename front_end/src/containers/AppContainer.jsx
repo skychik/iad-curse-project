@@ -14,7 +14,7 @@ import Navbar from 'react-bootstrap/lib/Navbar';
 import NavItem  from 'react-bootstrap/lib/NavItem';
 import cookie from 'react-cookies';
 import CreateContainer from "./CreateContainer";
-import {Glyphicon, OverlayTrigger, Tooltip} from "react-bootstrap";
+import {DropdownButton, Glyphicon, MenuItem, NavDropdown, OverlayTrigger, Tooltip} from "react-bootstrap";
 
 
 class AppContainer extends React.Component {
@@ -22,8 +22,8 @@ class AppContainer extends React.Component {
         const createTip = (<Tooltip id="tooltip_username">Create!</Tooltip>);
 
         return (
-            <Grid className="AppContainer">
-                <Navbar>
+            <Grid>
+                <Navbar fluid>
                     <Navbar.Header>
                         <div style={{marginLeft:15}}>
                             <Navbar.Brand>
@@ -38,15 +38,13 @@ class AppContainer extends React.Component {
                             <NavItem eventKey={2} href="/events">Events</NavItem>
                             <NavItem eventKey={3} href="/courses">Courses</NavItem>
                             <NavItem eventKey={4} href="/loops">Loops</NavItem>
-                            <NavItem eventKey={5} href="/create">
-                                <div style={{height: "21px"}}>
-                                    <OverlayTrigger placement="bottom" overlay={createTip}>
-                                        <a href="/create" className="header-create-button">
-                                            <Glyphicon glyph="pencil" style={{color: "black", margin: "0px 0px 0px 33px"}}/>
-                                        </a>
-                                    </OverlayTrigger>
-                                </div>
-                            </NavItem>
+                            <NavDropdown eventKey={5} title={<Glyphicon glyph="pencil"/>} id="create-dropdown" style={{color: "red"}}>
+                                <MenuItem eventKey={5.1} href="/create/news">News</MenuItem>
+                                <MenuItem eventKey={5.2} href="/create/course">Course Task</MenuItem>
+                                {/*<div style={{margin: "0 10px"}}>*/}
+
+                                {/*</div>*/}
+                            </NavDropdown>
                         </Nav>
                         <Nav style={{marginRight: 0}} pullRight>
                             <NavItem eventKey={6} href={"/login"}>

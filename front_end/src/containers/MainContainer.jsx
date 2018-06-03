@@ -12,6 +12,9 @@ import RegisterContainer from "./RegisterContainer";
 import cookie from "react-cookies";
 
 class MainContainer extends React.Component {
+    componentWillMount() {
+        this.props.setCourseBackground(false);
+    }
     //newsRendering = null;
 
     render() {
@@ -24,7 +27,7 @@ class MainContainer extends React.Component {
         console.log("is cookie correct=" + ((cookie.load("userId") !== undefined) && (cookie.load("userId") !== "") && (cookie.load("userId") !== null)));
 
         return (
-            <div className="MainContainer">
+            <div className={this.props.courseBackground ? "MainContainer withBackgroundForCourse" : "MainContainer"}>
                 <Switch>
                     <Route exact path='/' render={() => <Redirect to='welcome' />}/>
                     <Route path='/welcome' component={Welcome} />
@@ -53,4 +56,8 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(actionCreators, dispatch);
 };
 
-export default withRouter(connect(undefined, mapDispatchToProps)(MainContainer));
+const mapStateToProps = (state) => {
+    return {courseBackground: state.courseBackground}
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainContainer));

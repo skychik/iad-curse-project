@@ -3,26 +3,15 @@ import * as actionCreators from "../actions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import RestClient from "another-rest-client";
-import {Button, Col, Glyphicon, Image, Row} from "react-bootstrap";
+import {Button, Col, Glyphicon, Image, PageHeader, Row} from "react-bootstrap";
 import NewsPreview from "../components/NewsPreview";
 import {Link, Route, Switch} from "react-router-dom";
 import CourseTaskPreview from "../components/CourseTaskPreview";
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
-        let api = new RestClient('http://localhost:8080'); // TODO: make static
-        const number = parseInt(this.props.match.params.number, 10);
-        if (isNaN(number)) {
-            this.setProfile(null);
-        } else {
-            api.res("user");
-            const promise = api.user(number).get();
-            promise.then((response) => {
-                const profile = JSON.parse(JSON.stringify(response));
-                console.log(profile);
-                this.setProfile(profile);
-            });
-        }
+        console.log(parseInt(this.props.match.params.number, 10));
+        this.props.setProfile(parseInt(this.props.match.params.number, 10));
     }
 
     setProfile(profile) {
@@ -83,8 +72,9 @@ class ProfileContainer extends React.Component {
                                           key={idx}
                                           taskId={task.id}
                                           taskTitle={task.taskTitle}
-                                          courseId={task.courseId}
-                                          courseTitle={task.courseTitle}
+                                          courseId={task.course.id}
+                                          courseTitle={task.course.title}
+                                          courseType={task.course.type}
                                           authorId={task.author.id}
                                           authorUsername={task.author.username}
                                           authorAvatar={task.author.photo}
@@ -97,10 +87,13 @@ class ProfileContainer extends React.Component {
                                           poopsNumber={task.poopsNumber}
                                           poopWasPut={task.poopWasPut}
                                           repostsNumber={task.repostsNumber}
+                                          wasCompleted={task.wasCompleted}
                                           putLoopOnTaskId={putLoopOnTaskId}
                                           putPoopOnTaskId={putPoopOnTaskId}
                                           removeLoopOnTaskId={removeLoopOnTaskId}
-                                          removePoopOnTaskId={removePoopOnTaskId} />;
+                                          removePoopOnTaskId={removePoopOnTaskId}
+                                          completeCourseTask={removePoopOnTaskId}
+                                          undoCourseTask={removePoopOnTaskId} />;
             }) : "No tasks";
 
         return <Row className="profile">
@@ -113,9 +106,6 @@ class ProfileContainer extends React.Component {
                         <div className="profile-usertitle-name">
                             <h3>@{username}</h3>
                             <h4>{firstName} {surname} {patronymic}</h4>
-                        </div>
-                        <div className="profile-usertitle-performer">
-                            Performers...
                         </div>
                     </div>
                     <div className="profile-userbuttons">
@@ -139,21 +129,25 @@ class ProfileContainer extends React.Component {
             </Col>
             <Col md={9}>
                 <div className="profile-content">
-                    {/*<div className="profile-about">*/} // TODO: "About" in profile of user
+                    {/*/!*<div className="profile-about">*!/  TODO: "About" in profile of user*/}
                         {/*<div className="profile-about-title">About</div>*/}
                         {/*<div>{about}</div>*/}
                     {/*</div>*/}
                     <Switch>
-                        <Route path='/id/:number/courses' component={
-                            () => <div>{tasksContainer.length === 0 ?
-                                <span className={"profile-no-tasks"}>No tasks</span>
-                                : tasksContainer}</div>} />
+                        <Route path='/id/:number/tasks' component={
+                            () => <div>
+                                <PageHeader>Course Tasks</PageHeader>
+                                {tasksContainer.length === 0 ?
+                                    <span className={"profile-no-tasks"}>No tasks</span>
+                                    : tasksContainer}
+                            </div>} />
                         <Route component={
                             () => <div>
-                                    {feedContainer.length === 0 ?
-                                        <span className={"profile-no-news"}>No news</span>
-                                        : feedContainer}
-                                </div>} />
+                                <PageHeader>News</PageHeader>
+                                {feedContainer.length === 0 ?
+                                    <span className={"profile-no-news"}>No news</span>
+                                    : feedContainer}
+                            </div>} />
                     </Switch>
                 </div>
             </Col>

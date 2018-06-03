@@ -48,10 +48,11 @@ public class CourseController {
 
 
 	@GetMapping("/tasks/for")
-	public @ResponseBody
-	List<CourseTaskPreviewDTO> getCommentsForNewsId(@RequestParam(value = "userId") long userId,
-	                                                @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
-	                                                @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
+	@ResponseBody
+	public List<CourseTaskPreviewDTO> getTasksForUserId(@CookieValue(value = "userId") long userId,
+	                                             @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
+	                                             @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
+		logger.info("" + userId);
 		List<CourseTask> taskList = courseTaskRepo.getAllForUserId(userId, of(pageNumber, pageSize,
 				by(Sort.Order.by("alteringDate").nullsLast(), Sort.Order.by("creationDate"))));
 
@@ -64,9 +65,9 @@ public class CourseController {
 	}
 
 	@GetMapping("/task/{taskId}")
-	public @ResponseBody
-	CourseTaskDTO getTaskById(@PathVariable("taskId") long taskId,
-	                          @RequestParam(value = "userId") long userId) {
+	@ResponseBody
+	public CourseTaskDTO getTaskById(@PathVariable("taskId") long taskId,
+	                          @CookieValue(value = "userId") long userId) {
 		CourseTask task = courseTaskRepo.getOneByTaskId(taskId);
 		if (task == null) return new CourseTaskDTO();
 		return new CourseTaskDTO(task, (long) task.getTaskComments().size(),
@@ -76,37 +77,42 @@ public class CourseController {
 	}
 
 	@GetMapping("/task/{taskId}/comments_number")
-	public @ResponseBody long getCommentsNumberByTaskId(@PathVariable("taskId") long taskId) {
+	@ResponseBody
+	public long getCommentsNumberByTaskId(@PathVariable("taskId") long taskId) {
 		return taskCommentRepo.countAllByTaskId(taskId);
 	}
 
 	@GetMapping("/task/{taskId}/loops_number")
-	public @ResponseBody long getLoopsNumberByTaskId(@PathVariable("taskId") long taskId) {
+	@ResponseBody
+	public long getLoopsNumberByTaskId(@PathVariable("taskId") long taskId) {
 		return courseTaskLoopRepo.countAllByTaskId(taskId);
 	}
 
 	@GetMapping("/task/{taskId}/poops_number")
-	public @ResponseBody long getPoopsNumberByTaskId(@PathVariable("taskId") long taskId) {
+	@ResponseBody
+	public long getPoopsNumberByTaskId(@PathVariable("taskId") long taskId) {
 		return courseTaskPoopRepo.countAllByTaskId(taskId);
 	}
 
 	@GetMapping("/title_exists")
-	public @ResponseBody Boolean doesTitleExist(@RequestParam("userId") long userId,
+	@ResponseBody
+	public Boolean doesTitleExist(@CookieValue("userId") long userId,
 	                                            @RequestParam("title") String title) {
 		return courseRepo.findByAuthorIdAndTitle(userId, title) != null;
 	}
 
-	@PostMapping(path="/task/post", consumes = "application/json", produces = "application/json")
-	public String addNewCourseWithTask(@RequestBody InitCourseTaskPostedDTO taskDTO) {
+	@PostMapping(path="/task/init_course_with_task", consumes = "application/json", produces = "application/json")
+	public String addNewCourseWithTask(@CookieValue("userId") long userId,
+	                                   @RequestBody InitCourseTaskPostedDTO taskDTO) {
 		logger.info("add new course with task=" + taskDTO.toString());
-		Optional<User> user = userRepo.findById(taskDTO.getAuthorId());
+		Optional<User> user = userRepo.findById(userId);
 		if (!user.isPresent()) {
-			logger.info("User with id=" + taskDTO.getAuthorId() + " doesn't exist");
+			logger.info("User with id=" + userId + " doesn't exist");
 			return null;
 		}
-		Course course = courseRepo.findByAuthorIdAndTitle(taskDTO.getAuthorId(), taskDTO.getCourse().getTitle());
+		Course course = courseRepo.findByAuthorIdAndTitle(userId, taskDTO.getCourse().getTitle());
 		if (course != null) {
-			logger.info("User with id=" + taskDTO.getAuthorId() + " already has course with title " + taskDTO.getTitle());
+			logger.info("User with id=" + userId + " already has course with title " + taskDTO.getTitle());
 			return null;
 		}
 		CourseTask task = taskDTO.makeTask(user.get());
@@ -115,13 +121,14 @@ public class CourseController {
 		return savedTask.getId().toString();
 	}
 
-	@PostMapping(path="/task/post", consumes = "application/json", produces = "application/json")
-	public String addTask(@RequestBody CourseTaskPostedDTO taskDTO) {
+	@PostMapping(path="/task/add", consumes = "application/json", produces = "application/json")
+	public String addTask(@CookieValue("userId") long userId,
+	                      @RequestBody CourseTaskPostedDTO taskDTO) {
 		logger.info("add task=" + taskDTO.toString());
-		Optional<User> user = userRepo.findById(taskDTO.getAuthorId());
+		Optional<User> user = userRepo.findById(userId);
 		Optional<Course> course = courseRepo.findById(taskDTO.getCourseId());
 		if (!user.isPresent()) {
-			logger.info("User with id=" + taskDTO.getAuthorId() + " doesn't exist");
+			logger.info("User with id=" + userId + " doesn't exist");
 			return null;
 		}
 		if (!course.isPresent()) {
@@ -129,7 +136,7 @@ public class CourseController {
 			return null;
 		}
 		if (course.get().getAuthor() != user.get()) {
-			logger.info("Course with id=" + taskDTO.getCourseId() + " doesn't own user with id=" + taskDTO.getAuthorId());
+			logger.info("Course with id=" + taskDTO.getCourseId() + " doesn't own user with id=" + userId);
 			return null;
 		}
 		CourseTask task = taskDTO.makeTask(course.get());
@@ -139,9 +146,9 @@ public class CourseController {
 	}
 
 	@GetMapping("/task/{taskId}/loop/put")
-	public @ResponseBody
-	IdValueSucceedDTO putLoop(@PathVariable(value = "taskId") long taskId,
-	                          @RequestParam(value = "userId") long userId) {
+	@ResponseBody
+	public IdValueSucceedDTO putLoop(@PathVariable(value = "taskId") long taskId,
+	                          @CookieValue(value = "userId") long userId) {
 		logger.info("put loop taskId=" + taskId + "by userId=" + userId);
 		if (courseTaskLoopRepo.getByTaskIdAndUserId(taskId, userId) != null) {
 			return new IdValueSucceedDTO(taskId, courseTaskLoopRepo.countAllByTaskId(taskId), false);
@@ -155,9 +162,9 @@ public class CourseController {
 	}
 
 	@GetMapping("/task/{taskId}/poop/put")
-	public @ResponseBody
-	IdValueSucceedDTO putPoop(@PathVariable(value = "taskId") long taskId,
-	                          @RequestParam(value = "userId") long userId) {
+	@ResponseBody
+	public IdValueSucceedDTO putPoop(@PathVariable(value = "taskId") long taskId,
+	                          @CookieValue(value = "userId") long userId) {
 		logger.info("put poop taskId=" + taskId + "by userId=" + userId);
 		if (courseTaskPoopRepo.getByTaskIdAndUserId(taskId, userId) != null) {
 			return new IdValueSucceedDTO(taskId, courseTaskPoopRepo.countAllByTaskId(taskId), false);
@@ -171,9 +178,9 @@ public class CourseController {
 	}
 
 	@GetMapping("/task/{taskId}/loop/remove")
-	public @ResponseBody
-	IdValueSucceedDTO removeLoop(@PathVariable(value = "taskId") long taskId,
-	                             @RequestParam(value = "userId") long userId) {
+	@ResponseBody
+	public IdValueSucceedDTO removeLoop(@PathVariable(value = "taskId") long taskId,
+	                             @CookieValue(value = "userId") long userId) {
 		logger.info("remove loop newsId=" + taskId + "by userId=" + userId);
 		CourseTaskLoop loop = courseTaskLoopRepo.getByTaskIdAndUserId(taskId, userId);
 		if (loop == null) {
@@ -186,9 +193,9 @@ public class CourseController {
 	}
 
 	@GetMapping("/task/{taskId}/poop/remove")
-	public @ResponseBody
-	IdValueSucceedDTO removePoop(@PathVariable(value = "taskId") long taskId,
-	                             @RequestParam(value = "userId") long userId) {
+	@ResponseBody
+	public IdValueSucceedDTO removePoop(@PathVariable(value = "taskId") long taskId,
+	                             @CookieValue(value = "userId") long userId) {
 		logger.info("remove poop newsId=" + taskId + "by userId=" + userId);
 		CourseTaskPoop poop = courseTaskPoopRepo.getByTaskIdAndUserId(taskId, userId);
 		if (poop == null) {
@@ -201,33 +208,33 @@ public class CourseController {
 	}
 
 	@GetMapping("/task/{taskId}/complete")
-	public @ResponseBody
-	ValueSucceedDTO complete(@PathVariable(value = "taskId") long taskId,
-	                         @RequestParam(value = "userId") long userId) {
+	@ResponseBody
+	public IdSucceedDTO complete(@PathVariable(value = "taskId") long taskId,
+	                      @CookieValue(value = "userId") long userId) {
 		logger.info("complete taskId=" + taskId + "by userId=" + userId);
 		if (courseTaskCompletionRepo.getByTaskIdAndUserId(taskId, userId) != null) {
-			return new ValueSucceedDTO(taskId, false);
+			return new IdSucceedDTO(taskId, false);
 		}
 		CourseTaskCompletion completion = new CourseTaskCompletion();
 		completion.setTask(courseTaskRepo.getOne(taskId));
 		completion.setUser(userRepo.getOne(userId));
 		completion.setDate(new Timestamp(System.currentTimeMillis()));
 		courseTaskCompletionRepo.save(completion);
-		return new ValueSucceedDTO(taskId, true);
+		return new IdSucceedDTO(taskId, true);
 	}
 
 	@GetMapping("/task/{taskId}/undo")
-	public @ResponseBody
-	ValueSucceedDTO undo(@PathVariable(value = "taskId") long taskId,
-	                     @RequestParam(value = "userId") long userId) {
+	@ResponseBody
+	public IdSucceedDTO undo(@PathVariable(value = "taskId") long taskId,
+	                  @CookieValue(value = "userId") long userId) {
 		logger.info("undo taskId=" + taskId + "by userId=" + userId);
 		CourseTaskCompletion completion = courseTaskCompletionRepo.getByTaskIdAndUserId(taskId, userId);
 		if (completion == null) {
-			return new ValueSucceedDTO(taskId, false);
+			return new IdSucceedDTO(taskId, false);
 		}
 		System.out.println(completion.toString());
 		courseTaskPoopRepo.removeById(completion.getId());
 		System.out.println("deleted");
-		return new ValueSucceedDTO(taskId, true);
+		return new IdSucceedDTO(taskId, true);
 	}
 }

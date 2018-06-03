@@ -58,8 +58,8 @@ export default class NewsPreview extends Component {
                         </div>
                     </Row>
             </Panel.Heading>
-            <Panel.Body style={{paddingTop: "0", paddingBottom: "0"}}>
-                <div id={"wrapper"}>{markdown}</div>
+            <Panel.Body style={{padding: "0"}}>
+                <div id={"wrapper"} style={{margin: "0"}}>{markdown}</div>
             </Panel.Body>
             <Panel.Footer>
                 <div>

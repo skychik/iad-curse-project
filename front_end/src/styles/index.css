@@ -8,7 +8,8 @@
 .header-create-button {
   float: right;
   width: 80px;
-  height: 21px;
+  margin-top: -1px;
+  height: 22px;
   border: 1px solid black;
   background: white;
   border-radius: 5px; }
@@ -58,7 +59,7 @@ time {
   text-overflow: ellipsis; }
 
 #wrapper {
-  background-color: rgba(238, 238, 238, 0.2);
+  background-color: rgba(238, 238, 238, 0.35);
   margin-top: 20px;
   margin-bottom: 20px; }
 
@@ -400,6 +401,25 @@ time {
 .feed-no-news {
   margin: 0;
   font-size: 50px; }
+
+.big-button {
+  width: 90%;
+  height: 147px;
+  margin: 1.5% 5%;
+  font-size: 90px;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: bold; }
+
+.withBackgroundForCourse {
+  background: url(../images/musical-background-reflected.png) fixed;
+  display: block;
+  background-size: 100%;
+  background-color: #f8f8f8;
+  height: 100%;
+  min-height: 100vh; }
+
+html, body {
+  height: 100%; }
 
 body {
   margin: 0;

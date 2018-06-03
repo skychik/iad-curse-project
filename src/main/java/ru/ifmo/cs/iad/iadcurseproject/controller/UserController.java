@@ -52,11 +52,12 @@ public class UserController {
 	}
 
 	@GetMapping("/{userId}")
-	public @ResponseBody ProfileDTO getProfileById(@PathVariable(value = "userId") long userId,
-	                                               @RequestParam(value = "size",
-			                                               required = false, defaultValue = "15") int pageSize,
-	                                               @RequestParam(value = "page",
-			                                               required = false, defaultValue = "0") int pageNumber) {
+	@ResponseBody
+	public ProfileDTO getProfileById(@PathVariable(value = "userId") long userId,
+	                                 @RequestParam(value = "size",
+			                                 required = false, defaultValue = "15") int pageSize,
+	                                 @RequestParam(value = "page",
+			                                 required = false, defaultValue = "0") int pageNumber) {
 		User user = userRepo.getOne(userId);
 
 		List<News> newsList = newsRepo.getAllByUserId(userId, of(pageNumber, pageSize,
@@ -70,9 +71,10 @@ public class UserController {
 	}
 
 	@GetMapping("/{userId}/performers")
-	public @ResponseBody List<PerformerDTO> getPerformersByUserId(@PathVariable(value = "userId") long userId,
-	                           @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
-	                           @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
+	@ResponseBody
+	public List<PerformerDTO> getPerformersByUserId(@PathVariable(value = "userId") long userId,
+	                                         @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
+	                                         @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
 
 		List<Performer> performerList = performerRepo.getAllByUserId(userId, of(pageNumber, pageSize,
 				by(Sort.Order.by("breakupDate").nullsLast(), Sort.Order.by("creationDate"))));
@@ -81,13 +83,15 @@ public class UserController {
 	}
 
 	@GetMapping("/doesExist")
-	public @ResponseBody boolean getLoginExistence(@RequestParam(value = "username") String username) {
+	@ResponseBody
+	public boolean getLoginExistence(@RequestParam(value = "username") String username) {
 		User user = userRepo.findByUsername(username);
 		return user != null;
 	}
 
 	@GetMapping("/signin")
-	public @ResponseBody String signin(@RequestParam(value = "username") String username,
+	@ResponseBody
+	public String signin(@RequestParam(value = "username") String username,
 	                                    @RequestParam(value = "password") String password) {
 		User user = userRepo.findByUsername(username);
 		if (user == null) return "";

@@ -55,7 +55,8 @@ public class NewsController {
 	}
 
 	@GetMapping("/for")
-	public @ResponseBody List<NewsForFeedDTO> getNewsForUserId(@RequestParam(value = "userId") long userId,
+	@ResponseBody
+	public List<NewsForFeedDTO> getNewsForUserId(@CookieValue(value = "userId") long userId,
 	                                      @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
 	                                      @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
 		List<News> newsList = newsRepo.getAllForUserId(userId, of(pageNumber, pageSize,
@@ -69,8 +70,9 @@ public class NewsController {
 	}
 
 	@GetMapping("/{newsId}")
-	public @ResponseBody NewsDTO getNewsById(@PathVariable("newsId") long newsId,
-	                                         @RequestParam(value = "userId") long userId) {
+	@ResponseBody
+	public NewsDTO getNewsById(@PathVariable("newsId") long newsId,
+	                                         @CookieValue(value = "userId") long userId) {
 		News news = newsRepo.getOneByNewsId(newsId);
 		if (news == null) return new NewsDTO();
 		return new NewsDTO(news, (long) news.getComments().size(),
@@ -87,7 +89,8 @@ public class NewsController {
 //	}
 
 	@GetMapping("/{newsId}/comments_number")
-	public @ResponseBody long getCommentsNumberByNewsId(@PathVariable("newsId") long newsId) {
+	@ResponseBody
+	public long getCommentsNumberByNewsId(@PathVariable("newsId") long newsId) {
 		return commentRepo.countAllByNewsId(newsId);
 	}
 
@@ -100,7 +103,8 @@ public class NewsController {
 //	}
 
 	@GetMapping("/{newsId}/reposts_number")
-	public @ResponseBody long getRepostsNumberByNewsId(@PathVariable("newsId") long newsId) {
+	@ResponseBody
+	public long getRepostsNumberByNewsId(@PathVariable("newsId") long newsId) {
 		return repostRepo.countAllByNewsId(newsId);
 	}
 
@@ -113,12 +117,14 @@ public class NewsController {
 //	}
 
 	@GetMapping("/{newsId}/total_loops_number")
-	public @ResponseBody long getTotalLoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
+	@ResponseBody
+	public long getTotalLoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
 		return newsLoopRepo.countAllByNewsId(newsId) + repostLoopRepo.countAllByNewsId(newsId);
 	}
 
 	@GetMapping("/{newsId}/loops_number")
-	public @ResponseBody long getLoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
+	@ResponseBody
+	public long getLoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
 		return newsLoopRepo.countAllByNewsId(newsId);
 	}
 
@@ -131,12 +137,14 @@ public class NewsController {
 //	}
 
 	@GetMapping("/{newsId}/total_poops_number")
-	public @ResponseBody long getTotalPoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
+	@ResponseBody
+	public long getTotalPoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
 		return newsPoopRepo.countAllByNewsId(newsId) + repostPoopRepo.countAllByNewsId(newsId);
 	}
 
 	@GetMapping("/{newsId}/poops_number")
-	public @ResponseBody long getPoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
+	@ResponseBody
+	public long getPoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
 		return newsPoopRepo.countAllByNewsId(newsId);
 	}
 
@@ -155,9 +163,9 @@ public class NewsController {
 	}
 
 	@GetMapping("/{newsId}/loop/put")
-	public @ResponseBody
-	IdValueSucceedDTO putLoop(@PathVariable(value = "newsId") long newsId,
-	                          @RequestParam(value = "userId") long userId) {
+	@ResponseBody
+	public IdValueSucceedDTO putLoop(@PathVariable(value = "newsId") long newsId,
+	                          @CookieValue(value = "userId") long userId) {
 		logger.info("put loop newsId=" + newsId + "by userId=" + userId);
 		if (newsLoopRepo.getByNewsIdAndUserId(newsId, userId) != null) {
 			return new IdValueSucceedDTO(newsId, newsLoopRepo.countAllByNewsId(newsId), false);
@@ -171,9 +179,9 @@ public class NewsController {
 	}
 
 	@GetMapping("/{newsId}/poop/put")
-	public @ResponseBody
-	IdValueSucceedDTO putPoop(@PathVariable(value = "newsId") long newsId,
-	                          @RequestParam(value = "userId") long userId) {
+	@ResponseBody
+	public IdValueSucceedDTO putPoop(@PathVariable(value = "newsId") long newsId,
+	                          @CookieValue(value = "userId") long userId) {
 		logger.info("put poop newsId=" + newsId + "by userId=" + userId);
 		if (newsPoopRepo.getByNewsIdAndUserId(newsId, userId) != null) {
 			return new IdValueSucceedDTO(newsId, newsPoopRepo.countAllByNewsId(newsId), false);
@@ -186,9 +194,8 @@ public class NewsController {
 		return new IdValueSucceedDTO(newsId, newsPoopRepo.countAllByNewsId(newsId), true);
 	}
 	@GetMapping("/{newsId}/loop/remove")
-	public @ResponseBody
-	IdValueSucceedDTO removeLoop(@PathVariable(value = "newsId") long newsId,
-	                             @RequestParam(value = "userId") long userId) {
+	@ResponseBody public IdValueSucceedDTO removeLoop(@PathVariable(value = "newsId") long newsId,
+	                             @CookieValue(value = "userId") long userId) {
 		logger.info("remove loop newsId=" + newsId + "by userId=" + userId);
 		NewsLoop loop = newsLoopRepo.getByNewsIdAndUserId(newsId, userId);
 		if (loop == null) {
@@ -201,9 +208,9 @@ public class NewsController {
 	}
 
 	@GetMapping("/{newsId}/poop/remove")
-	public @ResponseBody
-	IdValueSucceedDTO removePoop(@PathVariable(value = "newsId") long newsId,
-	                             @RequestParam(value = "userId") long userId) {
+	@ResponseBody
+	public IdValueSucceedDTO removePoop(@PathVariable(value = "newsId") long newsId,
+	                             @CookieValue(value = "userId") long userId) {
 		logger.info("remove poop newsId=" + newsId + "by userId=" + userId);
 		NewsPoop poop = newsPoopRepo.getByNewsIdAndUserId(newsId, userId);
 		if (poop == null) {

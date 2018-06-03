@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
-import {PageHeader, Panel, Row} from "react-bootstrap";
+import {Button, Label, PageHeader, Panel, Row} from "react-bootstrap";
 import UserPhoto from "./UserPhoto";
 import DateTime from "./DateTime";
 import {Link} from "react-router-dom";
@@ -11,20 +11,26 @@ import PLoopButton from "./PLoopButton";
 
 export default class CourseTaskPreview extends Component {
     render() {
-        const { taskId, taskTitle, courseId, courseTitle, authorId, authorUsername,
+        const { taskId, taskTitle, courseId, courseTitle, courseType, authorId, authorUsername,
             authorAvatar, contentPreview, creationDate, alteringDate, commentsNumber,
-            loopsNumber, loopWasPut, poopsNumber, poopWasPut, putLoopOnTaskId, putPoopOnTaskId,
-            removeLoopOnTaskId, removePoopOnTaskId,} = this.props;
+            loopsNumber, loopWasPut, poopsNumber, poopWasPut, wasCompleted, putLoopOnTaskId, putPoopOnTaskId,
+            removeLoopOnTaskId, removePoopOnTaskId} = this.props;
 
         if (this.id == null) return <h1>This news doesn't exist(no such news number)</h1>;
 
+        const completeCourseTask = () => this.props.completeCourseTask(taskId);
+        const undoCourseTask = () => this.props.undoCourseTask(taskId);
         const markdown = <ReactMarkdown source={contentPreview} />;
 
         return <Panel>
             <Panel.Heading>
                 <Row>
                     <Link to={"/id/"+ authorId + "/courses/" + courseId}>{courseTitle}</Link>
-                    <span>Done/Undone</span>
+                    <Label>{courseType}</Label>
+                    <Button type={wasCompleted ? "danger" : "success"}
+                            onClick={wasCompleted ? undoCourseTask : completeCourseTask} bsSize="xs">
+                        {wasCompleted ? "Undone" : "Done"}
+                     </Button>
                 </Row>
                 <Row>
                     <div style={{display: "block", width: "74px", float: "right"}}>
@@ -70,6 +76,7 @@ CourseTaskPreview.propTypes = {
     taskTitle: PropTypes.string.isRequired,
     courseId: PropTypes.number.isRequired,
     courseTitle: PropTypes.string.isRequired,
+    courseType: PropTypes.string.isRequired,
     authorId: PropTypes.number.isRequired,
     authorUsername: PropTypes.string.isRequired,
     authorAvatar: PropTypes.string.isRequired,
@@ -81,8 +88,11 @@ CourseTaskPreview.propTypes = {
     loopWasPut: PropTypes.bool.isRequired,
     poopsNumber: PropTypes.number.isRequired,
     poopWasPut: PropTypes.bool.isRequired,
+    wasCompleted: PropTypes.bool.isRequired,
     putLoopOnTaskId: PropTypes.func.isRequired,
     putPoopOnTaskId: PropTypes.func.isRequired,
     removeLoopOnTaskId: PropTypes.func.isRequired,
     removePoopOnTaskId: PropTypes.func.isRequired,
+    completeCourseTask: PropTypes.func.isRequired,
+    undoCourseTask: PropTypes.func.isRequired,
 };

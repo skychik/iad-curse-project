@@ -12,7 +12,6 @@ import java.sql.Timestamp;
 @Relation(value = "course", collectionRelation = "course")
 @ToString
 public class CoursePostedDTO {
-	private UserDTO author;
 	private String type;
 	private String title;
 
