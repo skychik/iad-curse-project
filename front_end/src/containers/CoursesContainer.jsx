@@ -18,7 +18,7 @@ class CoursesContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return {newsMaker: state.newsMaker}
+    return {redactor: state.redactor}
 };
 
 const mapDispatchToProps = (dispatch) => {

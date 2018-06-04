@@ -130,6 +130,27 @@ export function undoCourseTask(taskId) {
     }
 }
 
+export function postNews(data) {
+    return {
+        type: 'POST_NEWS',
+        payload: api.res("news").res("post").post(data),
+    }
+}
+
+export function postCourseTask(data) {
+    return {
+        type: 'POST_COURSE_TASK',
+        payload: api.res("course").res("task").res("add").post(data),
+    }
+}
+
+export function postInitCourseWithTask(data) {
+    return {
+        type: 'POST_INIT_COURSE_WITH_TASK',
+        payload: api.res("course").res("task").res("init_course_with_task").post(data),
+    }
+}
+
 // ------------------------------------------------------ SETTERS ------------------------------------------------------
 
 export function setFeed() {
@@ -191,24 +212,38 @@ export function setCommentsPoop(id) {
     }
 }
 
-export function setCurseTasks() {
+export function setCourseTasks() {
     return {
         type: 'FETCH_CURSE_TASKS',
         payload: api.res("course").res("tasks").res("for").get(),
     }
 }
 
-export function setCurseTask(number) {
+export function setCourseTask(number) {
     return {
         type: 'FETCH_CURSE_TASK',
         payload: api.res("course").res("task").res(number.toString()).get(),
     }
 }
 
-export function findCurseTitle(title) {
+export function findCourseTitle(title) {
     return {
-        type: 'FIND_TITLE',
+        type: 'IS_USER_NEWS_TITLE_EXISTS',
         payload: api.res("course").res("title_exists").get({title: title}),
+    }
+}
+
+export function setCourses() {
+    return {
+        type: 'FETCH_USER_COURSES',
+        payload: api.res("course").res("list").get(),
+    }
+}
+
+export function setCourseTypes() {
+    return {
+        type: 'FETCH_COURSE_TYPES',
+        payload: api.res("course").res("types").get(),
     }
 }
 

@@ -13,7 +13,6 @@ import java.util.Optional;
 @Relation(value = "newsPosted", collectionRelation = "newsPosted")
 @ToString
 public class NewsPostedDTO {
-	private long authorId;
 	private String title;
 	private String content;
 

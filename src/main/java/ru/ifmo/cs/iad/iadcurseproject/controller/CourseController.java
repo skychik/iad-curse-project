@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.ifmo.cs.iad.iadcurseproject.dto.*;
 import ru.ifmo.cs.iad.iadcurseproject.entity.*;
@@ -29,6 +31,7 @@ public class CourseController {
 	private final TaskCommentLoopRepo taskCommentLoopRepo;
 	private final TaskCommentPoopRepo taskCommentPoopRepo;
 	private final CourseTaskCompletionRepo courseTaskCompletionRepo;
+	private final String[] COURSE_TYPES = {"guitar", "drums", "vocal", "dj", "flute"};
 
 	private Logger logger = LoggerFactory.getLogger("application");
 
@@ -52,7 +55,7 @@ public class CourseController {
 	public List<CourseTaskPreviewDTO> getTasksForUserId(@CookieValue(value = "userId") long userId,
 	                                             @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
 	                                             @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
-		logger.info("" + userId);
+		logger.info("tasks of userId=" + userId);
 		List<CourseTask> taskList = courseTaskRepo.getAllForUserId(userId, of(pageNumber, pageSize,
 				by(Sort.Order.by("alteringDate").nullsLast(), Sort.Order.by("creationDate"))));
 
@@ -62,6 +65,17 @@ public class CourseController {
 						(long) task.getTaskPoops().size(), courseTaskPoopRepo.getByTaskIdAndUserId(task.getId(), userId) != null,
 						courseTaskCompletionRepo.getByTaskIdAndUserId(task.getId(), userId) != null))
 				.collect(Collectors.toList());
+	}
+
+	@GetMapping("list")
+	@ResponseBody
+	public List<CourseInfoDTO> getCoursesForUserId(@CookieValue(value = "userId") long userId,
+	                                               @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
+	                                               @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
+		logger.info("courses of userId=" + userId);
+		List<Course> courseList = courseRepo.getAllByAuthorId(userId);
+
+		return courseList.stream().map(CourseInfoDTO::new).collect(Collectors.toList());
 	}
 
 	@GetMapping("/task/{taskId}")
@@ -74,6 +88,12 @@ public class CourseController {
 				(long) task.getTaskLoops().size(), courseTaskLoopRepo.getByTaskIdAndUserId(task.getId(), userId) != null,
 				(long) task.getTaskPoops().size(), courseTaskPoopRepo.getByTaskIdAndUserId(task.getId(), userId) != null,
 				courseTaskCompletionRepo.getByTaskIdAndUserId(task.getId(), userId) != null);
+	}
+
+	@GetMapping("/types")
+	@ResponseBody
+	public String[] getCoursesTypes() {
+		return COURSE_TYPES;
 	}
 
 	@GetMapping("/task/{taskId}/comments_number")
@@ -102,47 +122,71 @@ public class CourseController {
 	}
 
 	@PostMapping(path="/task/init_course_with_task", consumes = "application/json", produces = "application/json")
-	public String addNewCourseWithTask(@CookieValue("userId") long userId,
-	                                   @RequestBody InitCourseTaskPostedDTO taskDTO) {
+	public ResponseEntity<String> addNewCourseWithTask(@CookieValue("userId") long userId,
+	                                                   @RequestBody InitCourseTaskPostedDTO taskDTO) {
 		logger.info("add new course with task=" + taskDTO.toString());
 		Optional<User> user = userRepo.findById(userId);
 		if (!user.isPresent()) {
-			logger.info("User with id=" + userId + " doesn't exist");
-			return null;
+			String str = "User with id=" + userId + " doesn't exist";
+			logger.info(str);
+			return new ResponseEntity<>(str, HttpStatus.BAD_REQUEST);
 		}
-		Course course = courseRepo.findByAuthorIdAndTitle(userId, taskDTO.getCourse().getTitle());
-		if (course != null) {
-			logger.info("User with id=" + userId + " already has course with title " + taskDTO.getTitle());
-			return null;
+		Course foundCourse = courseRepo.findByAuthorIdAndTitle(userId, taskDTO.getCourse().getTitle());
+		if (foundCourse != null) {
+			String str = "User with id=" + userId + " already has course with title=" + taskDTO.getTitle();
+			logger.info(str);
+			return new ResponseEntity<>(str, HttpStatus.BAD_REQUEST);
 		}
-		CourseTask task = taskDTO.makeTask(user.get());
+
+		if (!isCourseTypeCorrect(taskDTO.getCourse().getType())) {
+			String str = "Course type=\"" + taskDTO.getCourse().getType() + "\" is incorrect";
+			logger.info(str);
+			return new ResponseEntity<>(str, HttpStatus.BAD_REQUEST);
+		}
+		Course course = taskDTO.getCourse().makeCourse(user.get());
+		Course savedCourse = courseRepo.save(course);
+		logger.info(savedCourse.toString());
+
+		CourseTask task = taskDTO.makeTask(user.get(), savedCourse);
 		CourseTask savedTask = courseTaskRepo.save(task);
 		logger.info("task saved=" + savedTask.toString());
-		return savedTask.getId().toString();
+		return new ResponseEntity<>(savedTask.getId().toString(), HttpStatus.OK);
+	}
+
+	private boolean isCourseTypeCorrect(String courseType) {
+		for (String type : COURSE_TYPES) {
+			if (type.equals(courseType)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@PostMapping(path="/task/add", consumes = "application/json", produces = "application/json")
-	public String addTask(@CookieValue("userId") long userId,
-	                      @RequestBody CourseTaskPostedDTO taskDTO) {
+	public ResponseEntity<String> addTask(@CookieValue("userId") long userId,
+	                                      @RequestBody CourseTaskPostedDTO taskDTO) {
 		logger.info("add task=" + taskDTO.toString());
 		Optional<User> user = userRepo.findById(userId);
 		Optional<Course> course = courseRepo.findById(taskDTO.getCourseId());
 		if (!user.isPresent()) {
-			logger.info("User with id=" + userId + " doesn't exist");
-			return null;
+			String str = "User with id=" + userId + " doesn't exist";
+			logger.info(str);
+			return new ResponseEntity<>(str, HttpStatus.BAD_REQUEST);
 		}
 		if (!course.isPresent()) {
-			logger.info("Course with id=" + taskDTO.getCourseId() + " doesn't exist");
-			return null;
+			String str = "Course with id=" + taskDTO.getCourseId() + " doesn't exist";
+			logger.info(str);
+			return new ResponseEntity<>(str, HttpStatus.BAD_REQUEST);
 		}
 		if (course.get().getAuthor() != user.get()) {
-			logger.info("Course with id=" + taskDTO.getCourseId() + " doesn't own user with id=" + userId);
-			return null;
+			String str = "Course with id=" + taskDTO.getCourseId() + " doesn't own user with id=" + userId;
+			logger.info(str);
+			return new ResponseEntity<>(str, HttpStatus.BAD_REQUEST);
 		}
 		CourseTask task = taskDTO.makeTask(course.get());
 		CourseTask savedTask = courseTaskRepo.save(task);
 		logger.info("task saved=" + savedTask.toString());
-		return savedTask.getId().toString();
+		return new ResponseEntity<>(savedTask.getId().toString(), HttpStatus.OK);
 	}
 
 	@GetMapping("/task/{taskId}/loop/put")

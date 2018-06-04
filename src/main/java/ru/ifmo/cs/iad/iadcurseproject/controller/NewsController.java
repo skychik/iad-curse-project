@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.ifmo.cs.iad.iadcurseproject.dto.*;
 import ru.ifmo.cs.iad.iadcurseproject.entity.News;
@@ -71,13 +73,18 @@ public class NewsController {
 
 	@GetMapping("/{newsId}")
 	@ResponseBody
-	public NewsDTO getNewsById(@PathVariable("newsId") long newsId,
+	public ResponseEntity<NewsDTO> getNewsById(@PathVariable("newsId") long newsId,
 	                                         @CookieValue(value = "userId") long userId) {
+		logger.info("get newsId=" + newsId);
 		News news = newsRepo.getOneByNewsId(newsId);
-		if (news == null) return new NewsDTO();
-		return new NewsDTO(news, (long) news.getComments().size(),
+		if (news == null) {
+			return new ResponseEntity<>(new NewsDTO(), HttpStatus.BAD_REQUEST);
+		}
+		logger.info(news.toString());
+		return new ResponseEntity<>(new NewsDTO(news, (long) news.getComments().size(),
 				(long) news.getNewsLoops().size(), newsLoopRepo.getByNewsIdAndUserId(news.getId(), userId) != null,
-				(long) news.getNewsPoops().size(),newsPoopRepo.getByNewsIdAndUserId(news.getId(), userId) != null);
+				(long) news.getNewsPoops().size(),newsPoopRepo.getByNewsIdAndUserId(news.getId(), userId) != null),
+				HttpStatus.OK);
 	}
 
 	//	@GetMapping("/{newsId}/comments")
@@ -149,23 +156,24 @@ public class NewsController {
 	}
 
 	@PostMapping(path="/post", consumes = "application/json", produces = "application/json")
-	public String addNews(@RequestBody NewsPostedDTO newsDTO) {
+	public ResponseEntity<String> addNews(@RequestBody NewsPostedDTO newsDTO, @CookieValue(value = "userId") long userId) {
 		logger.info("add news=" + newsDTO.toString());
-		Optional<User> user = userRepo.findById(newsDTO.getAuthorId());
+		Optional<User> user = userRepo.findById(userId);
 		if (!user.isPresent()) {
-			logger.info("User with id=" + newsDTO.getAuthorId() + " doesn't exist");
-			return null;
+			String str = "User with id=" + userId + " doesn't exist";
+			logger.info(str);
+			return new ResponseEntity<>(str, HttpStatus.BAD_REQUEST);
 		}
 		News news = newsDTO.makeNews(user.get());
 		News savedNews = newsRepo.save(news);
 		logger.info("news saved=" + savedNews.toString());
-		return savedNews.getId().toString();
+		return new ResponseEntity<>(savedNews.getId().toString(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{newsId}/loop/put")
 	@ResponseBody
 	public IdValueSucceedDTO putLoop(@PathVariable(value = "newsId") long newsId,
-	                          @CookieValue(value = "userId") long userId) {
+	                                 @CookieValue(value = "userId") long userId) {
 		logger.info("put loop newsId=" + newsId + "by userId=" + userId);
 		if (newsLoopRepo.getByNewsIdAndUserId(newsId, userId) != null) {
 			return new IdValueSucceedDTO(newsId, newsLoopRepo.countAllByNewsId(newsId), false);

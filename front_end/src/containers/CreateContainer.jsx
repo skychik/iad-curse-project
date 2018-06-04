@@ -9,15 +9,15 @@ import CreateCourseTaskContainer from "./CreateCourseTaskContainer";
 class CreateContainer extends React.Component {
     render() {
         return <Switch>
-                <Route exact path='/create' render={() => <Redirect to='/feed' />}/>
-                <Route path='/create/news' component={CreateNewsContainer}/>
-                <Route path='/create/course' component={CreateCourseTaskContainer}/>
-            </Switch>
+            <Route exact path='/create' render={() => <Redirect to='/feed' />}/>
+            <Route path='/create/news' component={CreateNewsContainer}/>
+            <Route path='/create/course' component={CreateCourseTaskContainer}/>
+        </Switch>
     }
 }
 
 const mapStateToProps = (state) => {
-    return {newsMaker: state.newsMaker}
+    return {redactor: state.redactor}
 };
 
 const mapDispatchToProps = (dispatch) => {

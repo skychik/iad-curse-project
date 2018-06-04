@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.ifmo.cs.iad.iadcurseproject.entity.Course;
+import ru.ifmo.cs.iad.iadcurseproject.entity.CourseTask;
 import ru.ifmo.cs.iad.iadcurseproject.entity.News;
 
 import javax.transaction.Transactional;
@@ -14,5 +15,7 @@ import java.util.List;
 @Repository
 @Transactional
 public interface CourseRepo extends JpaRepository<Course, Long> {
+	List<Course> getAllByAuthorId(long authorId);
+
 	Course findByAuthorIdAndTitle(long authorId, String title);
 }

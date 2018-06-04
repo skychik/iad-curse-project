@@ -7,7 +7,7 @@ import { newsReducer } from './newsReducer';
 import { commentsReducer } from './commentsReducer';
 import { profileReducer } from "./profileReducer";
 import { signinFormReducer } from "./signinFormReducer";
-import { newsMakerReducer } from "./newsMakerReducer";
+import { redactorReducer } from "./redactorReducer";
 import { courseTaskListReducer } from "./courseTaskListReducer";
 import {courseTaskReducer} from "./courseTaskReducer";
 import {courseBackgroundReducer} from "./courseBackgroundReducer";
@@ -16,7 +16,7 @@ const reducers = combineReducers({
     signinForm: signinFormReducer,
     feed: feedReducer,
     news: newsReducer,
-    newsMaker: newsMakerReducer,
+    redactor: redactorReducer,
     comments: commentsReducer,
     profile: profileReducer,
     routing: routerReducer,
