@@ -27,10 +27,10 @@ class FeedContainer extends React.Component {
         // console.log('---data---');
         const feedContainer =  data != null ?
             data.map((newsPreview, idx) => {
-                const putLoopOnNewsId = () => this.props.putLoopOnTaskId(newsPreview.id);
-                const putPoopOnNewsId = () => this.props.putPoopOnTaskId(newsPreview.id);
-                const removeLoopOnNewsId = () => this.props.removeLoopOnTaskId(newsPreview.id);
-                const removePoopOnNewsId = () => this.props.removePoopOnTaskId(newsPreview.id);
+                const putLoopOnNewsId = () => this.props.putLoopOnNewsId(newsPreview.id);
+                const putPoopOnNewsId = () => this.props.putPoopOnNewsId(newsPreview.id);
+                const removeLoopOnNewsId = () => this.props.removeLoopOnNewsId(newsPreview.id);
+                const removePoopOnNewsId = () => this.props.removePoopOnNewsId(newsPreview.id);
 
                 return <NewsPreview className="NewsPreview"
                                     key={idx}

@@ -249,7 +249,7 @@ export function setCourseTypes() {
 
 // ------------------------------------------------------ ....... ------------------------------------------------------
 
-const api = new RestClient('http://localhost:8080');
+const api = new RestClient('http://46.101.111.25:8080');
 api.on('request', function (xhr) {
     xhr.withCredentials = true;
 });

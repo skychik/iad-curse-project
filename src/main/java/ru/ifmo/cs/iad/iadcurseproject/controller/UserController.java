@@ -92,7 +92,7 @@ public class UserController {
 	@GetMapping("/signin")
 	@ResponseBody
 	public String signin(@RequestParam(value = "username") String username,
-	                                    @RequestParam(value = "password") String password) {
+	                     @RequestParam(value = "password") String password) {
 		User user = userRepo.findByUsername(username);
 		if (user == null) return "";
 		return user.getPassword().equals(password) ? user.getId().toString() : "";

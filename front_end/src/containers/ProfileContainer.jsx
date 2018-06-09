@@ -32,10 +32,10 @@ class ProfileContainer extends React.Component {
             news, tasks, about } = profileData;
         const feedContainer =  news != null ?
             news.map((newsPreview, idx) => {
-                const putLoopOnNewsId = () => this.props.putLoopOnTaskId(newsPreview.id);
-                const putPoopOnNewsId = () => this.props.putPoopOnTaskId(newsPreview.id);
-                const removeLoopOnNewsId = () => this.props.removeLoopOnTaskId(newsPreview.id);
-                const removePoopOnNewsId = () => this.props.removePoopOnTaskId(newsPreview.id);
+                const putLoopOnNewsId = () => this.props.putLoopOnNewsId(newsPreview.id);
+                const putPoopOnNewsId = () => this.props.putPoopOnNewsId(newsPreview.id);
+                const removeLoopOnNewsId = () => this.props.removeLoopOnNewsId(newsPreview.id);
+                const removePoopOnNewsId = () => this.props.removePoopOnNewsId(newsPreview.id);
 
                 return <NewsPreview className="NewsPreview"
                                     key={idx}
@@ -109,7 +109,7 @@ class ProfileContainer extends React.Component {
                         </div>
                     </div>
                     <div className="profile-userbuttons">
-                        <Button className="btn btn-success btn-sm">Follow</Button>
+                        <Button bsStyle="success" bsSize="sm">Follow</Button>
                     </div>
                     <div className="profile-usermenu">
                         <ul className="nav">

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {Glyphicon, OverlayTrigger, Tooltip} from "react-bootstrap";
+import {Button, Glyphicon, OverlayTrigger, Tooltip} from "react-bootstrap";
 
 
 export default class PLoopButton extends Component {
@@ -24,10 +24,10 @@ export default class PLoopButton extends Component {
 
 
         return <OverlayTrigger placement="top" overlay={tip} style={{float: float}}>
-            <a onClick={wasPut ? removeAction : putAction} className={className} style={{float: float}}>
+            <Button onClick={wasPut ? removeAction : putAction} className={className} style={{float: float}}>
                 {isLoop ? <Glyphicon glyph="repeat" /> : <Glyphicon glyph="trash" />}
                 <span>{counter}</span>
-            </a>
+            </Button>
         </OverlayTrigger>
     }
 }

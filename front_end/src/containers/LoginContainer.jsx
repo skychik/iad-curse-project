@@ -71,7 +71,7 @@ class LoginContainer extends React.Component {
         if (this.props.signinForm.signinSubmitEnabled) {
             this.props.initValidation();
 
-            let api = new RestClient('http://localhost:8080');
+            let api = new RestClient('http://46.101.111.25:8080');
             const promise = api.res("user").res("signin").get({
                     username: this.props.signinForm.login,
                     password: this.props.signinForm.password

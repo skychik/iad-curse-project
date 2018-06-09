@@ -264,7 +264,7 @@ time {
   font-size: 50px; }
 
 .LoginContainer {
-  background: url(../images/welcome-background2.jpg);
+  background: url(../images/welcome-background.jpg);
   background-size: 100%;
   width: 100%;
   height: 100vh;
@@ -305,7 +305,7 @@ time {
   background-color: rgba(255, 255, 255, 0.6); }
 
 .RegisterContainer {
-  background: #bababa url(../images/welcome-background2.jpg) fixed;
+  background: #bababa url(../images/welcome-background.jpg) fixed;
   background-size: 100%;
   width: 100%;
   height: 100vh;
@@ -366,7 +366,7 @@ time {
   margin-top: 10px; }
 
 .Welcome {
-  background: url(../images/welcome-background2.jpg);
+  background: url(../images/welcome-background.jpg);
   background-size: 100%;
   width: 100%;
   height: 100vh;
