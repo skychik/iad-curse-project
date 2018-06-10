@@ -7,35 +7,38 @@ import {Button, Col, Glyphicon, Image, PageHeader, Row} from "react-bootstrap";
 import NewsPreview from "../components/NewsPreview";
 import {Link, Route, Switch} from "react-router-dom";
 import CourseTaskPreview from "../components/CourseTaskPreview";
+import CoursePreview from "../components/CoursePreview";
+import cookie from "react-cookies";
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
         console.log(parseInt(this.props.match.params.number, 10));
         this.props.setProfile(parseInt(this.props.match.params.number, 10));
-    }
-
-    setProfile(profile) {
-        return this.props.setProfile(profile)
+        this.props.setNewsListByUserId(parseInt(this.props.match.params.number, 10));
+        this.props.setCoursesByUserId(parseInt(this.props.match.params.number, 10));
     }
 
     render() {
         const profileData = this.props.profile;
 
-        if (profileData == null) {
+        if (profileData == null || profileData.info == null) {
             return <h1>This profile doesn't exist(incorrect id number)</h1>
         }
         if (Object.keys(profileData).length === 0) {
             return <h1>Loading...</h1>
         }
 
-        const { id, username, firstName, surname, patronymic, birthDate, sex, photo,
-            news, tasks, about } = profileData;
-        const feedContainer =  news != null ?
-            news.map((newsPreview, idx) => {
-                const putLoopOnNewsId = () => this.props.putLoopOnNewsId(newsPreview.id);
-                const putPoopOnNewsId = () => this.props.putPoopOnNewsId(newsPreview.id);
-                const removeLoopOnNewsId = () => this.props.removeLoopOnNewsId(newsPreview.id);
-                const removePoopOnNewsId = () => this.props.removePoopOnNewsId(newsPreview.id);
+        const { id, username, firstName, surname, patronymic, birthDate, sex, photo, about } = profileData.info;
+        const { newsList, courses } = profileData;
+
+        const isSelf = id === parseInt(cookie.load("userId"));
+
+        const feedContainer =  newsList != null ?
+            newsList.map((newsPreview, idx) => {
+                const putLoopOnNewsId = () => this.props.putLoopOnTaskId(newsPreview.id);
+                const putPoopOnNewsId = () => this.props.putPoopOnTaskId(newsPreview.id);
+                const removeLoopOnNewsId = () => this.props.removeLoopOnTaskId(newsPreview.id);
+                const removePoopOnNewsId = () => this.props.removePoopOnTaskId(newsPreview.id);
 
                 return <NewsPreview className="NewsPreview"
                                     key={idx}
@@ -61,40 +64,25 @@ class ProfileContainer extends React.Component {
         console.log("feedContainer");
         console.log(feedContainer);
 
-        const tasksContainer = tasks != null ?
-            tasks.map((task, idx) => {
-                const putLoopOnTaskId = () => this.props.putLoopOnTaskId(task.id);
-                const putPoopOnTaskId = () => this.props.putPoopOnTaskId(task.id);
-                const removeLoopOnTaskId = () => this.props.removeLoopOnTaskId(task.id);
-                const removePoopOnTaskId = () => this.props.removePoopOnTaskId(task.id);
+        const coursesContainer = courses != null ?
+            courses.map((course, idx) => {
+                const subscribeCourseId = () => this.props.subscribeCourseId(course.id);
+                const unsubscribeCourseId = () => this.props.unsubscribeCourseId(course.id);
 
-                return <CourseTaskPreview className="NewsPreview"
-                                          key={idx}
-                                          taskId={task.id}
-                                          taskTitle={task.taskTitle}
-                                          courseId={task.course.id}
-                                          courseTitle={task.course.title}
-                                          courseType={task.course.type}
-                                          authorId={task.author.id}
-                                          authorUsername={task.author.username}
-                                          authorAvatar={task.author.photo}
-                                          contentPreview={task.contentPreview}
-                                          creationDate={task.creationDate}
-                                          alteringDate={task.alteringDate}
-                                          commentsNumber={task.commentsNumber}
-                                          loopsNumber={task.loopsNumber}
-                                          loopWasPut={task.loopWasPut}
-                                          poopsNumber={task.poopsNumber}
-                                          poopWasPut={task.poopWasPut}
-                                          repostsNumber={task.repostsNumber}
-                                          wasCompleted={task.wasCompleted}
-                                          putLoopOnTaskId={putLoopOnTaskId}
-                                          putPoopOnTaskId={putPoopOnTaskId}
-                                          removeLoopOnTaskId={removeLoopOnTaskId}
-                                          removePoopOnTaskId={removePoopOnTaskId}
-                                          completeCourseTask={removePoopOnTaskId}
-                                          undoCourseTask={removePoopOnTaskId} />;
-            }) : "No tasks";
+                return <CoursePreview className="CoursePreview"
+                                      key={idx}
+                                      courseId={course.id}
+                                      isSelf={isSelf}
+                                      creationDate={course.creationDate}
+                                      title={course.title}
+                                      type={course.type}
+                                      subscribed={course.subscribed}
+                                      totalLoopsNumber={course.loopsNumber}
+                                      totalPoopsNumber={course.poopsNumber}
+                                      completionRate={course.completionRate}
+                                      subscribeCourseId={subscribeCourseId}
+                                      unsubscribeCourseId={unsubscribeCourseId}/>;
+            }) : "No courses";
 
         return <Row className="profile">
             <Col md={3}>
@@ -109,7 +97,7 @@ class ProfileContainer extends React.Component {
                         </div>
                     </div>
                     <div className="profile-userbuttons">
-                        <Button bsStyle="success" bsSize="sm">Follow</Button>
+                        {isSelf ? "" : <Button className="btn btn-success btn-sm">Follow</Button>}
                     </div>
                     <div className="profile-usermenu">
                         <ul className="nav">
@@ -119,7 +107,7 @@ class ProfileContainer extends React.Component {
                                 </Link>
                             </li>
                             <li className="active">
-                                <Link to={"/id/" + id + "/tasks"}>
+                                <Link to={"/id/" + id + "/courses"}>
                                     <Glyphicon glyph="home" /> Courses
                                 </Link>
                             </li>
@@ -130,16 +118,16 @@ class ProfileContainer extends React.Component {
             <Col md={9}>
                 <div className="profile-content">
                     {/*/!*<div className="profile-about">*!/  TODO: "About" in profile of user*/}
-                        {/*<div className="profile-about-title">About</div>*/}
-                        {/*<div>{about}</div>*/}
+                    {/*<div className="profile-about-title">About</div>*/}
+                    {/*<div>{about}</div>*/}
                     {/*</div>*/}
                     <Switch>
-                        <Route path='/id/:number/tasks' component={
+                        <Route path='/id/:number/courses' component={
                             () => <div>
                                 <PageHeader>Course Tasks</PageHeader>
-                                {tasksContainer.length === 0 ?
-                                    <span className={"profile-no-tasks"}>No tasks</span>
-                                    : tasksContainer}
+                                {coursesContainer.length === 0 ?
+                                    <span className={"profile-no-courses"}>No tasks</span>
+                                    : coursesContainer}
                             </div>} />
                         <Route component={
                             () => <div>

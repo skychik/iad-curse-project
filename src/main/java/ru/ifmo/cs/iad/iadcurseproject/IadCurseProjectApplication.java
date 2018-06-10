@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 import ru.ifmo.cs.iad.iadcurseproject.entity.Comment;
-import ru.ifmo.cs.iad.iadcurseproject.entity.Repost;
+// import ru.ifmo.cs.iad.iadcurseproject.entity.Repost;
 import ru.ifmo.cs.iad.iadcurseproject.repository.*;
 
 import java.lang.reflect.Array;

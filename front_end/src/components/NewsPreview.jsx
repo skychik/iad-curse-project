@@ -4,11 +4,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
 import Panel from "react-bootstrap/lib/Panel";
-import {Glyphicon, Row} from "react-bootstrap";
+import {Button, Glyphicon, Row} from "react-bootstrap";
 import UserPhoto from "./UserPhoto";
 import DateTime from "./DateTime";
 import {Link} from "react-router-dom";
-import PLoopButton from "./PLoopButton";
+import ActionButton from "./ActionButton";
 
 export default class NewsPreview extends Component {
     componentDidMount() {
@@ -28,14 +28,14 @@ export default class NewsPreview extends Component {
     render() {
         const { newsId, authorId, authorUsername, creationDate, alteringDate, title, contentPreview,
             commentsNumber, loopsNumber, poopsNumber, authorAvatar } = this.props;
-        const markdown = <ReactMarkdown source={contentPreview} />;
+        const markdown = <ReactMarkdown source={contentPreview} className="markdown-container"/>;
 
         return <Panel>
             <Panel.Heading>{/* style={{backgroundColor: "rgba(238, 238, 238, 0.5)"}}*/}
                     <Row>
-                        <div style={{display: "block", width: "74px", float: "right"}}>
+                        <div style={{display: "block", width: "74px", float: "left", paddingLeft: "15px"}}>
                             <UserPhoto userId={authorId} username={authorUsername} withTooltip={true}
-                                       photo={authorAvatar} size={64}/>
+                                       photo={authorAvatar} size={48}/>
                             {/*<div style={{color: "transparent",float: "right", marginRight: 10}}>*/}
                             {/*{authorId === null ?*/}
                             {/*<Button href={"/id" + authorId} bsSize="small">*/}
@@ -52,7 +52,7 @@ export default class NewsPreview extends Component {
                             {/*</div>*/}
                         </div>
                         <div style={{display: "block", marginRight: "94px"}}>
-                            <h3 className="news_preview_title">
+                            <h3 className="news_preview_title" style={{margin: "13px 94px 2.5px 20px"}}>
                                 <Link to={"/news/" + newsId}>{title}</Link>
                             </h3>
                         </div>
@@ -63,17 +63,15 @@ export default class NewsPreview extends Component {
             </Panel.Body>
             <Panel.Footer>
                 <div style={{height: "25.43px"}}>
-                    <span className={"my_button"} style={{border: "none", color: "#aca7b9", cursor: "default"}}>
-                        <Glyphicon glyph="comment" />
-                        <span style={{marginLeft: "0", border: "none"}}>{commentsNumber}</span>
-                    </span>
+                    <ActionButton isComment={true} action={this.props.showAddNewComment}
+                                  counter={commentsNumber} tooltip={"Comment!"}/>
 
-                    <PLoopButton isLoop={false} putAction={this.props.putPoopOnNewsId}
-                                 removeAction={this.props.removePoopOnNewsId} counter={poopsNumber}
-                                 tooltip={"Put your Poop ;("} float={"right"} wasPut={this.props.poopWasPut}/>
-                    <PLoopButton isLoop={true} putAction={this.props.putLoopOnNewsId}
-                                 removeAction={this.props.removeLoopOnNewsId} counter={loopsNumber}
-                                 tooltip={"Put your Loop :)"} float={"right"} wasPut={this.props.loopWasPut}/>
+                    <ActionButton isLoop={false} action={this.props.putPoopOnNewsId}
+                                  alternativeAction={this.props.removePoopOnNewsId} counter={poopsNumber}
+                                  tooltip={"Put your Poop ;("} float={"right"} wasPut={this.props.poopWasPut}/>
+                    <ActionButton isLoop={true} action={this.props.putLoopOnNewsId}
+                                  alternativeAction={this.props.removeLoopOnNewsId} counter={loopsNumber}
+                                  tooltip={"Put your Loop :)"} float={"right"} wasPut={this.props.loopWasPut}/>
                     <span className={"my_date"} style={{float: "right", paddingTop: "2.5px"}}>
                         <span style={{marginRight: 10}}>
                             <DateTime date={alteringDate == null ? creationDate : alteringDate} />
@@ -103,5 +101,6 @@ NewsPreview.propTypes = {
     putPoopOnNewsId: PropTypes.func.isRequired,
     removeLoopOnNewsId: PropTypes.func.isRequired,
     removePoopOnNewsId: PropTypes.func.isRequired,
+    showAddNewComment: PropTypes.func.isRequired,
     repostsNumber: PropTypes.number,
 };

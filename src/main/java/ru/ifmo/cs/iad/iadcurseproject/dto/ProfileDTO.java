@@ -12,11 +12,13 @@ import java.util.List;
 @ToString
 public class ProfileDTO extends UserExtendedDTO {
 	List<NewsForFeedDTO> news;
+	List<CourseInfoDTO> courses;
 
 	public ProfileDTO() {}
 
-	public ProfileDTO(User user, List<NewsForFeedDTO> news) {
+	public ProfileDTO(User user, List<NewsForFeedDTO> news, List<CourseInfoDTO> courses) {
 		super(user);
 		this.news = news;
+		this.courses = courses;
 	}
 }

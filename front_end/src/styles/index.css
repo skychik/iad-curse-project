@@ -14,6 +14,11 @@
   background: white;
   border-radius: 5px; }
 
+.markdown-container :first-child {
+  margin-top: 0; }
+.markdown-container :last-child {
+  margin-bottom: 0; }
+
 .news_preview_title {
   vertical-align: middle;
   overflow: hidden;
@@ -97,7 +102,7 @@ time {
   -webkit-hyphens: auto;
   -ms-hyphens: auto; }
 
-.poop_button, .poop_button_active, .loop_button, .loop_button_active, .my_button {
+.loop_button, .loop_button_active, .poop_button, .poop_button_active, .comment_button, .comment_button_active, .my_button {
   font-family: "Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;
   border: 1px solid #aca7b9;
   display: inline-block;
@@ -106,25 +111,48 @@ time {
   margin-left: 10px;
   font-size: 15px;
   color: #aca7b9;
-  cursor: pointer; }
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0); }
 
-.poop_button:hover, .poop_button_active:hover, .loop_button:hover, .loop_button_active:hover, .my_button:hover {
+.loop_button:hover, .loop_button_active:hover, .poop_button:hover, .poop_button_active:hover, .comment_button:hover, .comment_button_active:hover, .my_button:hover {
   text-decoration: none;
   /* Убираем подчеркивание */
   color: #79797e;
   /* Цвет ссылки при наведении на нее курсора мыши */
-  border-color: #79797e; }
+  border-color: #79797e;
+  background-color: rgba(0, 0, 0, 0); }
 
-.poop_button :first-child, .poop_button_active :first-child, .loop_button :first-child, .loop_button_active :first-child, .my_button :first-child {
+.loop_button :first-child, .loop_button_active :first-child, .poop_button :first-child, .poop_button_active :first-child, .comment_button :first-child, .comment_button_active :first-child, .my_button :first-child {
   top: 2px; }
 
-.poop_button :last-child, .poop_button_active :last-child, .loop_button :last-child, .loop_button_active :last-child, .my_button :last-child {
+.loop_button :last-child, .loop_button_active :last-child, .poop_button :last-child, .poop_button_active :last-child, .comment_button :last-child, .comment_button_active :last-child, .my_button :last-child {
   margin-left: 5px;
   padding-left: 5px;
   border-left: 1px solid #aca7b9; }
 
-.poop_button :last-child:hover, .poop_button_active :last-child:hover, .loop_button :last-child:hover, .loop_button_active :last-child:hover, .my_button :last-child:hover {
+.loop_button :last-child:hover, .loop_button_active :last-child:hover, .poop_button :last-child:hover, .poop_button_active :last-child:hover, .comment_button :last-child:hover, .comment_button_active :last-child:hover, .my_button :last-child:hover {
   border-left: 1px solid #79797e; }
+
+.loop_button:hover {
+  border-color: #00b5a6;
+  color: #00b5a6; }
+
+.loop_button :last-child:hover {
+  border-left: 1px solid #00b5a6; }
+
+.loop_button_active {
+  border-color: #008cba;
+  color: #008cba; }
+
+.loop_button_active:hover {
+  border-color: #00b5a6;
+  color: #00b5a6; }
+
+.loop_button_active :last-child {
+  border-left: 1px solid #008cba; }
+
+.loop_button_active :last-child:hover {
+  border-left: 1px solid #00b5a6; }
 
 .poop_button:hover {
   border-color: #b56447;
@@ -147,26 +175,26 @@ time {
 .poop_button_active :last-child:hover {
   border-left: 1px solid #b56447; }
 
-.loop_button:hover {
-  border-color: #00b5a6;
-  color: #00b5a6; }
+.comment_button:hover {
+  border-color: #97979c;
+  color: #97979c; }
 
-.loop_button :last-child:hover {
-  border-left: 1px solid #00b5a6; }
+.comment_button :last-child:hover {
+  border-left: 1px solid #97979c; }
 
-.loop_button_active {
-  border-color: #008cba;
-  color: #008cba; }
+.comment_button_active {
+  border-color: #5c5c60;
+  color: #5c5c60; }
 
-.loop_button_active:hover {
-  border-color: #00b5a6;
-  color: #00b5a6; }
+.comment_button_active:hover {
+  border-color: #97979c;
+  color: #97979c; }
 
-.loop_button_active :last-child {
-  border-left: 1px solid #008cba; }
+.comment_button_active :last-child {
+  border-left: 1px solid #5c5c60; }
 
-.loop_button_active :last-child:hover {
-  border-left: 1px solid #00b5a6; }
+.comment_button_active :last-child:hover {
+  border-left: 1px solid #97979c; }
 
 .my_date {
   font-style: italic;

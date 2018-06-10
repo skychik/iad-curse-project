@@ -59,7 +59,7 @@ public class News implements Serializable {
 	@JsonBackReference
 	private Set<NewsPoop> newsPoops;
 
-	@OneToMany(mappedBy="news", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
-	@JsonBackReference
-	private Set<Repost> reposts;
+//	@OneToMany(mappedBy="news", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+//	@JsonBackReference
+//	private Set<Repost> reposts;
 }

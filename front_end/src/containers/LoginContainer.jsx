@@ -17,6 +17,7 @@ import {debounce} from "lodash";
 import RestClient from "another-rest-client";
 import RegisterContainer from "./RegisterContainer";
 import cookie from 'react-cookies';
+import {Redirect} from "react-router-dom";
 
 class LoginContainer extends React.Component {
     constructor(props) {
@@ -71,33 +72,19 @@ class LoginContainer extends React.Component {
         if (this.props.signinForm.signinSubmitEnabled) {
             this.props.initValidation();
 
-            let api = new RestClient('http://46.101.111.25:8080');
-            const promise = api.res("user").res("signin").get({
-                    username: this.props.signinForm.login,
-                    password: this.props.signinForm.password
-            });
-            promise.then((response) => {
-                console.log("response=" + (response));
-                /*if (response != null && response !== "")*/
-                    cookie.save("userId", response, {path: "/"});
-            }).then(() => {
-
-                //console.log("session=" + this.props.session);
-                console.log("cookie != null=" + (cookie.load("userId") != null));
-                console.log("cookie !== \"\"=" + (cookie.load("userId") !== ""));
-                if (/*this.props.session*/cookie.load("userId") != null && cookie.load("userId") !== "") {
-                    //cookie.save("userId", this.props.session, {path: "/"});
-                    // console.log("session=" + this.props.session);
-                    this.props.history.push("/feed");
-                }
-                //this.props.history.push("/login");
-            });
+            this.props.doSignin(this.props.signinForm.login, this.props.signinForm.password);
         }
 
         event.preventDefault();
     }
 
     render() {
+        console.log("this.props.signin.success");
+        console.log(this.props.signin.success);
+        if (this.props.signin.success) {
+            return <Redirect to="/feed"/>
+        }
+
         return <Grid className="LoginContainer">
             <div className="login-inner">
                 <h1>Muzloop</h1>
@@ -105,7 +92,7 @@ class LoginContainer extends React.Component {
                     <h4 className="login-title">Sign in</h4>
                     <Form horizontal onSubmit={this.handleSubmit}>
                         <FormGroup controlId="formLogin" validationState={RegisterContainer.makeValidationState(this.props.signinForm.validationStarted.login,
-                                !this.props.signinForm.validation.loginExists && this.props.signinForm.validation.loginCorrect)}>
+                            !this.props.signinForm.validation.loginExists && this.props.signinForm.validation.loginCorrect)}>
                             <p className="login-label">Login</p>
                             <Col sm={12} xs={12}>
                                 <InputGroup className="login-input-group">
@@ -116,7 +103,7 @@ class LoginContainer extends React.Component {
                         </FormGroup>
 
                         <FormGroup controlId="formPassword" validationState={
-                                RegisterContainer.makeValidationState(this.props.signinForm.validationStarted.password, this.props.signinForm.validation.password)}>
+                            RegisterContainer.makeValidationState(this.props.signinForm.validationStarted.password, this.props.signinForm.validation.password)}>
                             <p className="login-label">Password</p>
                             <Col sm={12} xs={12}>
                                 <InputGroup className="login-input-group">
@@ -126,14 +113,9 @@ class LoginContainer extends React.Component {
                             </Col>
                         </FormGroup>
 
-                        {(cookie.load("userId") == null || cookie.load("userId") === "") && this.props.signinForm.formChanged === false ?
-                            <span className="login-correctness">Wrong login and password!</span> : null}
-
-                        {/*<FormGroup>*/}
-                            {/*<Col smOffset={4} sm={6}>*/}
-                                {/*<Checkbox>Remember me</Checkbox>*/}
-                            {/*</Col>*/}
-                        {/*</FormGroup>*/}
+                        {this.props.signin.pending ? <span>trying to signin...</span> :
+                            !this.props.signin.success ? this.props.signin.success === false ?
+                                <span className="login-correctness">Error: {this.props.signin.answer}</span> : null : null}
 
                         <FormGroup>
                             <Col sm={12} xs={12}>
@@ -151,7 +133,7 @@ class LoginContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        //session: state.session,
+        signin: state.signin,
         signinForm: state.signinForm,
     }
 };

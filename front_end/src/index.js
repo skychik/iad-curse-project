@@ -30,6 +30,11 @@ import PageNotFound from "./components/PageNotFound";
 const store = createStore(
     reducers,
     { // initial state
+        signin: {
+            pending: false,
+            success: null,
+            answer: null,
+        },
         signinForm: {
             firstName: null,
             surname: null,
@@ -62,7 +67,10 @@ const store = createStore(
             },
         },
         courseBackground: false,
-        feed: null,
+        feed: {
+            data: null,
+            addCommentShowed: false,
+        },
         news: null,
         redactor: {
             courseTypes: null,
@@ -79,9 +87,18 @@ const store = createStore(
             isUserTitleExists: false,
             answer: null,
         },
+        courseTaskList: null,
         comments: null,
-        profile: null,
-        routing: null,
+        profile: {
+            info: null,
+            courses: null,
+            newsList: null,
+        },
+        routing: {
+            info: null,
+            newsList: null,
+            courses: null,
+        },
     }, composeWithDevTools(applyMiddleware(promise(), thunk)));
 
 const history = createHistory();

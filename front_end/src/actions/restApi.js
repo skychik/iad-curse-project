@@ -6,6 +6,16 @@ import RestClient from "another-rest-client";
 
 // ------------------------------------------------------ ACTIONS ------------------------------------------------------
 
+export function doSignin(username, password) {
+    return {
+        type: 'SIGNIN',
+        payload: api.res("user").res("signin").get({
+            username: username,
+            password: password,
+        }),
+    }
+}
+
 export function putLoopOnNewsId(id) {
     return {
         type: 'PUT_NEWS_LOOP',
@@ -151,6 +161,20 @@ export function postInitCourseWithTask(data) {
     }
 }
 
+export function subscribeCourseId(courseId) {
+    return {
+        type: 'SUBSCRIBE_COURSE',
+        payload: api.res("course").res(courseId.toString()).res("subscribe").get(),
+    }
+}
+
+export function unsubscribeCourseId(courseId) {
+    return {
+        type: 'UNSUBSCRIBE_COURSE',
+        payload: api.res("course").res(courseId.toString()).res("unsubscribe").get(),
+    }
+}
+
 // ------------------------------------------------------ SETTERS ------------------------------------------------------
 
 export function setFeed() {
@@ -174,6 +198,20 @@ export function setProfile(number) {
     return {
         type: 'FETCH_PROFILE',
         payload: api.res("user").res(number.toString()).get(),
+    }
+}
+
+export function setNewsListByUserId(userId) {
+    return {
+        type: 'FETCH_USER_NEWS_LIST',
+        payload: api.res("user").res(userId.toString()).res("news").get(),
+    }
+}
+
+export function setCoursesByUserId(userId) {
+    return {
+        type: 'FETCH_PROFILE_COURSES',
+        payload: api.res("user").res(userId.toString()).res("courses").get(),
     }
 }
 
@@ -214,14 +252,14 @@ export function setCommentsPoop(id) {
 
 export function setCourseTasks() {
     return {
-        type: 'FETCH_CURSE_TASKS',
-        payload: api.res("course").res("tasks").res("for").get(),
+        type: 'FETCH_COURSE_TASKS',
+        payload: api.res("course").res("tasks").get(),
     }
 }
 
 export function setCourseTask(number) {
     return {
-        type: 'FETCH_CURSE_TASK',
+        type: 'FETCH_COURSE_TASK',
         payload: api.res("course").res("task").res(number.toString()).get(),
     }
 }
@@ -249,7 +287,8 @@ export function setCourseTypes() {
 
 // ------------------------------------------------------ ....... ------------------------------------------------------
 
-const api = new RestClient('http://46.101.111.25:8080');
+const api = new RestClient('http://localhost:8080');
+//const api = new RestClient('http://46.101.111.25:8080');
 api.on('request', function (xhr) {
     xhr.withCredentials = true;
 });

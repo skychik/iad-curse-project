@@ -3,11 +3,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
-import {Button, Label, PageHeader, Panel, Row} from "react-bootstrap";
+import {Button, Col, Glyphicon, Label, PageHeader, Panel, Row} from "react-bootstrap";
 import UserPhoto from "./UserPhoto";
 import DateTime from "./DateTime";
 import {Link} from "react-router-dom";
-import PLoopButton from "./PLoopButton";
+import ActionButton from "./ActionButton";
+import CommentModal from "./CommentModal";
 
 export default class CourseTaskPreview extends Component {
     render() {
@@ -16,58 +17,57 @@ export default class CourseTaskPreview extends Component {
             loopsNumber, loopWasPut, poopsNumber, poopWasPut, wasCompleted, putLoopOnTaskId, putPoopOnTaskId,
             removeLoopOnTaskId, removePoopOnTaskId} = this.props;
 
-        if (this.id == null) return <h1>This news doesn't exist(no such news number)</h1>;
+        if (taskId == null) return <h1>This news doesn't exist(no such news number)</h1>;
 
         const completeCourseTask = () => this.props.completeCourseTask(taskId);
         const undoCourseTask = () => this.props.undoCourseTask(taskId);
-        const markdown = <ReactMarkdown source={contentPreview} />;
+        const markdown = <ReactMarkdown source={contentPreview} className="markdown-container"/>;
 
-        return <Panel>
-            <Panel.Heading>
-                <Row>
-                    <Link to={"/id/"+ authorId + "/courses/" + courseId}>{courseTitle}</Link>
-                    <Label>{courseType}</Label>
-                    <Button type={wasCompleted ? "danger" : "success"}
-                            onClick={wasCompleted ? undoCourseTask : completeCourseTask} bsSize="xs">
-                        {wasCompleted ? "Undone" : "Done"}
-                     </Button>
-                </Row>
-                <Row>
-                    <div style={{display: "block", width: "74px", float: "right"}}>
-                        <UserPhoto userId={authorId} username={authorUsername} withTooltip={true}
-                                   photo={authorAvatar} size={64}/>
-                    </div>
-                    <div style={{display: "block", marginRight: "94px"}}>
-                        <h3 className="news_preview_title">
+        return <div>
+            <Button bsStyle={wasCompleted ? "danger" : "success"}
+                    onClick={wasCompleted ? undoCourseTask : completeCourseTask} bsSize="xs"
+                    style={{marginLeft: "16px", borderRadius: "5px", width: "48px"}}>
+                {wasCompleted ? "Undo" : "Done"}
+            </Button>
+            <Link to={"/id/"+ authorId + "/courses/" + courseId} style={{marginLeft: "20px", marginRight: "10px"}}>{courseTitle}</Link>
+            <Label style={{top: "-3px"}}>{courseType}</Label>
+            <Panel>
+                <Panel.Heading>
+                    <Row>
+                        <div style={{display: "block", width: "79px", float: "left", padding: "0 15px 0 15px"}}>
+                            <UserPhoto userId={authorId} username={authorUsername} withTooltip={true}
+                                       photo={authorAvatar} size={48}/>
+                        </div>
+                        <h3 className="news_preview_title" style={{margin: "13px 94px 2.5px 20px"}}>
                             {taskTitle}
                         </h3>
-                    </div>
-                </Row>
-            </Panel.Heading>
-            <Panel.Body style={{paddingTop: "0", paddingBottom: "0"}}>
-                <div id={"wrapper"}>{markdown}</div>
-            </Panel.Body>
-            <Panel.Footer>
-                <div>
-                    <span className={"my_button"}>
-                        Comments
-                        <span>{commentsNumber}</span>
-                    </span>
-
-                    <PLoopButton isLoop={false} putAction={putPoopOnTaskId}
-                                 removeAction={removePoopOnTaskId} counter={poopsNumber}
-                                 tooltip={"Put your Poop ;("} float={"right"} wasPut={poopWasPut}/>
-                    <PLoopButton isLoop={true} putAction={putLoopOnTaskId}
-                                 removeAction={removeLoopOnTaskId} counter={loopsNumber}
-                                 tooltip={"Put your Loop :)"} float={"right"} wasPut={loopWasPut}/>
-                    <span className={"my_date"} style={{float: "right"}}>
-                        <span style={{marginRight: 10}}>
-                            <DateTime date={alteringDate == null ? creationDate : alteringDate} />
+                    </Row>
+                </Panel.Heading>
+                <Panel.Body style={{padding: "0"}}>
+                    <div id={"wrapper"} style={{margin: "0"}}>{markdown}</div>
+                </Panel.Body>
+                <Panel.Footer>
+                    <div>
+                        <span className={"my_button"} style={{border: "none", color: "#aca7b9", cursor: "default"}}>
+                            <Glyphicon glyph="comment" />
+                            <span style={{marginLeft: "0", border: "none"}}>{commentsNumber}</span>
                         </span>
-                    </span>
-                </div>
-            </Panel.Footer>
-        </Panel>;
+
+                        <ActionButton isLoop={false} putAction={putPoopOnTaskId}
+                                      removeAction={removePoopOnTaskId} counter={poopsNumber}
+                                      tooltip={"Put your Poop ;("} float={"right"} wasPut={poopWasPut}/>
+                        <ActionButton isLoop={true} putAction={putLoopOnTaskId}
+                                      removeAction={removeLoopOnTaskId} counter={loopsNumber}
+                                      tooltip={"Put your Loop :)"} float={"right"} wasPut={loopWasPut}/>
+                        <span className={"my_date"} style={{float: "right"}}>
+                            <span style={{marginRight: 10}}>
+                                <DateTime date={alteringDate == null ? creationDate : alteringDate} />
+                            </span>
+                        </span>
+                    </div>
+                </Panel.Footer>
+            </Panel>
+        </div>;
     }
 }
 
@@ -83,7 +83,7 @@ CourseTaskPreview.propTypes = {
     contentPreview: PropTypes.string.isRequired,
     creationDate: PropTypes.string.isRequired,
     alteringDate: PropTypes.string,
-    commentsNumber: PropTypes.number.isRequired,
+    commentsNumber: PropTypes.number,
     loopsNumber: PropTypes.number.isRequired,
     loopWasPut: PropTypes.bool.isRequired,
     poopsNumber: PropTypes.number.isRequired,

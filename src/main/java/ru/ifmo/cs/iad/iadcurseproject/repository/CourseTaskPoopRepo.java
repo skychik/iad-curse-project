@@ -20,7 +20,7 @@ public interface CourseTaskPoopRepo extends JpaRepository<CourseTaskPoop, Long> 
 	long countAllByTaskId(@Param("id") Long id);
 
 	@Modifying
-	@org.springframework.transaction.annotation.Transactional
+	@Transactional
 	@Query("delete from CourseTaskPoop p where p.id = :id")
 	void removeById(@Param("id") Long id);
 }

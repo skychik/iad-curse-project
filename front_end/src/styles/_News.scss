@@ -151,12 +151,14 @@ $button_color_hover: #79797e;
   font-size: 15px;
   color: $button_color;
   cursor: pointer;
+  background-color: rgba(0,0,0,0);
 }
 
 %my_button_hover, .my_button:hover {
   text-decoration: none; /* Убираем подчеркивание */
   color: $button_color_hover; /* Цвет ссылки при наведении на нее курсора мыши */
   border-color: $button_color_hover;
+  background-color: rgba(0,0,0,0);
 }
 
 %my_button_first-child, .my_button :first-child {
@@ -171,6 +173,61 @@ $button_color_hover: #79797e;
 
 %my_button_last-child_hover, .my_button :last-child:hover {
   border-left: 1px solid $button_color_hover;
+}
+
+// ------------ Loop Button ------------
+
+$loop_button_color_active: #008cba;
+$loop_button_color_hover: #00b5a6;
+
+.loop_button {
+  @extend %my_button;
+}
+
+.loop_button:hover { // loop starts circling
+  @extend %my_button_hover;
+  border-color: $loop_button_color_hover;
+  color: $loop_button_color_hover;
+}
+
+.loop_button :first-child {
+  @extend %my_button_first-child;
+}
+
+.loop_button :last-child {
+  @extend %my_button_last-child;
+}
+
+.loop_button :last-child:hover {
+  @extend %my_button_last-child_hover;
+  border-left: 1px solid $loop_button_color_hover;
+}
+
+
+.loop_button_active {
+  @extend %my_button;
+  border-color: $loop_button_color_active;
+  color: $loop_button_color_active;
+}
+
+.loop_button_active:hover {
+  @extend %my_button_hover;
+  border-color: $loop_button_color_hover;
+  color: $loop_button_color_hover;
+}
+
+.loop_button_active :last-child {
+  @extend %my_button_last-child;
+  border-left: 1px solid $loop_button_color_active;
+}
+
+.loop_button_active :first-child {
+  @extend %my_button_first-child;
+}
+
+.loop_button_active :last-child:hover {
+  @extend %my_button_last-child_hover;
+  border-left: 1px solid $loop_button_color_hover;
 }
 
 // ------------ Poop Button ------------
@@ -228,60 +285,61 @@ $poop_button_color_hover: #b56447;
   border-left: 1px solid $poop_button_color_hover;
 }
 
-// ------------ Loop Button ------------
+// ------------ Comment Button ------------
 
-$loop_button_color_active: #008cba;
-$loop_button_color_hover: #00b5a6;
+$comment_button_color_active: #5c5c60;
+$comment_button_color_hover: #97979c;
 
-.loop_button {
+.comment_button {
   @extend %my_button;
 }
 
-.loop_button:hover { // loop starts circling
+.comment_button:hover { // trash can opens (find new glyphicon)
   @extend %my_button_hover;
-  border-color: $loop_button_color_hover;
-  color: $loop_button_color_hover;
+  border-color: $comment_button_color_hover;
+  color: $comment_button_color_hover;
 }
 
-.loop_button :first-child {
+.comment_button :first-child {
   @extend %my_button_first-child;
 }
 
-.loop_button :last-child {
+.comment_button :last-child {
   @extend %my_button_last-child;
 }
 
-.loop_button :last-child:hover {
+.comment_button :last-child:hover {
   @extend %my_button_last-child_hover;
-  border-left: 1px solid $loop_button_color_hover;
+  border-left: 1px solid $comment_button_color_hover;
 }
 
 
-.loop_button_active {
+.comment_button_active {
   @extend %my_button;
-  border-color: $loop_button_color_active;
-  color: $loop_button_color_active;
+  border-color: $comment_button_color_active;
+  color: $comment_button_color_active;
 }
 
-.loop_button_active:hover {
+.comment_button_active:hover { // trash can opens (find new glyphicon)
   @extend %my_button_hover;
-  border-color: $loop_button_color_hover;
-  color: $loop_button_color_hover;
+  border-color: $comment_button_color_hover;
+  color: $comment_button_color_hover;
 }
 
-.loop_button_active :last-child {
-  @extend %my_button_last-child;
-  border-left: 1px solid $loop_button_color_active;
-}
-
-.loop_button_active :first-child {
+.comment_button_active :first-child {
   @extend %my_button_first-child;
 }
 
-.loop_button_active :last-child:hover {
-  @extend %my_button_last-child_hover;
-  border-left: 1px solid $loop_button_color_hover;
+.comment_button_active :last-child {
+  @extend %my_button_last-child;
+  border-left: 1px solid $comment_button_color_active;
 }
+
+.comment_button_active :last-child:hover {
+  @extend %my_button_last-child_hover;
+  border-left: 1px solid $comment_button_color_hover;
+}
+
 
 
 

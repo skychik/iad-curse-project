@@ -31,13 +31,17 @@ public class CourseController {
 	private final TaskCommentLoopRepo taskCommentLoopRepo;
 	private final TaskCommentPoopRepo taskCommentPoopRepo;
 	private final CourseTaskCompletionRepo courseTaskCompletionRepo;
+	private final CourseSubscriptionRepo courseSubscriptionRepo;
+
 	private final String[] COURSE_TYPES = {"guitar", "drums", "vocal", "dj", "flute"};
 
 	private Logger logger = LoggerFactory.getLogger("application");
 
-	public CourseController(UserRepo userRepo, CourseRepo courseRepo, CourseTaskRepo courseTaskRepo, TaskCommentRepo taskCommentRepo, TaskCommentLoopRepo taskCommentLoopRepo,
+	public CourseController(UserRepo userRepo, CourseRepo courseRepo, CourseTaskRepo courseTaskRepo,
+	                        TaskCommentRepo taskCommentRepo, TaskCommentLoopRepo taskCommentLoopRepo,
 	                        TaskCommentPoopRepo taskCommentPoopRepo, CourseTaskLoopRepo courseTaskLoopRepo,
-	                        CourseTaskPoopRepo courseTaskPoopRepo, CourseTaskCompletionRepo courseTaskCompletionRepo) {
+	                        CourseTaskPoopRepo courseTaskPoopRepo, CourseTaskCompletionRepo courseTaskCompletionRepo,
+	                        CourseSubscriptionRepo courseSubscriptionRepo) {
 		this.userRepo = userRepo;
 		this.courseRepo = courseRepo;
 		this.courseTaskRepo = courseTaskRepo;
@@ -47,35 +51,46 @@ public class CourseController {
 		this.taskCommentLoopRepo = taskCommentLoopRepo;
 		this.taskCommentPoopRepo = taskCommentPoopRepo;
 		this.courseTaskCompletionRepo = courseTaskCompletionRepo;
+		this.courseSubscriptionRepo = courseSubscriptionRepo;
 	}
 
 
-	@GetMapping("/tasks/for")
+	@GetMapping("/tasks")
 	@ResponseBody
-	public List<CourseTaskPreviewDTO> getTasksForUserId(@CookieValue(value = "userId") long userId,
-	                                             @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
-	                                             @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
+	public ResponseEntity getTasksForUserId(@CookieValue(value = "userId") long userId,
+	                                        @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
+	                                        @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
 		logger.info("tasks of userId=" + userId);
+		if (!userRepo.findById(userId).isPresent()) {
+			return logAndGetBadRequestEntity("userId=" + userId + " doesn't exist");
+		}
+
 		List<CourseTask> taskList = courseTaskRepo.getAllForUserId(userId, of(pageNumber, pageSize,
 				by(Sort.Order.by("alteringDate").nullsLast(), Sort.Order.by("creationDate"))));
 
-		return taskList.stream()
+		return new ResponseEntity<>(taskList.stream()
 				.map((CourseTask task) -> new CourseTaskPreviewDTO(task, (long) task.getTaskComments().size(),
 						(long) task.getTaskLoops().size(), courseTaskLoopRepo.getByTaskIdAndUserId(task.getId(), userId) != null,
 						(long) task.getTaskPoops().size(), courseTaskPoopRepo.getByTaskIdAndUserId(task.getId(), userId) != null,
 						courseTaskCompletionRepo.getByTaskIdAndUserId(task.getId(), userId) != null))
-				.collect(Collectors.toList());
+				.collect(Collectors.toList()), HttpStatus.OK);
 	}
 
 	@GetMapping("list")
 	@ResponseBody
-	public List<CourseInfoDTO> getCoursesForUserId(@CookieValue(value = "userId") long userId,
-	                                               @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
-	                                               @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
+	public ResponseEntity getCoursesForUserId(@CookieValue(value = "userId") long userId,
+	                                          @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
+	                                          @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
 		logger.info("courses of userId=" + userId);
 		List<Course> courseList = courseRepo.getAllByAuthorId(userId);
 
-		return courseList.stream().map(CourseInfoDTO::new).collect(Collectors.toList());
+		return new ResponseEntity<>(courseList.stream().map((Course course) -> new CourseInfoDTO(course,
+				(long) course.getTasks().stream().mapToInt((CourseTask t) -> t.getTaskLoops().size()).sum(),
+				(long) course.getTasks().stream().mapToInt((CourseTask t) -> t.getTaskPoops().size()).sum(),
+				(course.getTasks().stream().mapToInt((CourseTask t) ->
+						t.getTaskCompletions().size()).sum() + 0.0) / (course.getTasks().size()) + 0.0,
+				courseSubscriptionRepo.getByCourseIdAndUserId(course.getId(), userId) != null))
+				.collect(Collectors.toList()), HttpStatus.OK);
 	}
 
 	@GetMapping("/task/{taskId}")
@@ -144,11 +159,11 @@ public class CourseController {
 			return new ResponseEntity<>(str, HttpStatus.BAD_REQUEST);
 		}
 		Course course = taskDTO.getCourse().makeCourse(user.get());
-		Course savedCourse = courseRepo.save(course);
+		Course savedCourse = courseRepo.saveAndFlush(course);
 		logger.info(savedCourse.toString());
 
 		CourseTask task = taskDTO.makeTask(user.get(), savedCourse);
-		CourseTask savedTask = courseTaskRepo.save(task);
+		CourseTask savedTask = courseTaskRepo.saveAndFlush(task);
 		logger.info("task saved=" + savedTask.toString());
 		return new ResponseEntity<>(savedTask.getId().toString(), HttpStatus.OK);
 	}
@@ -184,7 +199,7 @@ public class CourseController {
 			return new ResponseEntity<>(str, HttpStatus.BAD_REQUEST);
 		}
 		CourseTask task = taskDTO.makeTask(course.get());
-		CourseTask savedTask = courseTaskRepo.save(task);
+		CourseTask savedTask = courseTaskRepo.saveAndFlush(task);
 		logger.info("task saved=" + savedTask.toString());
 		return new ResponseEntity<>(savedTask.getId().toString(), HttpStatus.OK);
 	}
@@ -251,6 +266,38 @@ public class CourseController {
 		return new IdValueSucceedDTO(taskId, courseTaskPoopRepo.countAllByTaskId(taskId), true);
 	}
 
+	@GetMapping("/{courseId}/subscribe")
+	@ResponseBody
+	public ResponseEntity subscribeCourse(@PathVariable(value = "courseId") long courseId,
+	                                      @CookieValue(value = "userId") long userId) {
+		logger.info("subscribeCourseId=" + courseId + "by userId=" + userId);
+		if (courseSubscriptionRepo.getByCourseIdAndUserId(courseId, userId) != null) {
+			return logAndGetBadRequestEntity("Already subscribed on courseId=" + courseId);
+		}
+		CourseSubscription subscription = new CourseSubscription();
+		subscription.setCourse(courseRepo.getOne(courseId));
+		subscription.setUser(userRepo.getOne(userId));
+		subscription.setDate(new Timestamp(System.currentTimeMillis()));
+		CourseSubscription subscriptionSaved = courseSubscriptionRepo.saveAndFlush(subscription);
+		logger.info("course subscription id={}", subscriptionSaved.getId());
+		return new ResponseEntity<>(courseId, HttpStatus.OK);
+	}
+
+	@GetMapping("/{courseId}/unsubscribe")
+	@ResponseBody
+	public ResponseEntity unsubscribeCourse(@PathVariable(value = "courseId") long courseId,
+	                                        @CookieValue(value = "userId") long userId) {
+		logger.info("unsubscribeCourseId=" + courseId + "by userId=" + userId);
+		CourseSubscription subscription = courseSubscriptionRepo.getByCourseIdAndUserId(courseId, userId);
+		if (subscription == null) {
+			return logAndGetBadRequestEntity("Already unsubscribed courseId=" + courseId);
+		}
+		System.out.println(subscription.toString());
+		courseSubscriptionRepo.removeById(subscription.getId());
+		System.out.println("deleted");
+		return new ResponseEntity<>(courseId, HttpStatus.OK);
+	}
+
 	@GetMapping("/task/{taskId}/complete")
 	@ResponseBody
 	public IdSucceedDTO complete(@PathVariable(value = "taskId") long taskId,
@@ -280,5 +327,12 @@ public class CourseController {
 		courseTaskPoopRepo.removeById(completion.getId());
 		System.out.println("deleted");
 		return new IdSucceedDTO(taskId, true);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private ResponseEntity logAndGetBadRequestEntity(String msg) {
+		logger.info(msg);
+		return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
 	}
 }

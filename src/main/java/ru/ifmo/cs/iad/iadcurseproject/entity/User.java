@@ -54,13 +54,13 @@ public class User implements Serializable {
 	@Column(name = "photo_addr")
 	private String photo;
 
-	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
-	@JsonBackReference
-	private Set<AchievementReceiving> achievementReceivings;
-
-	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
-	@JsonBackReference
-	private Set<JoiningPerformer> joiningPerformers;
+//	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+//	@JsonBackReference
+//	private Set<AchievementReceiving> achievementReceivings;
+//
+//	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+//	@JsonBackReference
+//	private Set<JoiningPerformer> joiningPerformers;
 
 	// ------------------------ NewsSet ------------------------
 
@@ -92,17 +92,17 @@ public class User implements Serializable {
 
 	// ------------------------ Reposts ------------------------
 
-	@OneToMany(mappedBy="author", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
-	@JsonBackReference
-	private Set<Repost> reposts;
-
-	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
-	@JsonBackReference
-	private Set<RepostLoop> repostLoops;
-
-	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
-	@JsonBackReference
-	private Set<RepostPoop> repostPoops;
+//	@OneToMany(mappedBy="author", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+//	@JsonBackReference
+//	private Set<Repost> reposts;
+//
+//	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+//	@JsonBackReference
+//	private Set<RepostLoop> repostLoops;
+//
+//	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+//	@JsonBackReference
+//	private Set<RepostPoop> repostPoops;
 
 	// ------------------------ Subscription ------------------------
 

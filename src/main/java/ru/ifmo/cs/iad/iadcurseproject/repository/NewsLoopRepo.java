@@ -22,10 +22,11 @@ public interface NewsLoopRepo extends JpaRepository<NewsLoop, Long> {
 	@Query("select count(l) from NewsLoop l where l.news.id = :newsId")
 	long countAllByNewsId(@Param("newsId") long newsId);
 
-	NewsLoop getByNewsIdAndUserId(long newsId, long userId);
+	@Query("select l from NewsLoop l where l.news.id = :newsId and l.user.id = :userId")
+	NewsLoop getByNewsIdAndUserId(@Param("newsId") long newsId, @Param("userId") long userId);
 
 	@Modifying
-	@org.springframework.transaction.annotation.Transactional
+	@Transactional
 	@Query("delete from NewsLoop l where l.id = :id")
 	void removeById(@Param("id") Long id);
 }

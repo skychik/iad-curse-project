@@ -13,6 +13,15 @@
   border-radius: 5px;
 }
 
+.markdown-container {
+  :first-child {
+    margin-top: 0;
+  }
+
+  :last-child {
+    margin-bottom: 0;
+  }
+}
 //$header_background_color : crimson;
 //$header_button_text_height : 17px;
 //$header_button_padding: 4px;

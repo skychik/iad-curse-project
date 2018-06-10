@@ -11,8 +11,10 @@ import { redactorReducer } from "./redactorReducer";
 import { courseTaskListReducer } from "./courseTaskListReducer";
 import {courseTaskReducer} from "./courseTaskReducer";
 import {courseBackgroundReducer} from "./courseBackgroundReducer";
+import { signinReducer } from "./signinReducer";
 
 const reducers = combineReducers({
+    signin: signinReducer,
     signinForm: signinFormReducer,
     feed: feedReducer,
     news: newsReducer,

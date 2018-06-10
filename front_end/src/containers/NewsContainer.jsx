@@ -4,11 +4,12 @@ import * as actionCreators from "../actions";
 import {bindActionCreators} from "redux";
 import News from "../components/News";
 import CommentsContainer from "./CommentsContainer";
-import PLoopButton from "../components/PLoopButton";
+import ActionButton from "../components/ActionButton";
 import {Button, ControlLabel, Form, FormControl, FormGroup, Modal, Panel, Well} from "react-bootstrap";
 import Comment from "../components/Comment";
 import UserPhoto from "../components/UserPhoto";
 import DateTime from "../components/DateTime";
+import CommentModal from "../components/CommentModal";
 
 // props:
 //  news - News in JSON
@@ -94,45 +95,22 @@ class NewsContainer extends React.Component {
                     <span className="news_footer_comments">
                         Comments <span>{newsData.commentsNumber}</span>
                     </span>
-                    <PLoopButton isLoop={false} putAction={putPoopOnNewsId} removeAction={removePoopOnNewsId}
-                                 counter={newsData.poopsNumber} tooltip={"Put your Poop ;("} float={"right"}
-                                 wasPut={newsData.poopWasPut}/>
-                    <PLoopButton isLoop={true} putAction={putLoopOnNewsId} removeAction={removeLoopOnNewsId}
-                                 counter={newsData.loopsNumber} tooltip={"Put your Loop :)"} float={"right"}
-                                 wasPut={newsData.loopWasPut}/>
+                    <ActionButton isLoop={false} action={putPoopOnNewsId} alternativeAction={removePoopOnNewsId}
+                                  counter={newsData.poopsNumber} tooltip={"Put your Poop ;("} float={"right"}
+                                  wasPut={newsData.poopWasPut}/>
+                    <ActionButton isLoop={true} action={putLoopOnNewsId} alternativeAction={removeLoopOnNewsId}
+                                  counter={newsData.loopsNumber} tooltip={"Put your Loop :)"} float={"right"}
+                                  wasPut={newsData.loopWasPut}/>
                 </div>
                 <CommentsContainer newsId={newsData.id}/>
                 <Button bsStyle="primary" bsSize="large" onClick={showAddNewComment}
                         style={{float: "right", borderRadius: "5px"}}>
                     Add new comment
                 </Button>
-                <Modal show={newsData.addCommentShowed} onHide={this.props.hideAddComment}
-                       bsSize="large" aria-labelledby="contained-modal-title-lg">
-                    <Form onSubmit={this.handleSubmitNewComment}>
-                        <Modal.Header closeButton>
-                            <Modal.Title id="contained-modal-title-sm">Add comment</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <FormGroup controlId="formControlsTextarea">
-                                {(commentingComm !== null) ? (commentingComm.content !== null) ?
-                                    <div>
-                                        <UserPhoto userId={commentingComm.userId} username={commentingComm.username}
-                                                   withTooltip={false} photo={commentingComm.avatar} />
-                                        <DateTime date={commentingComm.creationDate} />
-                                        <Well style={{overflow: "hidden", textOverflow: "ellipsis"}}>
-                                            {commentingComm.content}
-                                        </Well>
-                                    </div> : null : null}
-                                <FormControl componentClass="textarea" placeholder="Write your comment..." name="content"
-                                             style={{resize: "none"}} rows="10" onChange={this.handleChange}/>
-                            </FormGroup>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button type="submit">Send</Button>
-                            <Button onClick={this.props.hideAddComment}>Close</Button>
-                        </Modal.Footer>
-                    </Form>
-                </Modal>
+
+                <CommentModal comment={commentingComm} isShown={newsData.addCommentShowed}
+                              onHide={this.props.hideAddComment}
+                              onChange={this.handleChange} onSubmit={this.handleSubmitNewComment}/>
             </div>
         )
     }

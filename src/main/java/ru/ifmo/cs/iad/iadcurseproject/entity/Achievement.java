@@ -30,7 +30,7 @@ public class Achievement implements Serializable {
 	@Column(name = "type", nullable = false)
 	private String type;
 
-	@OneToMany(mappedBy="achievement", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
-	@JsonBackReference
-	private Set<AchievementReceiving> achievementReceivings;
+//	@OneToMany(mappedBy="achievement", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+//	@JsonBackReference
+//	private Set<AchievementReceiving> achievementReceivings;
 }

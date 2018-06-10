@@ -32,11 +32,11 @@ public class NewsController {
 	private final NewsRepo newsRepo;
 	private final UserRepo userRepo;
 	private final CommentRepo commentRepo;
-	private final RepostRepo repostRepo;
+	//	private final RepostRepo repostRepo;
 	private final NewsLoopRepo newsLoopRepo;
 	private final NewsPoopRepo newsPoopRepo;
-	private final RepostLoopRepo repostLoopRepo;
-	private final RepostPoopRepo repostPoopRepo;
+//	private final RepostLoopRepo repostLoopRepo;
+//	private final RepostPoopRepo repostPoopRepo;
 
 	@PersistenceContext
 	private EntityManager em; // TODO: IS NULL
@@ -44,16 +44,16 @@ public class NewsController {
 	private Logger logger = LoggerFactory.getLogger("application");
 
 	@Autowired
-	public NewsController(NewsRepo newsRepo, UserRepo userRepo, CommentRepo commentRepo, RepostRepo repostRepo, NewsLoopRepo newsLoopRepo,
-	                      NewsPoopRepo newsPoopRepo, RepostLoopRepo repostLoopRepo, RepostPoopRepo repostPoopRepo) {
+	public NewsController(NewsRepo newsRepo, UserRepo userRepo, CommentRepo commentRepo, /*RepostRepo repostRepo,*/ NewsLoopRepo newsLoopRepo,
+	                      NewsPoopRepo newsPoopRepo/*, RepostLoopRepo repostLoopRepo, RepostPoopRepo repostPoopRepo*/) {
 		this.newsRepo = newsRepo;
 		this.userRepo = userRepo;
 		this.commentRepo = commentRepo;
-		this.repostRepo = repostRepo;
+//		this.repostRepo = repostRepo;
 		this.newsLoopRepo = newsLoopRepo;
 		this.newsPoopRepo = newsPoopRepo;
-		this.repostLoopRepo = repostLoopRepo;
-		this.repostPoopRepo = repostPoopRepo;
+//		this.repostLoopRepo = repostLoopRepo;
+//		this.repostPoopRepo = repostPoopRepo;
 	}
 
 	@GetMapping("/for")
@@ -109,11 +109,11 @@ public class NewsController {
 //		return repostRepo.getAllByNewsId(newsId, of(pageNumber, pageSize, by("id")));
 //	}
 
-	@GetMapping("/{newsId}/reposts_number")
-	@ResponseBody
-	public long getRepostsNumberByNewsId(@PathVariable("newsId") long newsId) {
-		return repostRepo.countAllByNewsId(newsId);
-	}
+//	@GetMapping("/{newsId}/reposts_number")
+//	@ResponseBody
+//	public long getRepostsNumberByNewsId(@PathVariable("newsId") long newsId) {
+//		return repostRepo.countAllByNewsId(newsId);
+//	}
 
 //	@GetMapping("/{newsId}/loops")
 //	public @ResponseBody Page<NewsLoop> getLoopsByNewsId(
@@ -126,7 +126,7 @@ public class NewsController {
 	@GetMapping("/{newsId}/total_loops_number")
 	@ResponseBody
 	public long getTotalLoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
-		return newsLoopRepo.countAllByNewsId(newsId) + repostLoopRepo.countAllByNewsId(newsId);
+		return newsLoopRepo.countAllByNewsId(newsId) ;//+ repostLoopRepo.countAllByNewsId(newsId);
 	}
 
 	@GetMapping("/{newsId}/loops_number")
@@ -146,7 +146,7 @@ public class NewsController {
 	@GetMapping("/{newsId}/total_poops_number")
 	@ResponseBody
 	public long getTotalPoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
-		return newsPoopRepo.countAllByNewsId(newsId) + repostPoopRepo.countAllByNewsId(newsId);
+		return newsPoopRepo.countAllByNewsId(newsId) ;//+ repostPoopRepo.countAllByNewsId(newsId);
 	}
 
 	@GetMapping("/{newsId}/poops_number")
@@ -230,5 +230,12 @@ public class NewsController {
 
 	public int likeNewsByNewsId() {
 		return 0;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private ResponseEntity logAndGetBadRequestEntity(String msg) {
+		logger.info(msg);
+		return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
 	}
 }

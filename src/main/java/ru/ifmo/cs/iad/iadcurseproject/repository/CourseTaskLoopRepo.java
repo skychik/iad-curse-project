@@ -19,7 +19,7 @@ public interface CourseTaskLoopRepo extends JpaRepository<CourseTaskLoop, Long> 
 	long countAllByTaskId(@Param("id") Long id);
 
 	@Modifying
-	@org.springframework.transaction.annotation.Transactional
+	@Transactional
 	@Query("delete from CourseTaskLoop l where l.id = :id")
 	void removeById(@Param("id") Long id);
 }

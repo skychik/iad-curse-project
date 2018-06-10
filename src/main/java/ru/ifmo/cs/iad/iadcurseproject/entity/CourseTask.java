@@ -59,5 +59,5 @@ public class CourseTask implements Serializable {
 
 	@OneToMany(mappedBy="task", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
 	@JsonBackReference
-	private Set<CourseTaskCompletion> taskCompletion;
+	private Set<CourseTaskCompletion> taskCompletions;
 }

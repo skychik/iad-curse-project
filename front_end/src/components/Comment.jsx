@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import UserPhoto from "./UserPhoto";
 import DateTime from "./DateTime";
-import PLoopButton from "./PLoopButton";
+import ActionButton from "./ActionButton";
 import {Button, Glyphicon} from "react-bootstrap";
 
 export default class Comment extends Component {
@@ -26,10 +26,10 @@ export default class Comment extends Component {
                         <span className="comment_username">{username}</span>
                     </a>*/}
                     <DateTime date={creationDate} />
-                    <PLoopButton isLoop={false} putAction={putPoopOnCommentId} removeAction={removePoopOnCommentId}
-                                 counter={poopsNumber} tooltip={"Put your Poop ;("} float={"right"} wasPut={poopWasPut}/>
-                    <PLoopButton isLoop={true} putAction={putLoopOnCommentId} removeAction={removeLoopOnCommentId}
-                                 counter={loopsNumber} tooltip={"Put your Loop :)"} float={"right"} wasPut={loopWasPut}/>
+                    <ActionButton isLoop={false} action={putPoopOnCommentId} alternativeAction={removePoopOnCommentId}
+                                  counter={poopsNumber} tooltip={"Put your Poop ;("} float={"right"} wasPut={poopWasPut}/>
+                    <ActionButton isLoop={true} action={putLoopOnCommentId} alternativeAction={removeLoopOnCommentId}
+                                  counter={loopsNumber} tooltip={"Put your Loop :)"} float={"right"} wasPut={loopWasPut}/>
                     <Button onClick={showAddComment} bsStyle="default" bsSize="xsmall"
                             style={{float: "right", borderRadius: "5px", backgroundColor: "#f6f6f6"}}>
                         <Glyphicon glyph="comment" style={{top: "2.5px", color: "#555555"}}/>
