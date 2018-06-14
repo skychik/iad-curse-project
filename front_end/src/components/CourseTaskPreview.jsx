@@ -15,7 +15,7 @@ export default class CourseTaskPreview extends Component {
         const { taskId, taskTitle, courseId, courseTitle, courseType, authorId, authorUsername,
             authorAvatar, contentPreview, creationDate, alteringDate, commentsNumber,
             loopsNumber, loopWasPut, poopsNumber, poopWasPut, wasCompleted, putLoopOnTaskId, putPoopOnTaskId,
-            removeLoopOnTaskId, removePoopOnTaskId} = this.props;
+            removeLoopOnTaskId, removePoopOnTaskId, pending} = this.props;
 
         if (taskId == null) return <h1>This news doesn't exist(no such news number)</h1>;
 
@@ -24,13 +24,15 @@ export default class CourseTaskPreview extends Component {
         const markdown = <ReactMarkdown source={contentPreview} className="markdown-container"/>;
 
         return <div>
-            <Button bsStyle={wasCompleted ? "danger" : "success"}
-                    onClick={wasCompleted ? undoCourseTask : completeCourseTask} bsSize="xs"
-                    style={{marginLeft: "16px", borderRadius: "5px", width: "48px"}}>
-                {wasCompleted ? "Undo" : "Done"}
-            </Button>
-            <Link to={"/id/"+ authorId + "/courses/" + courseId} style={{marginLeft: "20px", marginRight: "10px"}}>{courseTitle}</Link>
-            <Label style={{top: "-3px"}}>{courseType}</Label>
+            <div>
+                <Button bsStyle={wasCompleted ? "danger" : "success"}
+                        onClick={wasCompleted ? undoCourseTask : completeCourseTask} bsSize="xs"
+                        style={{marginLeft: "16px", borderRadius: "5px", width: "48px", marginBottom: "4px"}}>
+                    {wasCompleted ? "Undo" : "Done"}
+                </Button>
+                <Link to={"/id/"+ authorId + "/courses/" + courseId} style={{marginLeft: "16px", marginRight: "10px"}}>{courseTitle}</Link>
+                <Label style={{top: "-3px"}}>{courseType}</Label>
+            </div>
             <Panel>
                 <Panel.Heading>
                     <Row>
@@ -53,12 +55,14 @@ export default class CourseTaskPreview extends Component {
                             <span style={{marginLeft: "0", border: "none"}}>{commentsNumber}</span>
                         </span>
 
-                        <ActionButton isLoop={false} putAction={putPoopOnTaskId}
-                                      removeAction={removePoopOnTaskId} counter={poopsNumber}
-                                      tooltip={"Put your Poop ;("} float={"right"} wasPut={poopWasPut}/>
-                        <ActionButton isLoop={true} putAction={putLoopOnTaskId}
-                                      removeAction={removeLoopOnTaskId} counter={loopsNumber}
-                                      tooltip={"Put your Loop :)"} float={"right"} wasPut={loopWasPut}/>
+                        <ActionButton isLoop={false} action={putPoopOnTaskId}
+                                      alternativeAction={removePoopOnTaskId} counter={poopsNumber}
+                                      tooltip={"Put your Poop ;("} float={"right"} wasPut={poopWasPut}
+                                      pending={pending}/>
+                        <ActionButton isLoop={true} action={putLoopOnTaskId}
+                                      alternativeAction={removeLoopOnTaskId} counter={loopsNumber}
+                                      tooltip={"Put your Loop :)"} float={"right"} wasPut={loopWasPut}
+                                      pending={pending}/>
                         <span className={"my_date"} style={{float: "right"}}>
                             <span style={{marginRight: 10}}>
                                 <DateTime date={alteringDate == null ? creationDate : alteringDate} />
@@ -95,4 +99,5 @@ CourseTaskPreview.propTypes = {
     removePoopOnTaskId: PropTypes.func.isRequired,
     completeCourseTask: PropTypes.func.isRequired,
     undoCourseTask: PropTypes.func.isRequired,
+    pending: PropTypes.bool.isRequired,
 };

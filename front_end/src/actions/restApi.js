@@ -74,29 +74,29 @@ export function removePoopOnCommentId(id) {
 
 export function putLoopOnTaskId(id) {
     return {
-        type: 'PUT_COURSE_TASKS_LOOP',
-        payload: api.res("comments").res(id.toString()).res("loop").res("put").get(),
+        type: 'PUT_COURSE_TASK_LOOP',
+        payload: api.res("course").res("task").res(id.toString()).res("loop").res("put").get(),
     }
 }
 
 export function putPoopOnTaskId(id) {
     return {
-        type: 'PUT_COURSE_TASKS_POOP',
-        payload: api.res("comments").res(id.toString()).res("poop").res("put").get(),
+        type: 'PUT_COURSE_TASK_POOP',
+        payload: api.res("course").res("task").res(id.toString()).res("poop").res("put").get(),
     }
 }
 
 export function removeLoopOnTaskId(id) {
     return {
-        type: 'REMOVE_COURSE_TASKS_LOOP',
-        payload: api.res("comments").res(id.toString()).res("loop").res("remove").get(),
+        type: 'REMOVE_COURSE_TASK_LOOP',
+        payload: api.res("course").res("task").res(id.toString()).res("loop").res("remove").get(),
     }
 }
 
 export function removePoopOnTaskId(id) {
     return {
-        type: 'REMOVE_COURSE_TASKS_POOP',
-        payload: api.res("comments").res(id.toString()).res("poop").res("remove").get(),
+        type: 'REMOVE_COURSE_TASK_POOP',
+        payload: api.res("course").res("task").res(id.toString()).res("poop").res("remove").get(),
     }
 }
 
@@ -172,6 +172,20 @@ export function unsubscribeCourseId(courseId) {
     return {
         type: 'UNSUBSCRIBE_COURSE',
         payload: api.res("course").res(courseId.toString()).res("unsubscribe").get(),
+    }
+}
+
+export function followUserId(userId) {
+    return {
+        type: 'FOLLOW_USER',
+        payload: api.res("user").res(userId.toString()).res("follow").get(),
+    }
+}
+
+export function unfollowUserId(userId) {
+    return {
+        type: 'UNFOLLOW_USER',
+        payload: api.res("user").res(userId.toString()).res("unfollow").get(),
     }
 }
 
@@ -254,6 +268,13 @@ export function setCourseTasks() {
     return {
         type: 'FETCH_COURSE_TASKS',
         payload: api.res("course").res("tasks").get(),
+    }
+}
+
+export function setCourseTasksByType(type) {
+    return {
+        type: 'FETCH_COURSE_TASKS',
+        payload: api.res("course").res("tasks").get({type: type}),
     }
 }
 

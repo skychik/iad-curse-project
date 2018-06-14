@@ -4,30 +4,17 @@ export function commentsReducer(state = {}, action) {
         case "FETCH_COMMENTS_FULFILLED":
             return action.payload;
         case "PUT_COMMENT_LOOP_FULFILLED":
-            console.log("------");
-            console.log("PUT_COMMENT_LOOP_FULFILLED");
-            console.log(state);
-            const ans = changeCommentPLoopNumber(state, action.payload.id, true, action.payload.value, action.payload.succeed);
-            console.log("commentsReducer:");
-            console.log(ans);
-            console.log("------");
-            return ans;
+            return changeCommentPLoopNumber(state, action.payload.id, true, action.payload.value, true);
         case "PUT_COMMENT_POOP_FULFILLED":
             if (state === null) return state;
-            return changeCommentPLoopNumber(state, action.payload.id, false, action.payload.value, action.payload.succeed);
+            return changeCommentPLoopNumber(state, action.payload.id, false, action.payload.value, true);
         case "REMOVE_COMMENT_LOOP_FULFILLED":
             if (state === null) return state;
-            return changeCommentPLoopNumber(state, action.payload.id, true, action.payload.value, !action.payload.succeed);
+            return changeCommentPLoopNumber(state, action.payload.id, true, action.payload.value, false);
         case "REMOVE_COMMENT_POOP_FULFILLED":
             if (state === null) return state;
-            return changeCommentPLoopNumber(state, action.payload.id, false, action.payload.value, !action.payload.succeed);
+            return changeCommentPLoopNumber(state, action.payload.id, false, action.payload.value, false);
         case "FETCH_COMMENTS_REJECTED":
-        case "PUT_COMMENT_LOOP_REJECTED":
-        case "PUT_COMMENT_POOP_REJECTED":
-            console.log(action.payload);
-            break;
-        default:
-            return state;
     }
     return state;
 }

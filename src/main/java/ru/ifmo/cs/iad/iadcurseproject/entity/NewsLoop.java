@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "news_loop", schema = "public")
-@ToString(exclude = {"user", "news"})
+@ToString
 @Getter
 @Setter
 public class NewsLoop extends Loop implements Serializable {

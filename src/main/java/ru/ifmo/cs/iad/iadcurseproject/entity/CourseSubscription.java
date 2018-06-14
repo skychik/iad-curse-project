@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "course_subscription", schema = "public")
-@ToString
+@ToString(of = {"id", "date"})
 @Getter
 @Setter
 public class CourseSubscription implements Serializable {

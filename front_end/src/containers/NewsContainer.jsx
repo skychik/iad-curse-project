@@ -5,10 +5,7 @@ import {bindActionCreators} from "redux";
 import News from "../components/News";
 import CommentsContainer from "./CommentsContainer";
 import ActionButton from "../components/ActionButton";
-import {Button, ControlLabel, Form, FormControl, FormGroup, Modal, Panel, Well} from "react-bootstrap";
-import Comment from "../components/Comment";
-import UserPhoto from "../components/UserPhoto";
-import DateTime from "../components/DateTime";
+import {Button} from "react-bootstrap";
 import CommentModal from "../components/CommentModal";
 
 // props:
@@ -23,15 +20,14 @@ class NewsContainer extends React.Component {
 
     componentDidMount() {
         this.setNews();
+        const type = this.props.match;
+        console.log("type:");
+        console.log(type);
     }
 
     setNews() {
         const number = parseInt(this.props.match.params.number, 10);
-        if (isNaN(number)) {
-            this.props.setNews(null);
-        } else {
-            this.props.setNews(number.toString());
-        }
+        this.props.setNews(number.toString());
     }
 
     handleChange(event) {
@@ -54,10 +50,11 @@ class NewsContainer extends React.Component {
     }
 
     render() {
-        if (this.props.news === null) {
+        if (!this.props.news || !this.props.news.author) {
             return null;
         }
         //console.log("NewsContainer.render");
+        const {actionButton} = this.props;
         const newsData = this.props.news;
         console.log('---data:---');
         console.log(newsData);
@@ -82,25 +79,26 @@ class NewsContainer extends React.Component {
 
         return (
             <div className="News_container">
-                <News className="News"
-                      newsId={newsData.id}
-                      authorId={newsData.author.id}
-                      authorUsername={newsData.author.username}
-                      authorAvatar={newsData.author.photo}
-                      title={newsData.title}
-                      content={newsData.content}
-                      creationDate={newsData.creationDate}
-                      alteringDate={newsData.alteringDate}/>
+                {newsData.pending ? "Loading..."
+                    : <News className="News"
+                            newsId={newsData.id}
+                            authorId={newsData.author.id}
+                            authorUsername={newsData.author.username}
+                            authorAvatar={newsData.author.photo}
+                            title={newsData.title}
+                            content={newsData.content}
+                            creationDate={newsData.creationDate}
+                            alteringDate={newsData.alteringDate}/>}
                 <div className="news_footer">
                     <span className="news_footer_comments">
                         Comments <span>{newsData.commentsNumber}</span>
                     </span>
                     <ActionButton isLoop={false} action={putPoopOnNewsId} alternativeAction={removePoopOnNewsId}
                                   counter={newsData.poopsNumber} tooltip={"Put your Poop ;("} float={"right"}
-                                  wasPut={newsData.poopWasPut}/>
+                                  wasPut={newsData.poopWasPut} pending={actionButton.pending}/>
                     <ActionButton isLoop={true} action={putLoopOnNewsId} alternativeAction={removeLoopOnNewsId}
                                   counter={newsData.loopsNumber} tooltip={"Put your Loop :)"} float={"right"}
-                                  wasPut={newsData.loopWasPut}/>
+                                  wasPut={newsData.loopWasPut} pending={actionButton.pending}/>
                 </div>
                 <CommentsContainer newsId={newsData.id}/>
                 <Button bsStyle="primary" bsSize="large" onClick={showAddNewComment}
@@ -108,9 +106,9 @@ class NewsContainer extends React.Component {
                     Add new comment
                 </Button>
 
-                <CommentModal comment={commentingComm} isShown={newsData.addCommentShowed}
-                              onHide={this.props.hideAddComment}
-                              onChange={this.handleChange} onSubmit={this.handleSubmitNewComment}/>
+                <CommentModal comment={commentingComm} isShown={newsData.addCommentShowed} onHide={this.props.hideAddComment}
+                              onChange={this.handleChange} onSubmit={this.handleSubmitNewComment}
+                              content={this.props.news.newCommentContent} />
             </div>
         )
     }
@@ -119,6 +117,7 @@ class NewsContainer extends React.Component {
 const mapStateToProps = (state) => {
     return {
         news: state.news,
+        actionButton: state.actionButton,
     }
 };
 

@@ -25,3 +25,10 @@ export function setCourseBackground(isCourse) {
         payload: isCourse,
     }
 }
+
+export function dismissError(id) {
+    return {
+        type: 'DISMISS_ERROR',
+        payload: id,
+    }
+}

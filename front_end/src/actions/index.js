@@ -55,6 +55,7 @@ export const removeLoopOnCommentId = restApi.removeLoopOnCommentId;
 export const removePoopOnCommentId = restApi.removePoopOnCommentId;
 export const setCourseBackground = interfaceApi.setCourseBackground;
 export const setCourseTasks = restApi.setCourseTasks;
+export const setCourseTasksByType = restApi.setCourseTasksByType;
 export const setCourseTask = restApi.setCourseTask;
 export const findCourseTitle = restApi.findCourseTitle;
 export const addNewCourseTask = restApi.addNewCourseTask;
@@ -72,10 +73,13 @@ export const postCourseTask = restApi.postCourseTask;
 export const postInitCourseWithTask = restApi.postInitCourseWithTask;
 export const subscribeCourseId = restApi.subscribeCourseId;
 export const unsubscribeCourseId = restApi.unsubscribeCourseId;
+export const followUserId = restApi.followUserId;
+export const unfollowUserId = restApi.unfollowUserId;
 export const showAddComment = interfaceApi.showAddComment;
 export const hideAddComment = interfaceApi.hideAddComment;
 export const addNewComment = restApi.addNewComment;
 export const setNewCommentContent = interfaceApi.setNewCommentContent;
+export const dismissError = interfaceApi.dismissError;
 
 //  ----------------------------  ----------------------------  ----------------------------
 //  ----------------------------  ----------------------------  ----------------------------

@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "task_comment_loop", schema = "public")
-@ToString(exclude = {"user", "taskComment"})
+@ToString
 @Getter
 @Setter
 public class TaskCommentLoop extends Loop implements Serializable {

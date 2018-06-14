@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "comment_loop", schema = "public")
-@ToString(exclude = {"user", "comment"})
+@ToString
 @Getter
 @Setter
 public class CommentLoop extends Loop implements Serializable {

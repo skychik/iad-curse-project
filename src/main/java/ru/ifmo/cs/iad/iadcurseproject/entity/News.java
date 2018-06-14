@@ -16,7 +16,7 @@ import java.util.Set;
 @Entity
 @Table(name = "news", schema = "public")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@ToString
+@ToString(of = {"id", "author", "title", "creationDate", "alteringDate", "content", "contentPreview"})
 @Getter
 @Setter
 public class News implements Serializable {

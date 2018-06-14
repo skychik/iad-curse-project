@@ -115,8 +115,8 @@ class NewsRedactorContainer extends React.Component {
                     <FormControl componentClass="select" name="select_course_type" placeholder="Select Course Type"
                                  onChange={this.handleChange} style={{marginBottom: "15px"}}>
                         <option selected disabled>Choose course type</option>
-                        {this.props.redactor.courseTypes === null || this.props.redactor.courseTypes.length === 0 ? "" :
-                            this.props.redactor.courseTypes.map((type, i) =>
+                        {this.props.courseTypes == null ? "" : this.props.courseTypes.length === 0 ? "" :
+                            this.props.courseTypes.map((type, i) =>
                                 <option value={type} key={i}>{type}</option>)}
                         <option value="other">other</option>
                     </FormControl>

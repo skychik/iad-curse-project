@@ -5,7 +5,7 @@ import {Button, Glyphicon, OverlayTrigger, Tooltip} from "react-bootstrap";
 
 export default class ActionButton extends Component {
     render() {
-        const {isLoop, isComment, action, alternativeAction, onAdd, counter, tooltip, wasPut, float} = this.props;
+        const {isLoop, isComment, action, alternativeAction, onAdd, counter, tooltip, wasPut, float, pending} = this.props;
         const tip = (<Tooltip id="tooltip_username">{tooltip}</Tooltip>);
         let className, glyph, onClick;
         if (isComment) {
@@ -34,7 +34,7 @@ export default class ActionButton extends Component {
 
 
         return <OverlayTrigger placement="top" overlay={tip} style={{float: float}}>
-            <Button onClick={onClick} className={className} style={{float: float}}>
+            <Button onClick={pending ? null : onClick} className={className} style={{float: float}}>
                 <Glyphicon glyph={glyph} />
                 <span>{counter}</span>
             </Button>
@@ -51,4 +51,5 @@ ActionButton.propTypes = {
     tooltip: PropTypes.string.isRequired,
     wasPut: PropTypes.bool,
     float: PropTypes.string,
+    pending: PropTypes.bool.isRequired,
 };

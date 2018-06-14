@@ -7,7 +7,8 @@ import {Button, Glyphicon} from "react-bootstrap";
 
 export default class Comment extends Component {
     render() {
-        const { comments, userId, username, content, creationDate, loopsNumber, loopWasPut, poopsNumber, poopWasPut, avatar} = this.props;
+        const { comments, userId, username, content, creationDate, loopsNumber, loopWasPut, poopsNumber, poopWasPut,
+            avatar, pending} = this.props;
 
         const putLoopOnCommentId = () => this.props.putLoopOnCommentId(this.props.id);
         const putPoopOnCommentId = () => this.props.putPoopOnCommentId(this.props.id);
@@ -27,9 +28,11 @@ export default class Comment extends Component {
                     </a>*/}
                     <DateTime date={creationDate} />
                     <ActionButton isLoop={false} action={putPoopOnCommentId} alternativeAction={removePoopOnCommentId}
-                                  counter={poopsNumber} tooltip={"Put your Poop ;("} float={"right"} wasPut={poopWasPut}/>
+                                  counter={poopsNumber} tooltip={"Put your Poop ;("} float={"right"} wasPut={poopWasPut}
+                                  pending={pending}/>
                     <ActionButton isLoop={true} action={putLoopOnCommentId} alternativeAction={removeLoopOnCommentId}
-                                  counter={loopsNumber} tooltip={"Put your Loop :)"} float={"right"} wasPut={loopWasPut}/>
+                                  counter={loopsNumber} tooltip={"Put your Loop :)"} float={"right"} wasPut={loopWasPut}
+                                  pending={pending}/>
                     <Button onClick={showAddComment} bsStyle="default" bsSize="xsmall"
                             style={{float: "right", borderRadius: "5px", backgroundColor: "#f6f6f6"}}>
                         <Glyphicon glyph="comment" style={{top: "2.5px", color: "#555555"}}/>
@@ -59,7 +62,8 @@ export default class Comment extends Component {
                                      putPoopOnCommentId={this.props.putPoopOnCommentId}
                                      removeLoopOnCommentId={this.props.removeLoopOnCommentId}
                                      removePoopOnCommentId={this.props.removePoopOnCommentId}
-                                     showAddComment={this.props.showAddComment}/>
+                                     showAddComment={this.props.showAddComment}
+                                     pending={pending}/>
                         </li>})}
                 </div>
             </ul>
@@ -84,4 +88,5 @@ Comment.propTypes = {
     removeLoopOnCommentId: PropTypes.func.isRequired,
     removePoopOnCommentId: PropTypes.func.isRequired,
     showAddComment: PropTypes.func.isRequired,
+    pending: PropTypes.bool.isRequired,
 };

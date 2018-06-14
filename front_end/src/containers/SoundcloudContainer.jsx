@@ -9,7 +9,10 @@ import {bindActionCreators} from "redux";
 
 class SoundcloudContainer extends React.Component {
     render() {
-        return <PageHeader style={{textAlign: "center"}}>Under Development...</PageHeader>
+        return <PageHeader style={{textAlign: "center"}}>Currently Soundcloud stopped giving their API to share music
+            <br style={{marginBottom: "15px"}}/>
+            We are sorry ;(
+        </PageHeader>
     }
 }
 

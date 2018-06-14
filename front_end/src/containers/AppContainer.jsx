@@ -14,11 +14,23 @@ import Navbar from 'react-bootstrap/lib/Navbar';
 import NavItem  from 'react-bootstrap/lib/NavItem';
 import cookie from 'react-cookies';
 import CreateContainer from "./CreateContainer";
-import {DropdownButton, Glyphicon, MenuItem, NavDropdown, OverlayTrigger, Tooltip} from "react-bootstrap";
+import {Alert, Glyphicon, MenuItem, NavDropdown} from "react-bootstrap";
+import {bindActionCreators} from "redux";
+import * as actionCreators from "../actions";
+import {connect} from "react-redux";
 
 
 class AppContainer extends React.Component {
     render() {
+        const {error, dismissError} = this.props;
+        console.log(error);
+        const errors = error.map((e, idx) => {
+            const dismiss = () => dismissError(e.id);
+            return <Alert key={idx} onDismiss={dismiss} bsStyle="warning">
+                {e.message}
+            </Alert>
+        });
+
         return (
             <Grid>
                 <Navbar fluid>
@@ -58,6 +70,7 @@ class AppContainer extends React.Component {
                     <Route exact path='/feed' component={FeedContainer} />
                     <Route path='/create' component={CreateContainer} />
                     <Route path='/events' component={EventsContainer} />
+                    <Route path='/courses/type/:type' component={CoursesContainer} />
                     <Route path='/courses' component={CoursesContainer} />
                     <Route path='/loops' component={LoopsContainer} />
                     <Route path='/id/:number' component={ProfileContainer} />
@@ -66,11 +79,21 @@ class AppContainer extends React.Component {
                     <Route render={() => <Redirect to='/page_not_found' /> } />
                 </Switch>
                 <div className="AppContainer-footer">
-
+                    {errors}
                 </div>
             </Grid>
         );
     }
 }
 
-export default AppContainer;
+const mapStateToProps = (state) => {
+    return {
+        error: state.error,
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(actionCreators, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

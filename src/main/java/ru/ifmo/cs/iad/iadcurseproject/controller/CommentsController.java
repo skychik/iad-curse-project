@@ -7,9 +7,7 @@ import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.ifmo.cs.iad.iadcurseproject.dto.CommentDTO;
-import ru.ifmo.cs.iad.iadcurseproject.dto.CommentsInfoDTO;
-import ru.ifmo.cs.iad.iadcurseproject.dto.IdValueSucceedDTO;
+import ru.ifmo.cs.iad.iadcurseproject.dto.*;
 import ru.ifmo.cs.iad.iadcurseproject.entity.Comment;
 import ru.ifmo.cs.iad.iadcurseproject.entity.CommentLoop;
 import ru.ifmo.cs.iad.iadcurseproject.entity.CommentPoop;
@@ -45,19 +43,24 @@ public class CommentsController {
 
 	@GetMapping("/for")
 	@ResponseBody
-	public CommentsInfoDTO getCommentsForNewsId(@RequestParam(value = "newsId") long newsId,
+	public ResponseEntity getCommentsForNewsId(@RequestParam(value = "newsId") long newsId,
 	                                            @CookieValue(value = "userId") long userId,
 	                                            @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
 	                                            @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
+		logger.info("comments for newsId=" + newsId);
+		if (!userRepo.findById(userId).isPresent()) {
+			return logAndGetBadRequestEntity("News with newsId=" + newsId + " doesn't exist");
+		}
+
 		List<Comment> commentList = commentRepo.getAllForNewsId(newsId, of(pageNumber, pageSize,
-				by(Sort.Order.by("onCommentId").nullsFirst(), Sort.Order.by("creationDate"))));
+				by(Sort.Order.by("creationDate"))));
 
 		List<CommentDTO> list = makeCommentDTOList(commentList, userId);
 		list.sort((CommentDTO c1, CommentDTO c2) -> c1.getCreationDate().before(c2.getCreationDate()) ? 1 : 0);
 		for (CommentDTO dto : list) {
 			dto.sortComments();
 		}
-		return new CommentsInfoDTO(list, (long) commentList.size());
+		return new ResponseEntity<>(new CommentsInfoDTO(list, (long) commentList.size()), HttpStatus.OK);
 	}
 
 	private List<CommentDTO> makeCommentDTOList(List<Comment> commentList, long userId) {
@@ -116,43 +119,69 @@ public class CommentsController {
 
 	@GetMapping("/add")
 	@ResponseBody
-	public Boolean addComment(@CookieValue(value = "userId") long userId,
+	public ResponseEntity addComment(@CookieValue(value = "userId") long userId,
 	                          @RequestParam(value = "newsId") long newsId,
 	                          @RequestParam(value = "onCommentId", required = false) Long onCommentId,
 	                          @RequestParam(value = "content") String content) {
+		logger.info("add comment onCommentId=" + onCommentId + " at newsId=" + newsId);
+		if (!newsRepo.findById(newsId).isPresent()) {
+			return logAndGetBadRequestEntity("News with newsId=" + newsId + " doesn't exist");
+		}
+		if (onCommentId != null) {
+			if (!commentRepo.findById(onCommentId).isPresent()) {
+				return logAndGetBadRequestEntity("Comment with id=" + onCommentId + " doesn't exist");
+			}
+			if (commentRepo.getByIdAndNewsId(onCommentId, newsId) == null) {
+				return logAndGetBadRequestEntity("News with id=" + newsId + " doesn't have comment with id=" + onCommentId);
+			}
+		}
+		if (content.isEmpty()) {
+			return logAndGetBadRequestEntity("Empty content");
+		}
+
 		Comment comment = new Comment();
 		comment.setNews(newsRepo.getOne(newsId));
 		comment.setUser(userRepo.getOne(userId));
 		comment.setContent(content);
 		comment.setCreationDate(new Timestamp(System.currentTimeMillis()));
 		if (onCommentId != null) comment.setOnCommentId(onCommentId);
-		commentRepo.saveAndFlush(comment);
-		return true;
+		Comment c = commentRepo.saveAndFlush(comment);
+		return new ResponseEntity<>(c.getId(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{commentId}/loop/put")
 	@ResponseBody
-	public IdValueSucceedDTO putLoop(@PathVariable(value = "commentId") long commentId,
+	public ResponseEntity putLoop(@PathVariable(value = "commentId") long commentId,
 	                                 @CookieValue(value = "userId") long userId) {
 		logger.info("put loop commentId=" + commentId + "by userId=" + userId);
+		if (!commentRepo.findById(commentId).isPresent()) {
+			return logAndGetBadRequestEntityWithIdValue("No comment with id=" + commentId,
+					commentId, commentLoopRepo.countAllByCommentId(commentId));
+		}
 		if (commentLoopRepo.getByCommentIdAndUserId(commentId, userId) != null) {
-			return new IdValueSucceedDTO(commentId, commentLoopRepo.countAllByCommentId(commentId), false);
+			return logAndGetBadRequestEntityWithIdValue("Comment with id=" + commentId + " already looped",
+					commentId, commentLoopRepo.countAllByCommentId(commentId));
 		}
 		CommentLoop loop = new CommentLoop();
 		loop.setComment(commentRepo.getOne(commentId));
 		loop.setUser(userRepo.getOne(userId));
 		loop.setDate(new Timestamp(System.currentTimeMillis()));
 		commentLoopRepo.saveAndFlush(loop);
-		return new IdValueSucceedDTO(commentId, commentLoopRepo.countAllByCommentId(commentId), true);
+		return new ResponseEntity<>(new IdValueDTO(commentId, commentLoopRepo.countAllByCommentId(commentId)), HttpStatus.OK);
 	}
 
 	@GetMapping("/{commentId}/poop/put")
 	@ResponseBody
-	public IdValueSucceedDTO putPoop(@PathVariable(value = "commentId") long commentId,
+	public ResponseEntity putPoop(@PathVariable(value = "commentId") long commentId,
 	                                 @CookieValue(value = "userId") long userId) {
 		logger.info("put poop commentId=" + commentId + "by userId=" + userId);
+		if (!commentRepo.findById(commentId).isPresent()) {
+			return logAndGetBadRequestEntityWithIdValue("No comment with id=" + commentId,
+					commentId, commentLoopRepo.countAllByCommentId(commentId));
+		}
 		if (commentPoopRepo.getByCommentIdAndUserId(commentId, userId) != null) {
-			return new IdValueSucceedDTO(commentId, commentPoopRepo.countAllByCommentId(commentId), false);
+			return logAndGetBadRequestEntityWithIdValue("Comment with id=" + commentId + " already pooped",
+					commentId, commentPoopRepo.countAllByCommentId(commentId));
 		}
 		CommentPoop poop = new CommentPoop();
 		poop.setComment(commentRepo.getOne(commentId));
@@ -160,35 +189,43 @@ public class CommentsController {
 		poop.setDate(new Timestamp(System.currentTimeMillis()));
 		commentPoopRepo.saveAndFlush(poop);
 
-		return new IdValueSucceedDTO(commentId, commentPoopRepo.countAllByCommentId(commentId), true);
+		return new ResponseEntity<>(new IdValueDTO(commentId, commentPoopRepo.countAllByCommentId(commentId)), HttpStatus.OK);
 	}
 
 	@GetMapping("/{commentId}/loop/remove")
 	@ResponseBody
-	public IdValueSucceedDTO removeLoop(@PathVariable(value = "commentId") long commentId,
+	public ResponseEntity removeLoop(@PathVariable(value = "commentId") long commentId,
 	                                    @CookieValue(value = "userId") long userId) {
 		logger.info("remove loop commentId=" + commentId + "by userId=" + userId);
+		if (!commentRepo.findById(commentId).isPresent()) {
+			return logAndGetBadRequestEntityWithIdValue("No comment with id=" + commentId,
+					commentId, commentLoopRepo.countAllByCommentId(commentId));
+		}
 		CommentLoop loop = commentLoopRepo.getByCommentIdAndUserId(commentId, userId);
 		if (loop == null) {
-			return new IdValueSucceedDTO(commentId, commentLoopRepo.countAllByCommentId(commentId), false);
+			return logAndGetBadRequestEntityWithIdValue("Comment with id=" + commentId + " wasn't looped",
+					commentId, commentLoopRepo.countAllByCommentId(commentId));
 		}
 		commentLoopRepo.removeById(loop.getId());
-		return new IdValueSucceedDTO(commentId, commentLoopRepo.countAllByCommentId(commentId), true);
+		return new ResponseEntity<>(new IdValueDTO(commentId, commentLoopRepo.countAllByCommentId(commentId)), HttpStatus.OK);
 	}
 
 	@GetMapping("/{commentId}/poop/remove")
 	@ResponseBody
-	public IdValueSucceedDTO removePoop(@PathVariable(value = "commentId") long commentId,
+	public ResponseEntity removePoop(@PathVariable(value = "commentId") long commentId,
 	                                    @CookieValue(value = "userId") long userId) {
 		logger.info("remove poop commentId=" + commentId + "by userId=" + userId);
+		if (!commentRepo.findById(commentId).isPresent()) {
+			return logAndGetBadRequestEntityWithIdValue("No comment with id=" + commentId,
+					commentId, commentLoopRepo.countAllByCommentId(commentId));
+		}
 		CommentPoop poop = commentPoopRepo.getByCommentIdAndUserId(commentId, userId);
-//		logger.info("poopid=" + poop);
 		if (poop == null) {
-			return new IdValueSucceedDTO(commentId, commentPoopRepo.countAllByCommentId(commentId), false);
+			return logAndGetBadRequestEntityWithIdValue("Comment with id=" + commentId + " wasn't pooped",
+					commentId, commentPoopRepo.countAllByCommentId(commentId));
 		}
 		commentPoopRepo.removeById(poop.getId());
-		return new IdValueSucceedDTO(commentId, commentPoopRepo.countAllByCommentId(commentId),
-				!commentPoopRepo.existsById(poop.getId()));
+		return new ResponseEntity<>(new IdValueDTO(commentId, commentPoopRepo.countAllByCommentId(commentId)), HttpStatus.OK);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -196,5 +233,17 @@ public class CommentsController {
 	private ResponseEntity logAndGetBadRequestEntity(String msg) {
 		logger.info(msg);
 		return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
+	}
+
+	private ResponseEntity logAndGetBadRequestEntityWithId(String msg, Long id) {
+		logger.info(msg);
+		return new ResponseEntity<>(new IdMessageDTO(id, msg),
+				HttpStatus.BAD_REQUEST);
+	}
+
+	private ResponseEntity logAndGetBadRequestEntityWithIdValue(String msg, Long id, Long value) {
+		logger.info(msg);
+		return new ResponseEntity<>(new IdValueMessageDTO(id, value, msg),
+				HttpStatus.BAD_REQUEST);
 	}
 }

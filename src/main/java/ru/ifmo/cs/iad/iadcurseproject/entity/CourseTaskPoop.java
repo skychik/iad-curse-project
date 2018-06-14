@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "course_task_poop", schema = "public")
-@ToString(exclude = {"user", "task"})
+@ToString
 @Getter
 @Setter
 public class CourseTaskPoop implements Serializable {

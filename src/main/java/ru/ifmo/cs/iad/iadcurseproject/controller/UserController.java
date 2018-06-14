@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,6 +28,7 @@ import static org.springframework.data.domain.Sort.by;
 @RequestMapping("/user")
 public class UserController {
 	private final UserRepo userRepo;
+	private final SubscriptionRepo subscriptionRepo;
 	private final CommentRepo commentRepo;
 	//	private final RepostRepo repostRepo;
 	private final NewsRepo newsRepo;
@@ -45,7 +47,7 @@ public class UserController {
 	@Autowired
 	public UserController(UserRepo userRepo, CommentRepo commentRepo, /*RepostRepo repostRepo,*/ NewsRepo newsRepo,
 	                      NewsLoopRepo newsLoopRepo, NewsPoopRepo newsPoopRepo, /*PerformerRepo performerRepo,*/
-			/*RepostPoopRepo repostPoopRepo,*/ CourseRepo courseRepo,
+			/*RepostPoopRepo repostPoopRepo,*/ CourseRepo courseRepo, SubscriptionRepo subscriptionRepo,
 			              CourseSubscriptionRepo courseSubscriptionRepo) {
 		this.userRepo = userRepo;
 		this.commentRepo = commentRepo;
@@ -57,17 +59,21 @@ public class UserController {
 //		this.repostPoopRepo = repostPoopRepo;
 		this.courseRepo = courseRepo;
 		this.courseSubscriptionRepo = courseSubscriptionRepo;
+		this.subscriptionRepo = subscriptionRepo;
 	}
 
-	@GetMapping("/{userId}")
+	@GetMapping("/{profileId}")
 	@ResponseBody
-	public ResponseEntity getProfileById(@PathVariable(value = "userId") long userId) {
-		logger.info("getProfileById=" + userId);
-		Optional<User> user = userRepo.findById(userId);
+	public ResponseEntity getProfileById(@CookieValue(value = "userId") long userId,
+	                                     @PathVariable(value = "profileId") long profileId) {
+		logger.info("getProfileById=" + profileId);
+		Optional<User> user = userRepo.findById(profileId);
 		if (!user.isPresent()) {
-			return logAndGetBadRequestEntity("userId=" + userId + " doesn't exist");
+			return logAndGetBadRequestEntity("userId=" + profileId + " doesn't exist");
 		}
-		return new ResponseEntity<>(new UserExtendedDTO(user.get()), HttpStatus.OK);
+		return new ResponseEntity<>(new UserExtendedDTO(user.get(),
+						subscriptionRepo.findByWhoIdAndOnWhomId(userId, profileId) != null),
+				HttpStatus.OK);
 	}
 
 	@GetMapping("/{userId}/news")
@@ -83,7 +89,7 @@ public class UserController {
 		}
 
 		List<News> newsList = newsRepo.getAllByUserId(userId, of(pageNumber, pageSize,
-				by(Sort.Order.by("alteringDate").nullsLast(), Sort.Order.by("creationDate"))));
+				by(Sort.Order.desc("creationDate"))));
 		List<NewsForFeedDTO> newsDTOS = newsList.stream()
 				.map((News news) -> new NewsForFeedDTO(news, (long) news.getComments().size(),
 						(long) news.getNewsLoops().size(),
@@ -106,7 +112,7 @@ public class UserController {
 		}
 
 		List<Course> courseList = courseRepo.getAllByUserId(userId, of(pageNumber, pageSize,
-				by(Sort.Order.by("alteringDate").nullsLast(), Sort.Order.by("creationDate"))));
+				by(Sort.Order.desc("creationDate"))));
 
 		List<CourseInfoDTO> courseDTOS = courseList.stream()
 				.map((Course course) -> new CourseInfoDTO(course,
@@ -120,9 +126,43 @@ public class UserController {
 		return new ResponseEntity<>(courseDTOS, HttpStatus.OK);
 	}
 
+	@GetMapping("/{profileId}/follow")
+	@ResponseBody
+	public ResponseEntity followUser(@PathVariable(value = "profileId") long profileId,
+	                                 @CookieValue(value = "userId") long userId) {
+		logger.info("followProfileId=" + profileId + "by userId=" + userId);
+		if (subscriptionRepo.findByWhoIdAndOnWhomId(userId, profileId) != null) {
+			return logAndGetBadRequestEntity("Already follow userId=" + profileId);
+		}
+		Subscription subscription = new Subscription();
+		subscription.setOnWhom(userRepo.getOne(profileId));
+		subscription.setWho(userRepo.getOne(userId));
+		subscription.setDate(new Timestamp(System.currentTimeMillis()));
+		Subscription subscriptionSaved = subscriptionRepo.saveAndFlush(subscription);
+		logger.info("subscription id={}", subscriptionSaved.getId());
+		return new ResponseEntity<>(profileId, HttpStatus.OK);
+	}
+
+	@GetMapping("/{profileId}/unfollow")
+	@ResponseBody
+	public ResponseEntity unsubscribeCourse(@PathVariable(value = "profileId") long profileId,
+	                                        @CookieValue(value = "userId") long userId) {
+		logger.info("unfollowProfileId=" + profileId + "by userId=" + userId);
+		Subscription subscription = subscriptionRepo.findByWhoIdAndOnWhomId(userId, profileId);
+		if (subscription == null) {
+			return logAndGetBadRequestEntity("Already unfollow userId=" + profileId);
+		}
+		System.out.println(subscription.toString());
+		subscriptionRepo.removeById(subscription.getId());
+		System.out.println("deleted");
+		return new ResponseEntity<>(profileId, HttpStatus.OK);
+	}
+
+
 	@GetMapping("/doesExist")
 	@ResponseBody
 	public boolean getLoginExistence(@RequestParam(value = "username") String username) {
+		logger.info("existence of login=" + username);
 		User user = userRepo.findByUsername(username);
 		return user != null;
 	}
@@ -132,6 +172,7 @@ public class UserController {
 	public ResponseEntity signin(@RequestParam(value = "username") String username,
 	                             @RequestParam(value = "password") String password,
 	                             HttpServletResponse response) {
+		logger.info("login=" + username + " and password=" + password);
 		User user = userRepo.findByUsername(username);
 		if (user == null) {
 			return logAndGetBadRequestEntity("No such user");
@@ -152,5 +193,17 @@ public class UserController {
 	private ResponseEntity logAndGetBadRequestEntity(String msg) {
 		logger.info(msg);
 		return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
+	}
+
+	private ResponseEntity logAndGetBadRequestEntityWithId(String msg, Long id) {
+		logger.info(msg);
+		return new ResponseEntity<>(new IdMessageDTO(id, msg),
+				HttpStatus.BAD_REQUEST);
+	}
+
+	private ResponseEntity logAndGetBadRequestEntityWithIdValue(String msg, Long id, Long value) {
+		logger.info(msg);
+		return new ResponseEntity<>(new IdValueMessageDTO(id, value, msg),
+				HttpStatus.BAD_REQUEST);
 	}
 }

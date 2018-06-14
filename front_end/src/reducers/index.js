@@ -12,20 +12,25 @@ import { courseTaskListReducer } from "./courseTaskListReducer";
 import {courseTaskReducer} from "./courseTaskReducer";
 import {courseBackgroundReducer} from "./courseBackgroundReducer";
 import { signinReducer } from "./signinReducer";
+import {courseTypesReducer} from "./courseTypesReducer";
+import {actionButtonReducer} from "./actionButtonReducer";
+import {errorReducer} from "./errorReducer";
 
 const reducers = combineReducers({
-    signin: signinReducer,
-    signinForm: signinFormReducer,
-    feed: feedReducer,
-    news: newsReducer,
-    redactor: redactorReducer,
+    actionButton: actionButtonReducer,
     comments: commentsReducer,
-    profile: profileReducer,
-    routing: routerReducer,
-//    newsPLoopFeedback: newsPLoopReducer,
+    courseBackground: courseBackgroundReducer,
     courseTaskList: courseTaskListReducer,
     courseTask: courseTaskReducer,
-    courseBackground: courseBackgroundReducer,
+    courseTypes: courseTypesReducer,
+    error: errorReducer,
+    feed: feedReducer,
+    news: newsReducer,
+    profile: profileReducer,
+    redactor: redactorReducer,
+    routing: routerReducer,
+    signin: signinReducer,
+    signinForm: signinFormReducer,
 });
 
 export default reducers;

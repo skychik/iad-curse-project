@@ -15,16 +15,18 @@ public class UserExtendedDTO extends UserDTO {
 	private String surname;
 	private String patronymic;
 	private Timestamp birthDate;
-	private boolean sex;
+	private Boolean sex;
+	private boolean subscribed;
 
 	public UserExtendedDTO() {}
 
-	public UserExtendedDTO(User user) {
+	public UserExtendedDTO(User user, boolean subscribed) {
 		super(user);
 		this.firstName = user.getFirstName();
 		this.surname = user.getSurname();
 		this.patronymic = user.getPatronymic();
 		this.birthDate = user.getBirthDate();
 		this.sex = user.getSex();
+		this.subscribed = subscribed;
 	}
 }

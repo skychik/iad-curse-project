@@ -61,8 +61,9 @@ public class NewsController {
 	public List<NewsForFeedDTO> getNewsForUserId(@CookieValue(value = "userId") long userId,
 	                                      @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
 	                                      @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
+		logger.info("news for userId=" + userId);
 		List<News> newsList = newsRepo.getAllForUserId(userId, of(pageNumber, pageSize,
-				by(Sort.Order.by("alteringDate").nullsLast(), Sort.Order.by("creationDate"))));
+				by(Sort.Order.desc("creationDate"))));
 
 		return newsList.stream()
 				.map((News news) -> new NewsForFeedDTO(news, (long) news.getComments().size(),
@@ -73,12 +74,12 @@ public class NewsController {
 
 	@GetMapping("/{newsId}")
 	@ResponseBody
-	public ResponseEntity<NewsDTO> getNewsById(@PathVariable("newsId") long newsId,
-	                                         @CookieValue(value = "userId") long userId) {
+	public ResponseEntity getNewsById(@PathVariable("newsId") long newsId,
+	                                  @CookieValue(value = "userId") long userId) {
 		logger.info("get newsId=" + newsId);
 		News news = newsRepo.getOneByNewsId(newsId);
 		if (news == null) {
-			return new ResponseEntity<>(new NewsDTO(), HttpStatus.BAD_REQUEST);
+			return logAndGetBadRequestEntity("newsId is null");
 		}
 		logger.info(news.toString());
 		return new ResponseEntity<>(new NewsDTO(news, (long) news.getComments().size(),
@@ -97,72 +98,60 @@ public class NewsController {
 
 	@GetMapping("/{newsId}/comments_number")
 	@ResponseBody
-	public long getCommentsNumberByNewsId(@PathVariable("newsId") long newsId) {
-		return commentRepo.countAllByNewsId(newsId);
+	public ResponseEntity getCommentsNumberByNewsId(@PathVariable("newsId") long newsId) {
+		logger.info("getCommentsNumberByNewsId" + newsId);
+		if (!newsRepo.findById(newsId).isPresent()) {
+			return logAndGetBadRequestEntity("No news with id=" + newsId);
+		}
+		return new ResponseEntity<>(commentRepo.countAllByNewsId(newsId), HttpStatus.OK);
 	}
-
-//	@GetMapping("/{newsId}/reposts")
-//	public @ResponseBody Page<Repost> getRepostsByNewsId(
-//			@PathVariable("newsId") long newsId,
-//			@RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
-//			@RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
-//		return repostRepo.getAllByNewsId(newsId, of(pageNumber, pageSize, by("id")));
-//	}
-
-//	@GetMapping("/{newsId}/reposts_number")
-//	@ResponseBody
-//	public long getRepostsNumberByNewsId(@PathVariable("newsId") long newsId) {
-//		return repostRepo.countAllByNewsId(newsId);
-//	}
-
-//	@GetMapping("/{newsId}/loops")
-//	public @ResponseBody Page<NewsLoop> getLoopsByNewsId(
-//			@PathVariable("newsId") long newsId,
-//			@RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
-//			@RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
-//		return newsLoopRepo.getAllByNewsId(newsId, of(pageNumber, pageSize, by("id")));
-//	}
 
 	@GetMapping("/{newsId}/total_loops_number")
 	@ResponseBody
-	public long getTotalLoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
-		return newsLoopRepo.countAllByNewsId(newsId) ;//+ repostLoopRepo.countAllByNewsId(newsId);
+	public ResponseEntity getTotalLoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
+		logger.info("getTotalLoopsNumberByNewsId" + newsId);
+		if (!newsRepo.findById(newsId).isPresent()) {
+			return logAndGetBadRequestEntity("No news with id=" + newsId);
+		}
+		return new ResponseEntity<>(newsLoopRepo.countAllByNewsId(newsId), HttpStatus.OK) ;//+ repostLoopRepo.countAllByNewsId(newsId);
 	}
 
 	@GetMapping("/{newsId}/loops_number")
 	@ResponseBody
-	public long getLoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
-		return newsLoopRepo.countAllByNewsId(newsId);
+	public ResponseEntity getLoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
+		logger.info("getLoopsNumberByNewsId" + newsId);
+		if (!newsRepo.findById(newsId).isPresent()) {
+			return logAndGetBadRequestEntity("No news with id=" + newsId);
+		}
+		return new ResponseEntity<>(newsLoopRepo.countAllByNewsId(newsId), HttpStatus.OK);
 	}
-
-//	@GetMapping("/{newsId}/poops")
-//	public @ResponseBody Page<NewsPoop> getPoopsByNewsId(
-//			@PathVariable("newsId") long newsId,
-//			@RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
-//			@RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
-//		return newsPoopRepo.getAllByNewsId(newsId, of(pageNumber, pageSize, by("id")));
-//	}
 
 	@GetMapping("/{newsId}/total_poops_number")
 	@ResponseBody
-	public long getTotalPoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
-		return newsPoopRepo.countAllByNewsId(newsId) ;//+ repostPoopRepo.countAllByNewsId(newsId);
+	public ResponseEntity getTotalPoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
+		logger.info("getTotalPoopsNumberByNewsId" + newsId);
+		if (!newsRepo.findById(newsId).isPresent()) {
+			return logAndGetBadRequestEntity("No news with id=" + newsId);
+		}
+		return new ResponseEntity<>(newsPoopRepo.countAllByNewsId(newsId), HttpStatus.OK);//+ repostPoopRepo.countAllByNewsId(newsId);
 	}
 
 	@GetMapping("/{newsId}/poops_number")
 	@ResponseBody
-	public long getPoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
-		return newsPoopRepo.countAllByNewsId(newsId);
+	public ResponseEntity getPoopsNumberByNewsId(@PathVariable("newsId") long newsId) {
+		logger.info("getPoopsNumberByNewsId" + newsId);
+		if (!newsRepo.findById(newsId).isPresent()) {
+			return logAndGetBadRequestEntity("No news with id=" + newsId);
+		}
+		return new ResponseEntity<>(newsPoopRepo.countAllByNewsId(newsId), HttpStatus.OK);
 	}
 
 	@PostMapping(path="/post", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<String> addNews(@RequestBody NewsPostedDTO newsDTO, @CookieValue(value = "userId") long userId) {
+	public ResponseEntity addNews(@RequestBody NewsPostedDTO newsDTO, @CookieValue(value = "userId") long userId) {
 		logger.info("add news=" + newsDTO.toString());
 		Optional<User> user = userRepo.findById(userId);
 		if (!user.isPresent()) {
-			String str = "User with id=" + userId + " doesn't exist";
-			logger.info(str);
-			return new ResponseEntity<>(str, HttpStatus.BAD_REQUEST);
+			return logAndGetBadRequestEntity("User with id=" + userId + " doesn't exist");
 		}
 		News news = newsDTO.makeNews(user.get());
 		News savedNews = newsRepo.save(news);
@@ -172,60 +161,79 @@ public class NewsController {
 
 	@GetMapping("/{newsId}/loop/put")
 	@ResponseBody
-	public IdValueSucceedDTO putLoop(@PathVariable(value = "newsId") long newsId,
+	public ResponseEntity putLoop(@PathVariable(value = "newsId") long newsId,
 	                                 @CookieValue(value = "userId") long userId) {
 		logger.info("put loop newsId=" + newsId + "by userId=" + userId);
+		if (!newsRepo.findById(newsId).isPresent()) {
+			return logAndGetBadRequestEntityWithIdValue("No news with id=" + newsId, null, null);
+		}
 		if (newsLoopRepo.getByNewsIdAndUserId(newsId, userId) != null) {
-			return new IdValueSucceedDTO(newsId, newsLoopRepo.countAllByNewsId(newsId), false);
+			return logAndGetBadRequestEntityWithIdValue("No loop on news with id=" + newsId,
+					newsId, newsLoopRepo.countAllByNewsId(newsId));
 		}
 		NewsLoop loop = new NewsLoop();
 		loop.setNews(newsRepo.getOne(newsId));
 		loop.setUser(userRepo.getOne(userId));
 		loop.setDate(new Timestamp(System.currentTimeMillis()));
 		newsLoopRepo.save(loop);
-		return new IdValueSucceedDTO(newsId, newsLoopRepo.countAllByNewsId(newsId), true);
+		return new ResponseEntity<>(new IdValueDTO(newsId, newsLoopRepo.countAllByNewsId(newsId)), HttpStatus.OK);
 	}
 
 	@GetMapping("/{newsId}/poop/put")
 	@ResponseBody
-	public IdValueSucceedDTO putPoop(@PathVariable(value = "newsId") long newsId,
+	public ResponseEntity putPoop(@PathVariable(value = "newsId") long newsId,
 	                          @CookieValue(value = "userId") long userId) {
 		logger.info("put poop newsId=" + newsId + "by userId=" + userId);
+		if (!newsRepo.findById(newsId).isPresent()) {
+			return logAndGetBadRequestEntityWithIdValue("No news with id=" + newsId, null, null);
+		}
 		if (newsPoopRepo.getByNewsIdAndUserId(newsId, userId) != null) {
-			return new IdValueSucceedDTO(newsId, newsPoopRepo.countAllByNewsId(newsId), false);
+			return logAndGetBadRequestEntityWithIdValue("No poop on news with id=" + newsId,
+				newsId, newsPoopRepo.countAllByNewsId(newsId));
 		}
 		NewsPoop poop = new NewsPoop();
 		poop.setNews(newsRepo.getOne(newsId));
 		poop.setUser(userRepo.getOne(userId));
 		poop.setDate(new Timestamp(System.currentTimeMillis()));
 		newsPoopRepo.save(poop);
-		return new IdValueSucceedDTO(newsId, newsPoopRepo.countAllByNewsId(newsId), true);
+		return new ResponseEntity<>(new IdValueDTO(newsId, newsPoopRepo.countAllByNewsId(newsId)), HttpStatus.OK);
 	}
 	@GetMapping("/{newsId}/loop/remove")
-	@ResponseBody public IdValueSucceedDTO removeLoop(@PathVariable(value = "newsId") long newsId,
+	@ResponseBody
+	public ResponseEntity removeLoop(@PathVariable(value = "newsId") long newsId,
 	                             @CookieValue(value = "userId") long userId) {
 		logger.info("remove loop newsId=" + newsId + "by userId=" + userId);
+		if (!newsRepo.findById(newsId).isPresent()) {
+			return logAndGetBadRequestEntityWithIdValue("No news with id=" + newsId, null, null);
+		}
 		NewsLoop loop = newsLoopRepo.getByNewsIdAndUserId(newsId, userId);
 		if (loop == null) {
-			return new IdValueSucceedDTO(newsId, newsLoopRepo.countAllByNewsId(newsId), false);
+			return logAndGetBadRequestEntityWithIdValue("No loop on news with id=" + newsId,
+					newsId, newsLoopRepo.countAllByNewsId(newsId));
 		}
-		System.out.println(loop.toString());
+		logger.info(loop.toString());
 		newsLoopRepo.removeById(loop.getId());
-		System.out.println("deleted");
-		return new IdValueSucceedDTO(newsId, newsLoopRepo.countAllByNewsId(newsId), true);
+		logger.info("deleted");
+		return new ResponseEntity<>(new IdValueDTO(newsId, newsLoopRepo.countAllByNewsId(newsId)), HttpStatus.OK);
 	}
 
 	@GetMapping("/{newsId}/poop/remove")
 	@ResponseBody
-	public IdValueSucceedDTO removePoop(@PathVariable(value = "newsId") long newsId,
+	public ResponseEntity removePoop(@PathVariable(value = "newsId") long newsId,
 	                             @CookieValue(value = "userId") long userId) {
 		logger.info("remove poop newsId=" + newsId + "by userId=" + userId);
+		if (!newsRepo.findById(newsId).isPresent()) {
+			return logAndGetBadRequestEntityWithIdValue("No news with id=" + newsId, null, null);
+		}
 		NewsPoop poop = newsPoopRepo.getByNewsIdAndUserId(newsId, userId);
 		if (poop == null) {
-			return new IdValueSucceedDTO(newsId, newsPoopRepo.countAllByNewsId(newsId), false);
+			return logAndGetBadRequestEntityWithIdValue("No poop on news with id=" + newsId,
+					newsId, newsPoopRepo.countAllByNewsId(newsId));
 		}
+		logger.info(poop.toString());
 		newsPoopRepo.removeById(poop.getId());
-		return new IdValueSucceedDTO(newsId, newsPoopRepo.countAllByNewsId(newsId), true);
+		logger.info("deleted");
+		return new ResponseEntity<>(new IdValueDTO(newsId, newsPoopRepo.countAllByNewsId(newsId)), HttpStatus.OK);
 	}
 
 	public int likeNewsByNewsId() {
@@ -237,5 +245,17 @@ public class NewsController {
 	private ResponseEntity logAndGetBadRequestEntity(String msg) {
 		logger.info(msg);
 		return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
+	}
+
+	private ResponseEntity logAndGetBadRequestEntityWithId(String msg, Long id) {
+		logger.info(msg);
+		return new ResponseEntity<>(new IdMessageDTO(id, msg),
+				HttpStatus.BAD_REQUEST);
+	}
+
+	private ResponseEntity logAndGetBadRequestEntityWithIdValue(String msg, Long id, Long value) {
+		logger.info(msg);
+		return new ResponseEntity<>(new IdValueMessageDTO(id, value, msg),
+				HttpStatus.BAD_REQUEST);
 	}
 }

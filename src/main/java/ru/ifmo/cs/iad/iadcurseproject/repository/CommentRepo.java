@@ -4,12 +4,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 import ru.ifmo.cs.iad.iadcurseproject.entity.Comment;
-import ru.ifmo.cs.iad.iadcurseproject.entity.News;
-import ru.ifmo.cs.iad.iadcurseproject.entity.Performer;
 
 import java.util.List;
 
@@ -24,4 +20,6 @@ public interface CommentRepo extends JpaRepository<Comment, Long> {
 	long countAllByNewsId(@Param("id") Long id);
 
 	void deleteById(Long id);
+
+	Comment getByIdAndNewsId(long id, long newsId);
 }

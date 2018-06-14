@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "task_comment", schema = "public")
-@ToString(exclude = {"user", "task"})
+@ToString(of = {"id", "user", "task", "onCommentId", "content", "creationDate", "alteringDate"})
 @Getter
 @Setter
 public class TaskComment implements Serializable {

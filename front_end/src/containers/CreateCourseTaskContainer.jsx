@@ -11,6 +11,10 @@ import SoundcloudContainer from "./SoundcloudContainer";
 import CourseTaskRedactorContainer from "./CourseTaskRedactorContainer";
 
 class CreateCourseTaskContainer extends React.Component {
+    componentWillMount() {
+        this.props.setCourseBackground(true);
+    }
+
     render() {
         return <Switch>
                 <Route exact path='/create/course' component={() =>

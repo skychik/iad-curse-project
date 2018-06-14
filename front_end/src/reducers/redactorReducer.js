@@ -1,7 +1,5 @@
 export function redactorReducer(state = {}, action) {
     switch (action.type) {
-        case "FETCH_COURSE_TYPES_FULFILLED":
-            return {...state, courseTypes: action.payload};
         case "FETCH_USER_COURSES_FULFILLED":
             return {...state, userCourses: action.payload};
         case "IS_USER_NEWS_TITLE_EXISTS":

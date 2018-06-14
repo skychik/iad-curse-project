@@ -30,6 +30,50 @@ import PageNotFound from "./components/PageNotFound";
 const store = createStore(
     reducers,
     { // initial state
+        actionButton: {
+          pending: false,
+        },
+        comments: null,
+        courseBackground: false,
+        courseTaskList: null,
+        courseTypes: {
+            correct: null,
+            types: null,
+        },
+        feed: {
+            data: null,
+            addCommentShowed: false,
+            newCommentContent: "",
+        },
+        error: [],
+        news: {
+            author: null,
+        },
+        profile: {
+            info: null,
+            courses: null,
+            newsList: null,
+        },
+        redactor: {
+            courseTypes: null,
+            userCourses: null,
+            input: {
+                isNewCourse: false,
+                courseTitle: "",
+                courseType: null,
+                chosenCourseId: null,
+                content: "",
+                taskTitle: "",
+                newsTitle: "",
+            },
+            isUserTitleExists: false,
+            answer: null,
+        },
+        routing: {
+            info: null,
+            newsList: null,
+            courses: null,
+        },
         signin: {
             pending: false,
             success: null,
@@ -65,39 +109,6 @@ const store = createStore(
                 password: false,
                 confirmation: false,
             },
-        },
-        courseBackground: false,
-        feed: {
-            data: null,
-            addCommentShowed: false,
-        },
-        news: null,
-        redactor: {
-            courseTypes: null,
-            userCourses: null,
-            input: {
-                isNewCourse: false,
-                courseTitle: "",
-                courseType: null,
-                chosenCourseId: null,
-                content: "",
-                taskTitle: "",
-                newsTitle: "",
-            },
-            isUserTitleExists: false,
-            answer: null,
-        },
-        courseTaskList: null,
-        comments: null,
-        profile: {
-            info: null,
-            courses: null,
-            newsList: null,
-        },
-        routing: {
-            info: null,
-            newsList: null,
-            courses: null,
         },
     }, composeWithDevTools(applyMiddleware(promise(), thunk)));
 

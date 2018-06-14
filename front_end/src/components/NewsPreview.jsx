@@ -27,13 +27,13 @@ export default class NewsPreview extends Component {
 
     render() {
         const { newsId, authorId, authorUsername, creationDate, alteringDate, title, contentPreview,
-            commentsNumber, loopsNumber, poopsNumber, authorAvatar } = this.props;
+            commentsNumber, loopsNumber, poopsNumber, authorAvatar, pending } = this.props;
         const markdown = <ReactMarkdown source={contentPreview} className="markdown-container"/>;
 
         return <Panel>
             <Panel.Heading>{/* style={{backgroundColor: "rgba(238, 238, 238, 0.5)"}}*/}
                     <Row>
-                        <div style={{display: "block", width: "74px", float: "left", paddingLeft: "15px"}}>
+                        <div style={{display: "block", width: "79px", float: "left", paddingLeft: "15px"}}>
                             <UserPhoto userId={authorId} username={authorUsername} withTooltip={true}
                                        photo={authorAvatar} size={48}/>
                             {/*<div style={{color: "transparent",float: "right", marginRight: 10}}>*/}
@@ -59,19 +59,25 @@ export default class NewsPreview extends Component {
                     </Row>
             </Panel.Heading>
             <Panel.Body style={{padding: "0"}}>
-                <div id={"wrapper"} style={{margin: "0"}}>{markdown}</div>
+                <div id={"wrapper"} style={{margin: "0", maxHeight: "600px",
+                        overflow: "hidden", textOverflow: "ellipsis"}}>
+                    {markdown}
+                </div>
             </Panel.Body>
             <Panel.Footer>
                 <div style={{height: "25.43px"}}>
                     <ActionButton isComment={true} action={this.props.showAddNewComment}
-                                  counter={commentsNumber} tooltip={"Comment!"}/>
+                                  counter={commentsNumber} tooltip={"Comment!"}
+                                  pending={pending}/>
 
                     <ActionButton isLoop={false} action={this.props.putPoopOnNewsId}
                                   alternativeAction={this.props.removePoopOnNewsId} counter={poopsNumber}
-                                  tooltip={"Put your Poop ;("} float={"right"} wasPut={this.props.poopWasPut}/>
+                                  tooltip={"Put your Poop ;("} float={"right"} wasPut={this.props.poopWasPut}
+                                  pending={pending}/>
                     <ActionButton isLoop={true} action={this.props.putLoopOnNewsId}
                                   alternativeAction={this.props.removeLoopOnNewsId} counter={loopsNumber}
-                                  tooltip={"Put your Loop :)"} float={"right"} wasPut={this.props.loopWasPut}/>
+                                  tooltip={"Put your Loop :)"} float={"right"} wasPut={this.props.loopWasPut}
+                                  pending={pending}/>
                     <span className={"my_date"} style={{float: "right", paddingTop: "2.5px"}}>
                         <span style={{marginRight: 10}}>
                             <DateTime date={alteringDate == null ? creationDate : alteringDate} />
@@ -101,6 +107,7 @@ NewsPreview.propTypes = {
     putPoopOnNewsId: PropTypes.func.isRequired,
     removeLoopOnNewsId: PropTypes.func.isRequired,
     removePoopOnNewsId: PropTypes.func.isRequired,
-    showAddNewComment: PropTypes.func.isRequired,
+    showAddNewComment: PropTypes.func.isRequired, /*TODO: NewsPreview shouldnt make comments; link to comments instead*/
     repostsNumber: PropTypes.number,
+    pending: PropTypes.bool.isRequired,
 };

@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 @Transactional
 public interface CourseRepo extends JpaRepository<Course, Long> {
-	List<Course> getAllByAuthorId(long authorId);
+	List<Course> getAllByAuthorId(long authorId, Pageable pagination);
 
 	@Query("select c from Course c where c.author.id = :userId")
 	List<Course> getAllByUserId(@Param("userId") long userId, Pageable pagination);

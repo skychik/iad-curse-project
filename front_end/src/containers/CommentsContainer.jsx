@@ -10,6 +10,8 @@ class CommentsContainer extends React.Component {
     }
 
     render() {
+        const {actionButton} = this.props;
+
         if (!this.props.comments) return "Loading...";
 
         const commentsData = this.props.comments;
@@ -39,14 +41,18 @@ class CommentsContainer extends React.Component {
                                     putPoopOnCommentId={this.props.putPoopOnCommentId}
                                     removeLoopOnCommentId={this.props.removeLoopOnCommentId}
                                     removePoopOnCommentId={this.props.removePoopOnCommentId}
-                                    showAddComment={this.props.showAddComment}/>
+                                    showAddComment={this.props.showAddComment}
+                                    pending={actionButton.pending}/>
                 })}
             </div>
     }
 }
 
 const mapStateToProps = (state) => {
-    return {comments: state.comments}
+    return {
+        comments: state.comments,
+        actionButton: state.actionButton,
+    }
 };
 
 const mapDispatchToProps = (dispatch) => {

@@ -19,6 +19,7 @@ class ProfileContainer extends React.Component {
     }
 
     render() {
+        const {actionButton} = this.props;
         const profileData = this.props.profile;
 
         if (profileData == null || profileData.info == null) {
@@ -28,17 +29,17 @@ class ProfileContainer extends React.Component {
             return <h1>Loading...</h1>
         }
 
-        const { id, username, firstName, surname, patronymic, birthDate, sex, photo, about } = profileData.info;
+        const { id, username, firstName, surname, patronymic, birthDate, sex, photo, about, subscribed } = profileData.info;
         const { newsList, courses } = profileData;
 
         const isSelf = id === parseInt(cookie.load("userId"));
 
         const feedContainer =  newsList != null ?
             newsList.map((newsPreview, idx) => {
-                const putLoopOnNewsId = () => this.props.putLoopOnTaskId(newsPreview.id);
-                const putPoopOnNewsId = () => this.props.putPoopOnTaskId(newsPreview.id);
-                const removeLoopOnNewsId = () => this.props.removeLoopOnTaskId(newsPreview.id);
-                const removePoopOnNewsId = () => this.props.removePoopOnTaskId(newsPreview.id);
+                const putLoopOnNewsId = () => this.props.putLoopOnNewsId(newsPreview.id);
+                const putPoopOnNewsId = () => this.props.putPoopOnNewsId(newsPreview.id);
+                const removeLoopOnNewsId = () => this.props.removeLoopOnNewsId(newsPreview.id);
+                const removePoopOnNewsId = () => this.props.removePoopOnNewsId(newsPreview.id);
 
                 return <NewsPreview className="NewsPreview"
                                     key={idx}
@@ -59,7 +60,9 @@ class ProfileContainer extends React.Component {
                                     putLoopOnNewsId={putLoopOnNewsId}
                                     putPoopOnNewsId={putPoopOnNewsId}
                                     removeLoopOnNewsId={removeLoopOnNewsId}
-                                    removePoopOnNewsId={removePoopOnNewsId}/>;
+                                    removePoopOnNewsId={removePoopOnNewsId}
+                                    pending={actionButton.pending}
+                                    showAddNewComment={() => null}/>;
             }) : "No news";
         console.log("feedContainer");
         console.log(feedContainer);
@@ -84,6 +87,9 @@ class ProfileContainer extends React.Component {
                                       unsubscribeCourseId={unsubscribeCourseId}/>;
             }) : "No courses";
 
+        const followUserId = () => this.props.followUserId(id);
+        const unfollowUserId = () => this.props.unfollowUserId(id);
+
         return <Row className="profile">
             <Col md={3}>
                 <div className="profile-sidebar">
@@ -97,7 +103,10 @@ class ProfileContainer extends React.Component {
                         </div>
                     </div>
                     <div className="profile-userbuttons">
-                        {isSelf ? "" : <Button className="btn btn-success btn-sm">Follow</Button>}
+                        {isSelf ? "" : <Button bsStyle={subscribed ? "warning" : "success"} bsSize="sm"
+                                               onClick={subscribed ? unfollowUserId : followUserId}>
+                            {subscribed ? "Unfollow" : "Follow"}
+                        </Button>}
                     </div>
                     <div className="profile-usermenu">
                         <ul className="nav">
@@ -111,6 +120,11 @@ class ProfileContainer extends React.Component {
                                     <Glyphicon glyph="home" /> Courses
                                 </Link>
                             </li>
+                            {isSelf ? <li className="active">
+                                <Link to={"/id/" + id + "/settings"}>
+                                    <Glyphicon glyph="cog" /> Settings
+                                </Link>
+                            </li> : ""}
                         </ul>
                     </div>
                 </div>
@@ -129,6 +143,11 @@ class ProfileContainer extends React.Component {
                                     <span className={"profile-no-courses"}>No tasks</span>
                                     : coursesContainer}
                             </div>} />
+                        <Route path='/id/:number/settings' component={
+                            () => <div>
+                                <PageHeader>Settings</PageHeader>
+
+                            </div>} />
                         <Route component={
                             () => <div>
                                 <PageHeader>News</PageHeader>
@@ -144,7 +163,10 @@ class ProfileContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return {profile: state.profile}
+    return {
+        profile: state.profile,
+        actionButton: state.actionButton,
+    }
 };
 
 const mapDispatchToProps = (dispatch) => {

@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "comment", schema = "public")
-@ToString(exclude = {"user", "news"})
+@ToString(of = {"id", "user", "news", "onCommentId", "content", "creationDate", "alteringDate"})
 @Getter
 @Setter
 public class Comment implements Serializable {

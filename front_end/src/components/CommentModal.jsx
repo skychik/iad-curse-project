@@ -25,7 +25,9 @@ export default class CommentModal extends Component {
                                 </Well>
                             </div> : null : null}
                         <FormControl componentClass="textarea" placeholder="Write your comment..." name="content"
-                                     style={{resize: "none"}} rows="10" onChange={this.props.onChange}/>
+                                     style={{resize: "none"}} rows="10" onChange={this.props.onChange} autoFocus>
+                            {this.props.content}
+                        </FormControl>
                     </FormGroup>
                 </Modal.Body>
                 <Modal.Footer>
@@ -39,6 +41,7 @@ export default class CommentModal extends Component {
 
 CommentModal.propTypes = {
     comment: PropTypes.object,
+    content: PropTypes.string.isRequired,
     isShown: PropTypes.bool.isRequired,
     onHide: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,

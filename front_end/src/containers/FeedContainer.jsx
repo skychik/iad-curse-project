@@ -9,6 +9,13 @@ import CommentModal from "../components/CommentModal";
 // props:
 //  news - News in JSON
 class FeedContainer extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmitNewComment = this.handleSubmitNewComment.bind(this);
+    }
+
     componentDidMount() {
         this.props.setFeed();
     }
@@ -21,27 +28,29 @@ class FeedContainer extends React.Component {
         return true;
     }
 
-    handleChange() {
+    handleChange(event) {
         switch (event.target.name) {
             case "content":
                 this.props.setNewCommentContent(event.target.value); break;
         }
     }
 
-    handleSubmitNewComment() {
-        const news = this.props.news;
-        if (this.props.news.newCommentContent) {
+    handleSubmitNewComment(event) {
+        const feed = this.props.feed;
+        if (this.props.feed.newCommentContent) {
             console.log("newComment");
-            console.log({content: news.newCommentContent, newsId : news.commentingComm.newsId,
-                onCommentId: news.commentingComm.id == null ? "" : news.commentingComm.id});
-            this.props.addNewComment({content: news.newCommentContent, newsId : news.commentingComm.newsId,
-                onCommentId: news.commentingComm.id == null ? "" : news.commentingComm.id});
+            console.log({content: feed.newCommentContent, newsId : feed.commentingComm.newsId,
+                onCommentId: feed.commentingComm.id == null ? "" : feed.commentingComm.id});
+            this.props.addNewComment({content: feed.newCommentContent, newsId : feed.commentingComm.newsId,
+                onCommentId: feed.commentingComm.id == null ? "" : feed.commentingComm.id});
         }
 
         event.preventDefault();
     }
 
     render() {
+        const {actionButton} = this.props;
+
         if (!this.props.feed) {
             return "";
         }
@@ -79,6 +88,7 @@ class FeedContainer extends React.Component {
                                     removeLoopOnNewsId={removeLoopOnNewsId}
                                     removePoopOnNewsId={removePoopOnNewsId}
                                     showAddNewComment={showAddNewComment}
+                                    pending={actionButton.pending}
                              />;
             }) : [];
 
@@ -89,16 +99,19 @@ class FeedContainer extends React.Component {
                 </PageHeader>
                 <div>{feedContainer.length === 0 ? <span className={"feed-no-news"}>No news</span> : feedContainer}</div>
 
-                <CommentModal isShown={this.props.feed.addCommentShowed}
-                              onHide={this.props.hideAddComment}
-                              onChange={this.handleChange} onSubmit={this.handleSubmitNewComment}/>
+                <CommentModal isShown={this.props.feed.addCommentShowed} onHide={this.props.hideAddComment}
+                              onChange={this.handleChange} onSubmit={this.handleSubmitNewComment}
+                              content={this.props.feed.newCommentContent} />
             </div>
         )
     }
 }
 
 const mapStateToProps = (state) => {
-    return {feed: state.feed}
+    return {
+        feed: state.feed,
+        actionButton: state.actionButton,
+    }
 };
 
 const mapDispatchToProps = (dispatch) => {

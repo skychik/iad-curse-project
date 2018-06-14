@@ -19,7 +19,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user", schema = "public")
-@ToString(of = {"id"})
+@ToString(of = {"id", "username", "password", "firstName", "surname", "patronymic", "birthDate", "sex", "photo"})
 @Getter
 @Setter
 public class User implements Serializable {

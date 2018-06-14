@@ -5,15 +5,43 @@ import * as actionCreators from "../actions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import CourseTaskPreview from "../components/CourseTaskPreview";
-import {PageHeader} from "react-bootstrap";
+import {
+    Button,
+    ButtonGroup,
+    ButtonToolbar, Col,
+    DropdownButton,
+    MenuItem,
+    PageHeader, Row, ToggleButton,
+    ToggleButtonGroup
+} from "react-bootstrap";
+import {Redirect} from "react-router-dom";
 
 class CoursesContainer extends React.Component {
     componentWillMount() {
         this.props.setCourseBackground(true);
-        this.props.setCourseTasks();
+        this.props.setCourseTypes();
+        const type = this.props.match.params.type;
+        if (!type) {
+            this.props.setCourseTasks();
+        } else {
+            this.props.setCourseTasksByType(type);
+        }
     }
 
     render() {
+        const {courseTypes, actionButton} = this.props;
+        const {type} = this.props.match.params;
+
+        if (courseTypes.correct === false) {
+            alert(courseTypes.answer);
+        }
+
+        if (type && courseTypes.correct) {
+            if (courseTypes.types.indexOf(type) === -1) {
+                return <Redirect to="/courses"/>;
+            }
+        }
+
         const courseTaskList = this.props.courseTaskList;
 
         if (courseTaskList == null) {
@@ -26,8 +54,8 @@ class CoursesContainer extends React.Component {
                 const putPoopOnTaskId = () => this.props.putPoopOnTaskId(task.id);
                 const removeLoopOnTaskId = () => this.props.removeLoopOnTaskId(task.id);
                 const removePoopOnTaskId = () => this.props.removePoopOnTaskId(task.id);
-                const completeCourseTask = () => this.props.completeCourseTaskId(task.id);
-                const undoCourseTask = () => this.props.undoCourseTaskId(task.id);
+                const completeCourseTask = () => this.props.completeCourseTask(task.id);
+                const undoCourseTask = () => this.props.undoCourseTask(task.id);
 
                 return <CourseTaskPreview className="CourseTaskPreview"
                                           key={idx}
@@ -52,22 +80,52 @@ class CoursesContainer extends React.Component {
                                           removeLoopOnTaskId={removeLoopOnTaskId}
                                           removePoopOnTaskId={removePoopOnTaskId}
                                           completeCourseTask={completeCourseTask}
-                                          undoCourseTask={undoCourseTask}/>;
+                                          undoCourseTask={undoCourseTask}
+                                          pending={actionButton.pending}/>;
             }) : "No courses";
 
-        return (
-            <div className="CoursesContainer">
-                <PageHeader style={{textAlign: "center"}}>Course Tasks</PageHeader>
+        return <div className="CoursesContainer">
+            <PageHeader style={{textAlign: "center"}}>Course Tasks</PageHeader>
+
+            <div style={{display: "table-cell", width: "15px"}}/>
+            <ButtonGroup style={{margin: "15px", display: "table-cell", textAlign: "center", verticalAlign: "middle"}}>
+                <Button disabled={!type} href="/courses">all</Button>
+                {courseTypes.types ?
+                    <DropdownButton title="type" id="bg-justified-dropdown">
+                        {type ?
+                            courseTypes.types.map((t, idx) =>
+                                <MenuItem key={idx} eventKey={idx} href={"/courses/type/" + t}
+                                          disabled={t === type}>
+                                    <span style={{color: t === type ? "#ccc" : ""}}>
+                                        {t}
+                                    </span>
+                                </MenuItem>)
+                            : courseTypes.types.map((type, idx) =>
+                            <MenuItem key={idx} eventKey={idx} href={"/courses/type/" + type}>{type}</MenuItem>)}
+                    </DropdownButton> : ""}
+            </ButtonGroup>
+            <div style={{display: "table-cell", width: "25px"}}/>
+            <div style={{display: "table-cell", textAlign: "center", verticalAlign: "middle"}}>
+                <h3 style={{margin: "0"}}>
+                    {!type ? "All Courses" : type[0].toUpperCase() + type.substring(1) + " Courses"}
+                </h3>
+            </div>
+
+            <div style={{marginTop: "26px"}}>
                 {taskListContainer.length === 0 ?
                     <span className={"profile-no-news"}>No courses</span>
                     : taskListContainer}
             </div>
-        )
+        </div>;
     }
 }
 
 const mapStateToProps = (state) => {
-    return {courseTaskList: state.courseTaskList}
+    return {
+        courseTaskList: state.courseTaskList,
+        courseTypes: state.courseTypes,
+        actionButton: state.actionButton,
+    }
 };
 
 const mapDispatchToProps = (dispatch) => {
