@@ -54,6 +54,17 @@ const store = createStore(
             courses: null,
             newsList: null,
         },
+        profileSettings: {
+            isModalShown: false,
+            type: "",
+            content: null,
+            confirmation: null,
+            doesExist: null,
+            previousContent: null,
+            header: null,
+            validationStarted: false,
+            isValid: null,
+        },
         redactor: {
             courseTypes: null,
             userCourses: null,

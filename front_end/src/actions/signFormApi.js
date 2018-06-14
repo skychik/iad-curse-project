@@ -12,13 +12,6 @@ export function initValidation() {
     }
 }
 
-export function startValidation(data) {
-    return {
-        type: 'START_SIGN_FORM_VALIDATION',
-        payload: data,
-    }
-}
-
 export function setUserAttribute(data) {
     return {
         type: 'SET_USER_ATTRIBUTE',

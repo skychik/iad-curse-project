@@ -188,6 +188,30 @@ public class UserController {
 				new ResponseEntity<>("Wrong username and password", HttpStatus.BAD_REQUEST);
 	}
 
+	@GetMapping("change/{type}/to/{content}")
+	@ResponseBody
+	public ResponseEntity changeProfileInfo(@PathVariable(value = "type") String type,
+	                                        @PathVariable(value = "content") String content,
+	                                        @CookieValue(value = "userId") long userId) {
+		logger.info("change " + type + " to " + content + " for userId=" + userId);
+		Optional<User> optional = userRepo.findById(userId);
+		if (!optional.isPresent()) {
+			return logAndGetBadRequestEntity("Error with cookie");
+		}
+		User user = optional.get();
+		switch (type) {
+			case "firstName": user.setFirstName(content); break;
+			case "surname": user.setSurname(content); break;
+			case "patronymic": user.setPatronymic(content); break;
+			case "sex": user.setSex(Boolean.parseBoolean(content)); break;
+			case "email": user.setEmail(content); break;
+			case "username":
+			case "login": user.setUsername(content); break;
+			case "password": user.setPassword(content); break;
+		}
+		return new ResponseEntity<>(true, HttpStatus.OK);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private ResponseEntity logAndGetBadRequestEntity(String msg) {

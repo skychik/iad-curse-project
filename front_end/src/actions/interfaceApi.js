@@ -32,3 +32,34 @@ export function dismissError(id) {
         payload: id,
     }
 }
+
+export function showChangeSetting(type, header, previousContent) {
+    return {
+        type: 'SHOW_CHANGE_SETTING',
+        payload: {
+            type: type,
+            previousContent: previousContent,
+            header: header,
+        },
+    }
+}
+
+export function hideChangeSetting() {
+    return {
+        type: 'HIDE_CHANGE_SETTING',
+    }
+}
+
+export function startValidation(data) {
+    return {
+        type: 'START_VALIDATION',
+        payload: data,
+    }
+}
+
+export function validateContent(data) {
+    return {
+        type: 'VALIDATE_CONTENT',
+        payload: data,
+    }
+}

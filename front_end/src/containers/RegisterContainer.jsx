@@ -14,6 +14,7 @@ import * as actionCreators from "../actions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import RestClient from "another-rest-client";
+import {restApiUrl} from "../options";
 
 class RegisterContainer extends React.Component {
     constructor(props) {
@@ -75,7 +76,7 @@ class RegisterContainer extends React.Component {
                         value: target.value,
                     });
 
-                    let api = new RestClient('http://localhost:8080');
+                    let api = new RestClient(restApiUrl);
                     const promise = api.res("user").res("doesExist").get({username: target.value});
                     promise.then((response) => {
                         console.log("doesLoginExist=" + response);

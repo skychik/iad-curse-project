@@ -61,7 +61,7 @@ export function signinFormReducer(state = {}, action) {
                     confirmation: false,
                 },
             };
-        case "START_SIGN_FORM_VALIDATION":
+        case "START_VALIDATION":
             switch (action.payload) {
                 case "firstName":
                     return {...state, validationStarted: {...state.validationStarted, firstName: true} };
@@ -164,7 +164,7 @@ export function signinFormReducer(state = {}, action) {
                         signinSubmitEnabled: doesSigninRegistrationEnabled(transitionalState),
                         formChanged: true,};}
                 default:
-                    return action.payload;
+                    return state;
             }
         case "REGISTRATION_SUCCESS":
             alert("REGISTRATION_SUCCESS=" + action.payload.value);

@@ -27,6 +27,7 @@ export function errorReducer(state = {}, action) {
         case "POST_INIT_COURSE_WITH_TASK_REJECTED":
         case "FOLLOW_USER_REJECTED":
         case "UNFOLLOW_USER_REJECTED":
+        case "DOES_USERNAME_EXIST_REJECTED":
             let newState = state.slice();
             newState.push({id: state.length, message: action.payload.response});
             return newState;

@@ -15,6 +15,7 @@ import { signinReducer } from "./signinReducer";
 import {courseTypesReducer} from "./courseTypesReducer";
 import {actionButtonReducer} from "./actionButtonReducer";
 import {errorReducer} from "./errorReducer";
+import {profileSettingsReducer} from "./profileSettingsReducer";
 
 const reducers = combineReducers({
     actionButton: actionButtonReducer,
@@ -27,6 +28,7 @@ const reducers = combineReducers({
     feed: feedReducer,
     news: newsReducer,
     profile: profileReducer,
+    profileSettings: profileSettingsReducer,
     redactor: redactorReducer,
     routing: routerReducer,
     signin: signinReducer,

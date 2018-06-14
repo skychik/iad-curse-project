@@ -31,7 +31,7 @@ export const setNewsListByUserId = restApi.setNewsListByUserId;
 export const setCoursesByUserId = restApi.setCoursesByUserId;
 export const setNews = restApi.setNews;
 export const setComments = restApi.setComments;
-export const startValidation = signForm.startValidation;
+export const startValidation = interfaceApi.startValidation;
 export const setUserAttribute = signForm.setUserAttribute;
 export const initSignForm = signForm.initSignForm;
 export const initValidation = signForm.initValidation;
@@ -75,11 +75,14 @@ export const subscribeCourseId = restApi.subscribeCourseId;
 export const unsubscribeCourseId = restApi.unsubscribeCourseId;
 export const followUserId = restApi.followUserId;
 export const unfollowUserId = restApi.unfollowUserId;
+export const doesUsernameExist = restApi.doesUsernameExist;
 export const showAddComment = interfaceApi.showAddComment;
 export const hideAddComment = interfaceApi.hideAddComment;
 export const addNewComment = restApi.addNewComment;
 export const setNewCommentContent = interfaceApi.setNewCommentContent;
 export const dismissError = interfaceApi.dismissError;
+export const showChangeSetting = interfaceApi.showChangeSetting;
+export const hideChangeSetting = interfaceApi.hideChangeSetting;
 
 //  ----------------------------  ----------------------------  ----------------------------
 //  ----------------------------  ----------------------------  ----------------------------

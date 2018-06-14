@@ -189,6 +189,20 @@ export function unfollowUserId(userId) {
     }
 }
 
+export function doesUsernameExist(username) {
+    return {
+        type: 'DOES_USERNAME_EXIST',
+        payload: api.res("user").res("doesExist").get({username: username}),
+    }
+}
+
+export function changeProfileInfo(type, content) {
+    return {
+        type: 'CHANGE_PROFILE_INFO',
+        payload: api.res("user").res("change").res(type.toString()).res("to").res(content.toString()).get(),
+    }
+}
+
 // ------------------------------------------------------ SETTERS ------------------------------------------------------
 
 export function setFeed() {
@@ -308,7 +322,7 @@ export function setCourseTypes() {
 
 // ------------------------------------------------------ ....... ------------------------------------------------------
 
-const api = new RestClient('http://localhost:8080');
+const api = new RestClient(restApiUrl);
 //const api = new RestClient('http://46.101.111.25:8080');
 api.on('request', function (xhr) {
     xhr.withCredentials = true;

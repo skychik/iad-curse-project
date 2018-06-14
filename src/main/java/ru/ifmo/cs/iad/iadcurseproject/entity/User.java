@@ -54,6 +54,9 @@ public class User implements Serializable {
 	@Column(name = "photo_addr")
 	private String photo;
 
+	@Column(name = "email")
+	private String email;
+
 //	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
 //	@JsonBackReference
 //	private Set<AchievementReceiving> achievementReceivings;

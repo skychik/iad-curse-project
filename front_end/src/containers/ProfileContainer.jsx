@@ -3,12 +3,24 @@ import * as actionCreators from "../actions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import RestClient from "another-rest-client";
-import {Button, Col, Glyphicon, Image, PageHeader, Row} from "react-bootstrap";
+import {
+    Button,
+    Col,
+    Form,
+    FormControl,
+    FormGroup,
+    Glyphicon,
+    Image,
+    InputGroup,
+    PageHeader,
+    Row
+} from "react-bootstrap";
 import NewsPreview from "../components/NewsPreview";
 import {Link, Route, Switch} from "react-router-dom";
 import CourseTaskPreview from "../components/CourseTaskPreview";
 import CoursePreview from "../components/CoursePreview";
 import cookie from "react-cookies";
+import ProfileSettingsContainer from "./ProfileSettingsContainer";
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
@@ -143,11 +155,7 @@ class ProfileContainer extends React.Component {
                                     <span className={"profile-no-courses"}>No tasks</span>
                                     : coursesContainer}
                             </div>} />
-                        <Route path='/id/:number/settings' component={
-                            () => <div>
-                                <PageHeader>Settings</PageHeader>
-
-                            </div>} />
+                        <Route path='/id/:number/settings' component={ProfileSettingsContainer} />
                         <Route component={
                             () => <div>
                                 <PageHeader>News</PageHeader>
