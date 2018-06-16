@@ -9,7 +9,6 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ifmo.cs.iad.iadcurseproject.entity.CommentLoop;
-import ru.ifmo.cs.iad.iadcurseproject.entity.Performer;
 
 import java.util.List;
 

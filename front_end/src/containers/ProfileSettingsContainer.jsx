@@ -20,6 +20,12 @@ import ChangeField from "../components/ChangeField";
 import {restApiUrl} from "../options";
 
 class ProfileSettingsContainer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
     componentDidMount() {
         console.log(parseInt(this.props.match.params.number, 10));
         this.props.setProfile(parseInt(this.props.match.params.number, 10));
@@ -31,14 +37,23 @@ class ProfileSettingsContainer extends React.Component {
         if (validationStarted) {
             switch (target.name) {
                 case "sex":
-                    this.props.validateContent(target.id);
+                    this.props.validateContent({
+                        name: target.name,
+                        value: target.id,
+                    });
                     break;
                 case "login":
                     this.props.doesUsernameExist(target.value);
-                    this.props.validateContent(target.value);
+                    this.props.validateContent({
+                        name: target.name,
+                        value: target.value,
+                    });
                     break;
                 default:
-                    this.props.validateContent(target.value);
+                    this.props.validateContent({
+                        name: target.name,
+                        value: target.value,
+                    });
             }
         } else {
             debounce(() => {
@@ -73,12 +88,11 @@ class ProfileSettingsContainer extends React.Component {
     }
 
     handleSubmit(event) {
+        event.preventDefault();
         if (this.props.profileSettings.isValid) {
             this.props.changeProfileInfo(this.props.profileSettings.type, this.props.profileSettings.content);
             this.props.hideChangeSetting();
         }
-
-        event.preventDefault();
     }
 
     render() {
@@ -116,7 +130,7 @@ class ProfileSettingsContainer extends React.Component {
                                     : profileSettings.previousContent}
                                 </Well>
                             </div>
-                            {profileSettings.header === "sex" ?
+                            {profileSettings.type === "sex" ?
                                 <InputGroup>
                                     <div className="register-radio-container">
                                         <Radio name="sex" id="male" inline onChange={this.handleChange}>
@@ -131,19 +145,19 @@ class ProfileSettingsContainer extends React.Component {
                                     </div>
                                     <FormControl.Feedback />
                                 </InputGroup>
-                                : profileSettings.header === "email" ?
+                                : profileSettings.type === "email" ?
                                     <InputGroup className="register-input-group">
                                         <FormControl type="email" name="email" placeholder="Enter your Email"
                                                      onChange={this.handleChange} />
                                         <FormControl.Feedback />
                                     </InputGroup>
-                                : profileSettings.header === "login" ?
+                                : profileSettings.type === "login" ?
                                 <InputGroup className="register-input-group">
                                     <FormControl type="login" name="login" placeholder="Enter your Login"
                                                  onChange={this.handleChange} />
                                     <FormControl.Feedback />
                                 </InputGroup>
-                                : profileSettings.header === "password" ?
+                                : profileSettings.type === "password" ?
                                 <InputGroup className="register-input-group">
                                     <FormControl type="password" name="password"
                                                  placeholder="Enter your Password" onChange={this.handleChange} />

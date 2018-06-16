@@ -203,8 +203,13 @@ public class UserController {
 			case "firstName": user.setFirstName(content); break;
 			case "surname": user.setSurname(content); break;
 			case "patronymic": user.setPatronymic(content); break;
-			case "sex": user.setSex(Boolean.parseBoolean(content)); break;
-			case "email": user.setEmail(content); break;
+			case "sex":
+				Boolean sex = Boolean.parseBoolean(content);
+				if (content.equals("helicopter")) sex = null;
+				if (content.equals("male")) sex = true;
+				if (content.equals("female")) sex = false;
+				user.setSex(sex); break;
+//			case "email": user.setEmail(content); break;
 			case "username":
 			case "login": user.setUsername(content); break;
 			case "password": user.setPassword(content); break;

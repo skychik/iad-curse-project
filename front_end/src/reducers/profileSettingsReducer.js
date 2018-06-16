@@ -6,12 +6,24 @@ export function profileSettingsReducer(state = {}, action) {
             return {...state, isModalShown: true, type: action.payload.type, previousContent: action.payload.previousContent,
                 header: action.payload.header};
         case "HIDE_CHANGE_SETTING":
-            return {isModalShown: false};
+            return {
+                isModalShown: false,
+                type: "",
+                content: null,
+                confirmation: null,
+                doesExist: null,
+                previousContent: null,
+                header: null,
+                validationStarted: false,
+                isValid: null,
+            };
         case "START_VALIDATION":
             return {...state, validationStarted: true};
         case "DOES_USERNAME_EXIST_FULFILLED":
             return {...state, doesExist: action.payload};
         case "VALIDATE_CONTENT": {
+            console.log("payload:");
+            console.log(action.payload);
             switch (action.payload.name) {
                 case "firstName":
                 case "surname":

@@ -83,6 +83,8 @@ export const setNewCommentContent = interfaceApi.setNewCommentContent;
 export const dismissError = interfaceApi.dismissError;
 export const showChangeSetting = interfaceApi.showChangeSetting;
 export const hideChangeSetting = interfaceApi.hideChangeSetting;
+export const validateContent = interfaceApi.validateContent;
+export const changeProfileInfo = restApi.changeProfileInfo;
 
 //  ----------------------------  ----------------------------  ----------------------------
 //  ----------------------------  ----------------------------  ----------------------------

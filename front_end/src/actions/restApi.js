@@ -323,7 +323,9 @@ export function setCourseTypes() {
 // ------------------------------------------------------ ....... ------------------------------------------------------
 
 const api = new RestClient(restApiUrl);
+api.conf();
 //const api = new RestClient('http://46.101.111.25:8080');
 api.on('request', function (xhr) {
+    xhr.setRequestHeader('Access-Control-Allow-Origin', 'http://muzloop.com');
     xhr.withCredentials = true;
 });
