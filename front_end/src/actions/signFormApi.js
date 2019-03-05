@@ -19,13 +19,6 @@ export function setUserAttribute(data) {
     }
 }
 
-export function setRegistrationSuccess(data) {
-    return {
-        type: 'REGISTRATION_SUCCESS',
-        payload: data,
-    }
-}
-
 export function setSigninSuccess(data) {
     return {
         type: 'SIGNIN_SUCCESS',

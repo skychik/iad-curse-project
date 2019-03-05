@@ -43,14 +43,12 @@ public class ApplicationConfiguration implements Filter {
 	}
 
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-		Logger logger = LoggerFactory.getLogger("application");
-		logger.info(req.getParameter("Origin"));
-			HttpServletResponse response = (HttpServletResponse) res;
-			response.setHeader("Access-Control-Allow-Origin", req.getParameter("Origin"));
-			response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-			response.setHeader("Access-Control-Max-Age", "3600");
-			response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
-			chain.doFilter(req, res);
+		HttpServletResponse response = (HttpServletResponse) res;
+		response.setHeader("Access-Control-Allow-Origin", req.getParameter("Origin"));
+		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+		response.setHeader("Access-Control-Max-Age", "3600");
+		response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+		chain.doFilter(req, res);
 	}
 
 	@Bean

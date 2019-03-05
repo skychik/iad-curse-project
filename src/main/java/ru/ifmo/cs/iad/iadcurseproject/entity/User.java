@@ -48,11 +48,17 @@ public class User implements Serializable {
 	@Column(name = "birth_date")
 	private Timestamp birthDate;
 
+	@Column(name = "email")
+	private String email;
+
 	@Column(name = "sex")
 	private Boolean sex; // if false then боевой вертолет Apache
 
 	@Column(name = "photo_addr")
 	private String photo;
+
+	@Column(name = "creation_date")
+	private Timestamp creationDate;
 
 //	@Column(name = "email")
 //	private String email;

@@ -30,7 +30,7 @@ public class CommentsController {
 	private final CommentLoopRepo commentLoopRepo;
 	private final CommentPoopRepo commentPoopRepo;
 
-	private Logger logger = LoggerFactory.getLogger("application");
+	private Logger logger = LoggerFactory.getLogger("CommentsController");
 
 	public CommentsController(NewsRepo newsRepo, UserRepo userRepo, CommentRepo commentRepo, CommentLoopRepo commentLoopRepo,
 	                          CommentPoopRepo commentPoopRepo) {

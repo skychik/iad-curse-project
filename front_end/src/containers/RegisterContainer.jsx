@@ -188,13 +188,7 @@ class RegisterContainer extends React.Component {
         console.log("register");
 
         if (this.props.signinForm.registrationSubmitEnabled) {
-            let api = new RestClient('http://localhost:8080');
-            const promise = api.res("user").res("register").post(this.props.signinForm);
-            promise.then((response) => {
-                this.setRegistrationSuccess(response);
-            });
-
-            this.props.history.push("/login");
+            this.props.doRegister(this.props.signinForm);
         }
 
         event.preventDefault();
@@ -202,6 +196,10 @@ class RegisterContainer extends React.Component {
 
     render() {
         const signinForm = this.props.signinForm;
+
+        if (signinForm.success) {
+            this.props.history.push("/login");
+        }
 
         return <Grid className="RegisterContainer">
             <div className="register-inner">
@@ -315,8 +313,10 @@ class RegisterContainer extends React.Component {
 
                         <FormGroup>
                             <Col sm={12} className="register-submit-container">
-                                <Button type="submit" disabled={!this.props.signinForm.registrationSubmitEnabled} block>Register</Button>
+                                <Button type="submit" disabled={!signinForm.registrationSubmitEnabled} block>Register</Button>
                             </Col>
+                            {signinForm.pending ? "pending..." : null}
+                            {signinForm.success === false && !signinForm.pending ? signinForm.answer : null}
                         </FormGroup>
 
                         Already have an account? <Link to="/login">Sign in</Link>!

@@ -7,6 +7,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ru.ifmo.cs.iad.iadcurseproject.dto.*;
 import ru.ifmo.cs.iad.iadcurseproject.entity.News;
@@ -17,6 +19,7 @@ import ru.ifmo.cs.iad.iadcurseproject.repository.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +44,7 @@ public class NewsController {
 	@PersistenceContext
 	private EntityManager em; // TODO: IS NULL
 
-	private Logger logger = LoggerFactory.getLogger("application");
+	private Logger logger = LoggerFactory.getLogger("NewsController");
 
 	@Autowired
 	public NewsController(NewsRepo newsRepo, UserRepo userRepo, CommentRepo commentRepo, /*RepostRepo repostRepo,*/ NewsLoopRepo newsLoopRepo,
@@ -58,9 +61,10 @@ public class NewsController {
 
 	@GetMapping("/for")
 	@ResponseBody
-	public List<NewsForFeedDTO> getNewsForUserId(@CookieValue(value = "userId") long userId,
-	                                      @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
-	                                      @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
+	public List<NewsForFeedDTO> getNewsForUserId(
+			@CookieValue(value = "userId") long userId,
+			@RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
+			@RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
 		logger.info("news for userId=" + userId);
 		List<News> newsList = newsRepo.getAllForUserId(userId, of(pageNumber, pageSize,
 				by(Sort.Order.desc("creationDate"))));
@@ -147,7 +151,8 @@ public class NewsController {
 	}
 
 	@PostMapping(path="/post", consumes = "application/json", produces = "application/json")
-	public ResponseEntity addNews(@RequestBody NewsPostedDTO newsDTO, @CookieValue(value = "userId") long userId) {
+	public ResponseEntity addNews(@RequestBody NewsPostedDTO newsDTO,
+	                              @CookieValue(value = "userId") long userId) {
 		logger.info("add news=" + newsDTO.toString());
 		Optional<User> user = userRepo.findById(userId);
 		if (!user.isPresent()) {
@@ -162,7 +167,7 @@ public class NewsController {
 	@GetMapping("/{newsId}/loop/put")
 	@ResponseBody
 	public ResponseEntity putLoop(@PathVariable(value = "newsId") long newsId,
-	                                 @CookieValue(value = "userId") long userId) {
+	                              @CookieValue(value = "userId") long userId) {
 		logger.info("put loop newsId=" + newsId + "by userId=" + userId);
 		if (!newsRepo.findById(newsId).isPresent()) {
 			return logAndGetBadRequestEntityWithIdValue("No news with id=" + newsId, null, null);
@@ -182,7 +187,7 @@ public class NewsController {
 	@GetMapping("/{newsId}/poop/put")
 	@ResponseBody
 	public ResponseEntity putPoop(@PathVariable(value = "newsId") long newsId,
-	                          @CookieValue(value = "userId") long userId) {
+	                              @CookieValue(value = "userId") long userId) {
 		logger.info("put poop newsId=" + newsId + "by userId=" + userId);
 		if (!newsRepo.findById(newsId).isPresent()) {
 			return logAndGetBadRequestEntityWithIdValue("No news with id=" + newsId, null, null);
@@ -201,7 +206,7 @@ public class NewsController {
 	@GetMapping("/{newsId}/loop/remove")
 	@ResponseBody
 	public ResponseEntity removeLoop(@PathVariable(value = "newsId") long newsId,
-	                             @CookieValue(value = "userId") long userId) {
+	                                 @CookieValue(value = "userId") long userId) {
 		logger.info("remove loop newsId=" + newsId + "by userId=" + userId);
 		if (!newsRepo.findById(newsId).isPresent()) {
 			return logAndGetBadRequestEntityWithIdValue("No news with id=" + newsId, null, null);
@@ -220,7 +225,7 @@ public class NewsController {
 	@GetMapping("/{newsId}/poop/remove")
 	@ResponseBody
 	public ResponseEntity removePoop(@PathVariable(value = "newsId") long newsId,
-	                             @CookieValue(value = "userId") long userId) {
+	                                 @CookieValue(value = "userId") long userId) {
 		logger.info("remove poop newsId=" + newsId + "by userId=" + userId);
 		if (!newsRepo.findById(newsId).isPresent()) {
 			return logAndGetBadRequestEntityWithIdValue("No news with id=" + newsId, null, null);

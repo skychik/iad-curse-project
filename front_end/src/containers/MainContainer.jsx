@@ -7,7 +7,7 @@ import AppContainer from "./AppContainer";
 import PageNotFound from "../components/PageNotFound";
 import LoginContainer from "./LoginContainer";
 import {Route, Switch, Redirect, withRouter} from 'react-router-dom';
-import { userIsAuthenticated } from '../auth'
+import { userIsAuthenticated, userIsNotAuthenticated } from '../auth'
 import RegisterContainer from "./RegisterContainer";
 import cookie from "react-cookies";
 
@@ -30,7 +30,7 @@ class MainContainer extends React.Component {
             <div className={this.props.courseBackground ? "MainContainer withBackgroundForCourse" : "MainContainer"}>
                 <Switch>
                     <Route exact path='/' render={() => <Redirect to='welcome' />}/>
-                    <Route path='/welcome' component={Welcome} />
+                    <Route path='/welcome' component={userIsNotAuthenticated(Welcome)} />
                     <Route path='/feed' component={userIsAuthenticated(AppContainer)} />
                     <Route path='/create' component={userIsAuthenticated(AppContainer)} />
                     <Route path='/news/:number' component={AppContainer} />

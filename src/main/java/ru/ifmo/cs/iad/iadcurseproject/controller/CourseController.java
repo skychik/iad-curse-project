@@ -36,7 +36,7 @@ public class CourseController {
 
 	private final String[] COURSE_TYPES = {"dj", "drums", "flute", "guitar", "vocal"};
 
-	private Logger logger = LoggerFactory.getLogger("application");
+	private Logger logger = LoggerFactory.getLogger("CourseController");
 
 	public CourseController(UserRepo userRepo, CourseRepo courseRepo, CourseTaskRepo courseTaskRepo,
 	                        TaskCommentRepo taskCommentRepo, TaskCommentLoopRepo taskCommentLoopRepo,

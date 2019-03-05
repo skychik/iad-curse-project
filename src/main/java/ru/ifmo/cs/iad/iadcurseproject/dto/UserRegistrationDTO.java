@@ -16,7 +16,7 @@ import org.apache.commons.validator.EmailValidator;
 @Relation(value = "user_registration", collectionRelation = "user_registration")
 @ToString
 public class UserRegistrationDTO {
-	private String login;
+	private String username;
 	private String password;
 	private String firstName;
 	private String surname;
@@ -47,13 +47,14 @@ public class UserRegistrationDTO {
 
 	public User makeUser() throws IllegalArgumentException { // TODO: make validation on backend
 		User user = new User();
-		user.setUsername(login);
+		user.setUsername(username);
 		user.setPassword(password);
 		// EmailValidator validator = EmailValidator.getInstance();
 		user.setFirstName(firstName);
 		user.setSurname(surname);
 		user.setPatronymic(patronymic);
 		user.setBirthDate(birthDate);
+		user.setCreationDate(new Timestamp(System.currentTimeMillis()));
 		switch (sex) {
 			case "male":
 				user.setSex(true);

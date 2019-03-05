@@ -35,7 +35,7 @@ export const startValidation = interfaceApi.startValidation;
 export const setUserAttribute = signForm.setUserAttribute;
 export const initSignForm = signForm.initSignForm;
 export const initValidation = signForm.initValidation;
-export const setRegistrationSuccess = signForm.setRegistrationSuccess;
+//export const setRegistrationSuccess = signForm.setRegistrationSuccess;
 export const setSigninSuccess = signForm.setSigninSuccess;
 export const setRedactorNewsTitle = makingNewsApi.setRedactorNewsTitle;
 export const setRedactorContent = makingNewsApi.setRedactorContent;
@@ -85,6 +85,7 @@ export const showChangeSetting = interfaceApi.showChangeSetting;
 export const hideChangeSetting = interfaceApi.hideChangeSetting;
 export const validateContent = interfaceApi.validateContent;
 export const changeProfileInfo = restApi.changeProfileInfo;
+export const doRegister = restApi.doRegister;
 
 //  ----------------------------  ----------------------------  ----------------------------
 //  ----------------------------  ----------------------------  ----------------------------

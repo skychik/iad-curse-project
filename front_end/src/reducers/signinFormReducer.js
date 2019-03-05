@@ -166,9 +166,12 @@ export function signinFormReducer(state = {}, action) {
                 default:
                     return state;
             }
-        case "REGISTRATION_SUCCESS":
-            alert("REGISTRATION_SUCCESS=" + action.payload.value);
-            break;
+        case "REGISTER_PENDING":
+            return {...state, pending: true};
+        case "REGISTER_FULFILLED":
+            return {...state, pending: false, success: true};
+        case "REGISTER_REJECTED":
+            return {...state, pending: false, success: false, answer: action.payload};
         case "SIGNIN_SUCCESS":
             alert("SIGNIN_SUCCESS=" + action.payload.value);
             break;

@@ -42,7 +42,7 @@ public class UserController {
 	@PersistenceContext
 	private EntityManager em; // TODO: IS NULL
 
-	private Logger logger = LoggerFactory.getLogger("application");
+	private Logger logger = LoggerFactory.getLogger("UserController");
 
 	@Autowired
 	public UserController(UserRepo userRepo, CommentRepo commentRepo, /*RepostRepo repostRepo,*/ NewsRepo newsRepo,
@@ -78,9 +78,10 @@ public class UserController {
 
 	@GetMapping("/{userId}/news")
 	@ResponseBody
-	public ResponseEntity getNewsByUserId(@PathVariable(value = "userId") long userId,
-	                                      @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
-	                                      @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
+	public ResponseEntity getNewsByUserId(
+			@PathVariable(value = "userId") long userId,
+			@RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
+			@RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
 		logger.info("getNewsByUserId=" + userId);
 		logger.info("bool=" + !userRepo.findById(userId).isPresent());
 		logger.info(userRepo.findById(userId).get().toString());
@@ -103,9 +104,10 @@ public class UserController {
 
 	@GetMapping("/{userId}/courses")
 	@ResponseBody
-	public ResponseEntity getCoursesByUserId(@PathVariable(value = "userId") long userId,
-	                                         @RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
-	                                         @RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
+	public ResponseEntity getCoursesByUserId(
+			@PathVariable(value = "userId") long userId,
+			@RequestParam(value = "size", required = false, defaultValue = "15") int pageSize,
+			@RequestParam(value = "page", required = false, defaultValue = "0") int pageNumber) {
 		logger.info("getCoursesByUserId=" + userId);
 		if (!userRepo.findById(userId).isPresent()) {
 			return logAndGetBadRequestEntity("userId=" + userId + " doesn't exist");
@@ -165,6 +167,19 @@ public class UserController {
 		logger.info("existence of login=" + username);
 		User user = userRepo.findByUsername(username);
 		return user != null;
+	}
+
+	// TODO: validation for user
+	@PostMapping(path="/register", consumes = "application/json", produces = "application/json")
+	public ResponseEntity register(@RequestBody UserRegistrationDTO dto) {
+		logger.info("register " + dto.toString());
+		if (userRepo.findByUsername(dto.getUsername()) != null) {
+			return logAndGetBadRequestEntity("Username=" + dto.getUsername() + " already exists");
+		}
+		User user = dto.makeUser();
+		User userSaved = userRepo.saveAndFlush(user);
+		logger.info("subscription id={}", userSaved.getId());
+		return new ResponseEntity<>(null, HttpStatus.OK);
 	}
 
 	@GetMapping("/signin")

@@ -93,6 +93,7 @@ const store = createStore(
         signinForm: {
             firstName: null,
             surname: null,
+            // patronymic: null,
             sex: null,
             email: null,
             login: null,
@@ -120,6 +121,9 @@ const store = createStore(
                 password: false,
                 confirmation: false,
             },
+            success: null,
+            pending: false,
+            answer: null,
         },
     }, composeWithDevTools(applyMiddleware(promise(), thunk)));
 

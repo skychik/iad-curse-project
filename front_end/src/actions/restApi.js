@@ -6,6 +6,21 @@ import RestClient from "another-rest-client";
 
 // ------------------------------------------------------ ACTIONS ------------------------------------------------------
 
+export function doRegister(user) {
+    return {
+        type: "REGISTER",
+        payload: api.res("user").res("register").post({
+            firstName: user.firstName,
+            surname: user.surname,
+            // patronymic: user.patronymic,
+            sex: user.sex,
+            email: user.email,
+            username: user.login,
+            password: user.password,
+        }),
+    }
+}
+
 export function doSignin(username, password) {
     return {
         type: 'SIGNIN',

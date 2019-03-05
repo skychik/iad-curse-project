@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Grid, Jumbotron, Panel} from "react-bootstrap";
+import {Button, Grid} from "react-bootstrap";
 
 class Welcome extends React.Component {
     render() {
