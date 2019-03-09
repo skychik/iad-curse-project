@@ -7,12 +7,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.hateoas.Identifiable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Set;
@@ -24,8 +23,8 @@ import java.util.Set;
 @Setter
 public class User implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
-	@SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq")
 	@Column(name = "id")
 	private Long id;
 

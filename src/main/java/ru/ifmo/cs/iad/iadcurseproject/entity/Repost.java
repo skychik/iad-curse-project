@@ -20,12 +20,12 @@
 //	private Long id;
 //
 //	@ManyToOne
-//	@JoinColumn(name = "id_news", nullable = false)
+//	@JoinColumn(nullable = false)
 //	@JsonManagedReference
 //	private News news;
 //
 //	@ManyToOne
-//	@JoinColumn(name = "id_user", nullable = false)
+//	@JoinColumn(nullable = false)
 //	@JsonManagedReference
 //	private User author;
 //

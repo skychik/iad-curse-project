@@ -1,0 +1,370 @@
+-- INSERT INTO public."user"(id, sex, login, password, first_name, surname, patronymic, birth_date, photo_addr, email, creation_date) VALUES (2, true, 'user2', 'password', 'Sanya', 'Petrov', NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO public."user"(id, sex, login, password, first_name, surname, patronymic, birth_date, photo_addr, email, creation_date) VALUES (3, false, 'user3', 'password', 'Kostya', 'Kolunov', NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO public."user"(id, sex, login, password, first_name, surname, patronymic, birth_date, photo_addr, email, creation_date) VALUES (1, true, 'user1', 'password', 'Ivan', 'Ivanov', NULL, NULL, 'icon1.jpg', NULL, NULL);
+-- INSERT INTO public."user"(id, sex, login, password, first_name, surname, patronymic, birth_date, photo_addr, email, creation_date) VALUES (-43, NULL, 'qwerty', 'qwerty', 'qwerty', 'qwerty', NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO public."user"(id, sex, login, password, first_name, surname, patronymic, birth_date, photo_addr, email, creation_date) VALUES (-42, true, 'qazwsx', 'qazwsx', 'sdfasdfasga', 'fgafgafgafdga', NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO public."user"(id, sex, login, password, first_name, surname, patronymic, birth_date, photo_addr, email, creation_date) VALUES (-41, true, 'qweeee', 'qweeee', 'qweeee', 'qweeee', NULL, NULL, NULL, NULL, '2018-10-05 14:17:14.24+03');
+-- INSERT INTO public."user"(id, sex, login, password, first_name, surname, patronymic, birth_date, photo_addr, email, creation_date) VALUES (-40, true, 'eeeeee', 'eeeeee', 'eeeeee', 'eeeeee', NULL, NULL, NULL, NULL, '2018-10-05 14:27:13.03+03');
+-- INSERT INTO public."user"(id, sex, login, password, first_name, surname, patronymic, birth_date, photo_addr, email, creation_date) VALUES (-39, true, 'wwwwww', 'wwwwww', 'wwwwww', 'wwwwww', NULL, NULL, NULL, NULL, '2018-10-05 14:32:26.831+03');
+--
+--
+--
+-- INSERT INTO public.subscription(id_who, id_on_whom, date, id) VALUES (2, 1, '2018-01-18 00:00:00+03', 2);
+-- INSERT INTO public.subscription(id_who, id_on_whom, date, id) VALUES (1, 2, '2018-06-14 05:33:19.614+03', 13);
+--
+--
+--
+-- INSERT INTO public.news(id, id_user, content, creation_date, altering_date, tags, content_preview, title) VALUES (2, 1, 'second one', '2018-01-18 00:00:00+03', NULL, 'tag', 'second preview', 'Second');
+-- INSERT INTO public.news(id, id_user, content, creation_date, altering_date, tags, content_preview, title) VALUES (3, 3, 'ddddddddddddd', '2018-01-18 00:00:00+03', NULL, 'tag', 'ddd', 'D');
+-- INSERT INTO public.news(id, id_user, content, creation_date, altering_date, tags, content_preview, title) VALUES (5, 2, 'qq all', '2018-05-21 16:59:54.581+03', NULL, NULL, 'qq all', 'Hei hei heiiiii');
+-- INSERT INTO public.news(id, id_user, content, creation_date, altering_date, tags, content_preview, title) VALUES (11, 2, 'asdadad', '2018-06-05 01:21:17.197+03', NULL, NULL, 'asdadad', 'asds');
+-- INSERT INTO public.news(id, id_user, content, creation_date, altering_date, tags, content_preview, title) VALUES (12, 2, 'asdasdasd', '2018-06-05 01:22:05.906+03', NULL, NULL, 'asdasdasd', 'asda');
+-- INSERT INTO public.news(id, id_user, content, creation_date, altering_date, tags, content_preview, title) VALUES (1, 1, '# Live demo
+--
+-- Changes are automatically rendered as you type.
+--
+-- * Implements [GitHub Flavored Markdown](https://github.github.com/gfm/)
+-- * Renders actual, "native" React DOM elements
+-- * Allows you to escape or skip HTML (try toggling the checkboxes above)
+-- * If you escape or skip the HTML, no `dangerouslySetInnerHTML` is used! Yay!
+--
+-- ## HTML block below
+--
+-- <blockquote>
+--   This blockquote will change based on the HTML settings above.
+-- </blockquote>
+--
+-- ## How about some code?
+-- ```js
+-- var React = require(''react'');
+-- var Markdown = require(''react-markdown'');
+--
+-- React.render(
+--   <Markdown source="# Your markdown here" />,
+--   document.getElementById(''content'')
+-- );
+-- ```
+--
+-- Pretty neat, eh?
+--
+-- ## Tables?
+--
+-- | Feature | Support |
+-- | ------ | ----------- |
+-- | tables | ✔ |
+-- | alignment | ✔ |
+-- | wewt | ✔ |
+--
+-- ## More info?
+--
+-- Read usage information and more on [GitHub](//github.com/rexxars/react-markdown)
+--
+-- ---------------
+--
+-- A component by [VaffelNinja](http://vaffel.ninja) / Espen Hovlandsdal
+-- ', '2018-01-18 00:00:00+03', NULL, 'tag', 'first preview', 'First');
+-- INSERT INTO public.news(id, id_user, content, creation_date, altering_date, tags, content_preview, title) VALUES (6, 2, 'asdasdasd', '2018-06-05 01:15:19.414+03', NULL, NULL, 'asdasdasd', 'asdsad');
+-- INSERT INTO public.news(id, id_user, content, creation_date, altering_date, tags, content_preview, title) VALUES (7, 2, 'asdasdasd', '2018-06-05 01:17:11.295+03', NULL, NULL, 'asdasdasd', 'asdsad');
+-- INSERT INTO public.news(id, id_user, content, creation_date, altering_date, tags, content_preview, title) VALUES (8, 2, 'dsfsfs', '2018-06-05 01:18:16.43+03', NULL, NULL, 'dsfsfs', 'asdfdsff');
+-- INSERT INTO public.news(id, id_user, content, creation_date, altering_date, tags, content_preview, title) VALUES (9, 2, 'dfghjkhgfds', '2018-06-05 01:19:06.378+03', NULL, NULL, 'dfghjkhgfds', 'sadfgchvjkhgfds');
+-- INSERT INTO public.news(id, id_user, content, creation_date, altering_date, tags, content_preview, title) VALUES (10, 2, 'asdfadsfadsf', '2018-06-05 01:19:46.685+03', NULL, NULL, 'asdfadsfadsf', 'sdfasdfasfasdf');
+-- INSERT INTO public.news(id, id_user, content, creation_date, altering_date, tags, content_preview, title) VALUES (13, 2, 'asdfasfaff', '2018-06-05 01:22:36.516+03', NULL, NULL, 'asdfasfaff', 'sadfasdfsafasf');
+-- INSERT INTO public.news(id, id_user, content, creation_date, altering_date, tags, content_preview, title) VALUES (14, 2, 'sdada', '2018-06-05 01:24:29.39+03', NULL, NULL, 'sdada', 'dadadadad');
+-- INSERT INTO public.news(id, id_user, content, creation_date, altering_date, tags, content_preview, title) VALUES (15, 2, 'asdadas', '2018-06-05 01:28:05.32+03', NULL, NULL, 'asdadas', 'dadadada');
+-- INSERT INTO public.news(id, id_user, content, creation_date, altering_date, tags, content_preview, title) VALUES (16, 2, 'asdad', '2018-06-05 01:36:52.224+03', NULL, NULL, 'asdad', 'adadad');
+-- INSERT INTO public.news VALUES (17, 1, '[Chorus:]
+-- >Hi! My name is.. (what?) My name is.. (who?)
+-- >My name is.. [scratches] Slim Shady
+-- >Hi! My name is.. (huh?) My name is.. (what?)
+-- >My name is.. [scratches] Slim Shady
+--
+-- >Hi! My name is.. (what?) My name is.. (who?)
+-- >My name is.. [scratches] Slim Shady
+-- >Hi! My name is.. (huh?) My name is.. (what?)
+-- >My name is.. [scratches] Slim Shady
+--
+-- >Ahem.. excuse me!
+-- >Can I have the attention of the class
+-- >For one second?
+--
+-- [Eminem]
+-- >Hi kids! Do you like violence? (Yeah yeah yeah!)
+-- >Wanna see me stick Nine Inch Nails through each one of my eyelids? (Uh-huh!)
+-- >Wanna copy me and do exactly like I did? (Yeah yeah!)
+-- >Try ''cid and get fucked up worse that my life is? (Huh?)
+--
+-- >My brain''s dead weight, I''m tryin to get my head straight
+-- >but I can''t figure out which Spice Girl I want to impregnate (Ummmm..)
+-- >And Dr. Dre said, "Slim Shady you a basehead!"
+-- >Uh-uhhh! "So why''s your face red? Man you wasted!"
+--
+-- >Well since age twelve, I''ve felt like I''m someone else
+-- >Cause I hung my original self from the top bunk with a belt
+-- >Got pissed off and ripped Pamela Lee''s tits off
+-- >And smacked her so hard I knocked her clothes backwards like Kris Kross
+--
+-- >I smoke a fat pound of grass and fall on my a*s
+-- >faster than a fat b*tch who sat down too fast
+-- >C''mere sl*t! (Shady, wait a minute, that''s my girl dog!)
+-- >I don''t give a f*ck, God sent me to piss the world off!
+--
+-- [Chorus]
+-- >Hi! My name is.. (what?) My name is.. (who?)
+-- >My name is.. [scratches] Slim Shady
+-- >Hi! My name is.. (huh?) My name is.. (what?)
+-- >My name is.. [scratches] Slim Shady
+--
+-- [Eminem]
+-- >My English teacher wanted to have sex with me in Junior High
+-- >The only problem was... he was a guy
+-- >I smacked him in his face with an eraser, chased him with a stapler
+-- >and stapled his nuts to a stack of papers (Owwwwwwww!)
+--
+-- >Walked in the strip club, had my jacket zipped up
+-- >Flashed the bartender, then stuck my dick in the tip cup
+-- >Extraterrestrial, running over pedestrians
+-- >In a space ship while they screamin at me: "LET''S JUST BE FRIENDS!"
+--
+-- >Ninety-nine percent of my life I was lied to
+-- >I just found out my mom does more dope than I do (Damn!)
+-- >I told her I''d grow up to be a famous rapper
+-- >Make a record about doin drugs and name it after her (Oh thank you!)
+--
+-- >You know you blew up when the women rush your stands
+-- >and try to touch your hands like some screamin Usher fans (Aah!)
+-- >This guy at White Castle asked for my autograph
+-- >(Dude, can I get your autograph?)
+-- >So I signed it: ''Dear Dave, thanks for the support, ASSHOLE!''
+--
+-- [Chorus]
+-- >Hi! My name is.. (what?) My name is.. (who?)
+-- >My name is.. [scratches] Slim Shady
+-- >Hi! My name is.. (huh?) My name is.. (what?)
+-- >My name is.. [scratches] Slim Shady
+--
+-- [Eminem]
+-- >Stop the tape! This kid needs to be locked away! (Get him!)
+-- >Dr. Dre, don''t just stand there, OPERATE!
+-- >I''m not ready to leave, it''s too scary to die (F*ck that!)
+-- >I''ll have to be carried inside the cemetery and buried alive
+--
+-- >(Huh yup!) Am I comin or goin? I can barely decide
+-- >I just drank a fifth of vodka - dare me to drive? (Go ahead)
+-- >All my life I was very deprived
+-- >I ain''t had a woman in years, and my palms are too hairy to hide
+--
+-- >(Whoops!) Clothes ripped like the Incredible Hulk (hachhh-too)
+-- >I spit when I talk, I''ll fuck anything that walks (C''mere)
+-- >When I was little I used to get so hungry I would throw fits
+-- >HOW YOU GONNA BREAST FEED ME MOM? (WAH!)
+--
+-- >YOU AIN''T GOT NO TITS! (WAHHH!)
+-- >I lay awake and strap myself in the bed
+-- >Put a bulletproof vest on and shoot myself in the head (BANG!)
+--
+-- >I''m steamin mad (Arrrggghhh!)
+-- >And by the way when you see my dad? (Yeah?)
+-- >Tell him that I slit his throat, in this dream I had
+--
+-- [Chorus]
+-- >Hi! My name is.. (what?) My name is.. (who?)
+-- >My name is.. [scratches] Slim Shady
+-- >Hi! My name is.. (huh?) My name is.. (what?)
+-- >My name is.. [scratches] Slim Shady', '2018-06-14 05:39:39.77+03', NULL, NULL, '[Chorus:]
+-- >Hi! My name is.. (what?) My name is.. (who?)
+-- >My name is.. [scratches] Slim Shady
+-- >Hi! My name is.. (huh?) My name is.. (what?)
+-- >My name is.. [scratches] Slim Shady
+--
+-- >Hi! My name is.. (what?) My name is.. (who?)
+-- >My name is.. [scratches] Slim Shady
+-- >Hi! My name is.. (huh?) My name is.. (what?)
+-- >My name is.. [scratches] Slim Shady
+--
+-- >Ahem.. excuse me!
+-- >Can I have the attention of the class
+-- >For one second?
+--
+-- [Eminem]
+-- >Hi kids! Do you like violence? (Yeah yeah yeah!)
+-- >Wanna see me stick Nine Inch Nails through each one of my eyelids? (Uh-huh!)
+-- >Wanna copy me and do exactly like I did? (Yeah yeah!)
+-- >Try ''cid and get fucked up worse that my life is? (Huh?)
+--
+-- >My brain''s dead weight, I''m tryin to get my head straight
+-- >but I can''t figure out which Spice Girl I want to impregnate (Ummmm..)
+-- >And Dr. Dre said, "Slim Shady you a basehead!"
+-- >Uh-uhhh! "So why''s your face red? Man you wasted!"
+--
+-- >Well since age twelve, I''ve felt like I''m someone else
+-- >Cause I hung my original self from the top bunk with a belt
+-- >Got pissed off and ripped Pamela Lee''s tits off
+-- >And smacked her so hard I knocked her clothes backwards like Kris Kross
+--
+-- >I smoke a fat pound of grass and fall on my a*s
+-- >faster than a fat b*tch who sat down too fast
+-- >C''mere sl*t! (Shady, wait a minute, that''s my girl dog!)
+-- >I don''t give a f*ck, God sent me to piss the world off!
+--
+-- [Chorus]
+-- >Hi! My name is.. (what?) My name is.. (who?)
+-- >My name is.. [scratches] Slim Shady
+-- >Hi! My name is.. (huh?) My name is.. (what?)
+-- >My name is.. [scratches] Slim Shady
+--
+-- [Eminem]
+-- >My English teacher wanted to have sex with me in Junior High
+-- >The only problem was... he was a guy
+-- >I smacked him in his face with an eraser, chased him with a stapler
+-- >and stapled his nuts to a stack of papers (Owwwwwwww!)
+--
+-- >Walked in the strip club, had my jacket zipped up
+-- >Flashed the bartender, then stuck my dick in the tip cup
+-- >Extraterrestrial, running over pedestrians
+-- >In a space ship while they screamin at me: "LET''S JUST BE FRIENDS!"
+--
+-- >Ninety-nine percent of my life I was lied to
+-- >I just found out my mom does more dope than I do (Damn!)
+-- >I told her I''d grow up to be a famous rapper
+-- >Make a record about doin drugs and name it after her (Oh thank you!)
+--
+-- >You know you blew up when the women rush your stands
+-- >and try to touch your hands like some screamin Usher fans (Aah!)
+-- >This guy at White Castle asked for my autograph
+-- >(Dude, can I get your autograph?)
+-- >So I signed it: ''Dear Dave, thanks for the support, ASSHOLE!''
+--
+-- [Chorus]
+-- >Hi! My name is.. (what?) My name is.. (who?)
+-- >My name is.. [scratches] Slim Shady
+-- >Hi! My name is.. (huh?) My name is.. (what?)
+-- >My name is.. [scratches] Slim Shady
+--
+-- [Eminem]
+-- >Stop the tape! This kid needs to be locked away! (Get him!)
+-- >Dr. Dre, don''t just stand there, OPERATE!
+-- >I''m not ready to leave, it''s too scary to die (F*ck that!)
+-- >I''ll have to be carried inside the cemetery and buried alive
+--
+-- >(Huh yup!) Am I comin or goin? I can barely decide
+-- >I just drank a fifth of vodka - dare me to drive? (Go ahead)
+-- >All my life I was very deprived
+-- >I ain''t had a woman in years, and my palms are too hairy to hide
+--
+-- >(Whoops!) Clothes ripped like the Incredible Hulk (hachhh-too)
+-- >I spit when I talk, I''ll fuck anything that walks (C''mere)
+-- >When I was little I used to get so hungry I would throw fits
+-- >HOW YOU GONNA BREAST FEED ME MOM? (WAH!)
+--
+-- >YOU AIN''T GOT NO TITS! (WAHHH!)
+-- >I lay awake and strap myself in the bed
+-- >Put a bulletproof vest on and shoot myself in the head (BANG!)
+--
+-- >I''m steamin mad (Arrrggghhh!)
+-- >And by the way when you see my dad? (Yeah?)
+-- >Tell him that I slit his throat, in this dream I had
+--
+-- [Chorus]
+-- >Hi! My name is.. (what?) My name is.. (who?)
+-- >My name is.. [scratches] Slim Shady
+-- >Hi! My name is.. (huh?) My name is.. (what?)
+-- >My name is.. [scratches] Slim Shady', 'Lyrics: Eminem - My name is');
+--
+--
+--
+-- INSERT INTO public.news_loop(id_news, id_user, date, id) VALUES (1, 2, '2018-06-08 15:55:40.193+03', 12);
+-- INSERT INTO public.news_loop(id_news, id_user, date, id) VALUES (16, 1, '2018-12-07 10:27:57.875+03', 30);
+--
+--
+--
+-- INSERT INTO public.news_poop(id_news, id_user, date, id) VALUES (1, 2, '2018-06-08 15:55:43.163+03', 11);
+--
+--
+--
+-- INSERT INTO public.repost(id, id_news, id_user, altering_date, creation_date, content) VALUES (1, 1, 1, NULL, '2018-01-18 00:00:00+03', 'cool');
+--
+--
+--
+-- INSERT INTO public.repost_loop(id_repost, id_user, date, id) VALUES (1, 1, '2018-01-18 00:00:00+03', 1);
+--
+--
+--
+-- INSERT INTO public.repost_poop(id_repost, id_user, date, id) VALUES (1, 1, '2018-01-18 00:00:00+03', 1);
+--
+--
+--
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (1, 1, 1, NULL, '2018-01-18 00:00:00+03', NULL, 'first, nah');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (2, 2, 2, NULL, '2018-01-19 00:00:00+03', NULL, 'hey');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (4, 2, 2, 3, '2018-01-21 00:00:00+03', NULL, 'how are you????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (3, 1, 2, 2, '2018-01-20 00:00:00+03', NULL, 'hi');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (6, 1, 2, NULL, '2018-01-23 00:00:00+03', NULL, 'I love myself!');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (5, 1, 2, 4, '2018-01-22 00:00:00+03', NULL, 'fine.');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (8, 2, 2, 7, '2018-01-25 00:00:00+03', NULL, 'o, thats great');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (7, 1, 2, 5, '2018-01-24 00:00:00+03', NULL, 'ok, sorry I’ve taken so long to answer, but my
+-- computer broke down last week, and I only managed to get it
+-- working today. Anyway, I’m really glad your sister is visiting London.
+-- D The best place for her to go shopping is Camden Town in north-west
+-- London. There is a huge variety of colourful indoor and outdoor flea
+-- markets, international food stalls, clothes stalls, music stalls and
+-- street vendors. There’s nothing you can’t find at Camden Market,
+-- from vintage clothing to antiques, all at bargain prices! I was there
+-- last Saturday with my friend Jill. She bought a beautiful embroidered
+-- handbag that goes with all her clothes and I bought a pair of 7os style
+-- second-hand jeans, some rare comic books for my collection, and a
+-- small leather purse, all for £15. Can you believe it? After our
+-- shopping, Jill and I enjoyed some Chinese rice noodles and sweet
+-- and sour chicken at one of the food stalls.
+-- D I’m sure your sister will find what she wants there. London is a great
+-- place for shopping, and I’d be glad to show her round if she wants.
+-- Have to go now. I’ve got a project to finish for Monday.
+-- Your friend,
+-- Evelyn');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (9, 1, 2, 8, '2018-01-26 00:00:00+03', NULL, 'year...');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (11, 2, 2, NULL, '2018-05-29 23:47:06.926+03', NULL, 'asdsadasdasd');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (12, 2, 2, 7, '2018-05-29 23:47:42.02+03', NULL, 'eeeee');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (13, 2, 2, 7, '2018-05-29 23:48:20.75+03', NULL, 'sdfdsfs');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (14, 2, 2, 12, '2018-05-29 23:48:24.292+03', NULL, 'sdfdsfsf');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (15, 2, 2, 4, '2018-05-29 23:52:21.445+03', NULL, 'sdfsdfaf');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (16, 2, 2, 4, '2018-05-30 11:28:24.498+03', NULL, 'asd');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (17, 2, 1, NULL, '2018-06-08 15:55:30.676+03', NULL, 'Cooosdsgsfs');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (18, 1, 16, NULL, '2018-06-12 18:23:19.351+03', NULL, 'yo');
+-- INSERT INTO public.comment(id, id_user, id_news, id_on_comment, creation_date, altering_date, content) VALUES (19, 1, 16, 18, '2018-06-12 18:23:29.77+03', NULL, 'yoyoyo');
+--
+--
+--
+-- INSERT INTO public.comment_loop(id_comment, id_user, date, id) VALUES (2, 2, '2018-06-01 14:39:53.536+03', 53);
+-- INSERT INTO public.comment_loop(id_comment, id_user, date, id) VALUES (1, 2, '2018-06-01 14:42:14.48+03', 55);
+-- INSERT INTO public.comment_loop(id_comment, id_user, date, id) VALUES (6, 1, '2018-06-13 14:31:50.784+03', 61);
+-- INSERT INTO public.comment_loop(id_comment, id_user, date, id) VALUES (2, 1, '2018-06-13 22:06:14.264+03', 62);
+-- INSERT INTO public.comment_loop(id_comment, id_user, date, id) VALUES (9, 2, '2018-05-21 21:05:52.058+03', 29);
+-- INSERT INTO public.comment_loop(id_comment, id_user, date, id) VALUES (8, 2, '2018-05-21 21:07:03.419+03', 30);
+-- INSERT INTO public.comment_loop(id_comment, id_user, date, id) VALUES (6, 2, '2018-05-21 21:07:05.62+03', 31);
+-- INSERT INTO public.comment_loop(id_comment, id_user, date, id) VALUES (5, 2, '2018-05-21 23:10:14.451+03', 33);
+-- INSERT INTO public.comment_loop(id_comment, id_user, date, id) VALUES (3, 2, '2018-05-26 19:35:24.43+03', 52);
+--
+--
+--
+-- INSERT INTO public.comment_poop(id_comment, id_user, date, id) VALUES (8, 2, '2018-05-21 21:07:04.118+03', 11);
+-- INSERT INTO public.comment_poop(id_comment, id_user, date, id) VALUES (6, 2, '2018-05-21 21:07:06.439+03', 12);
+-- INSERT INTO public.comment_poop(id_comment, id_user, date, id) VALUES (5, 2, '2018-05-21 23:10:15.869+03', 14);
+-- INSERT INTO public.comment_poop(id_comment, id_user, date, id) VALUES (7, 2, '2018-05-26 19:35:13.223+03', 17);
+-- INSERT INTO public.comment_poop(id_comment, id_user, date, id) VALUES (1, 2, '2018-06-03 14:50:38.949+03', 21);
+--
+--
+--
+-- INSERT INTO public.course(id, id_user, title, creation_date, altering_date, type) VALUES (5, 2, 'My First Guitar Course', '2018-06-05 00:07:47.07+03', NULL, 'guitar');
+--
+--
+--
+-- INSERT INTO public.course_subscription(id, id_user, id_course, date) VALUES (8, 1, 5, '2018-06-14 05:33:22.575+03');
+--
+--
+--
+-- INSERT INTO public.course_task(id, id_course, task_title, creation_date, altering_date, content, content_preview) VALUES (6, 5, 'Task #1', '2018-06-05 00:07:47.1+03', NULL, '### Hi, everybody
+-- I will teach lil bit
+-- Subscribe and wait for new tasks!', '### Hi, everybody
+-- I will teach lil bit
+-- Subscribe and wait for new tasks!');
+-- INSERT INTO public.course_task(id, id_course, task_title, creation_date, altering_date, content, content_preview) VALUES (7, 6, 'sdfasf', '2018-06-05 00:47:27.113+03', NULL, 'asdfasf', 'asdfasf');
+-- INSERT INTO public.course_task(id, id_course, task_title, creation_date, altering_date, content, content_preview) VALUES (9, 5, 'Task #2', '2018-06-05 01:00:27.638+03', NULL, 'Yoooo', 'Yoooo');
+-- INSERT INTO public.course_task(id, id_course, task_title, creation_date, altering_date, content, content_preview) VALUES (10, 5, 'Task #2', '2018-06-05 01:02:12.662+03', NULL, 'Yoooo', 'Yoooo');

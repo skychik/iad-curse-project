@@ -1,6 +1,7 @@
 package ru.ifmo.cs.iad.iadcurseproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,18 +17,18 @@ import java.sql.Timestamp;
 @Setter
 public class CourseTaskLoop implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "course_task_loop_id_seq")
-	@SequenceGenerator(name = "course_task_loop_id_seq", sequenceName = "course_task_loop_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@SequenceGenerator(name = "course_task_loop_id_seq", sequenceName = "course_task_loop_id_seq")
 	@Column(name = "id", nullable = false)
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "id_task", nullable = false)
+	@JoinColumn(nullable = false)
 	@JsonManagedReference
 	private CourseTask task;
 
 	@ManyToOne
-	@JoinColumn(name = "id_user", nullable = false)
+	@JoinColumn(nullable = false)
 	@JsonManagedReference
 	private User user;
 

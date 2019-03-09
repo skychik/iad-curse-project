@@ -20,18 +20,18 @@
 //@Deprecated
 //public class JoiningPerformer implements Serializable {
 //	@Id
-//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "joining_performer_id_seq")
-//	@SequenceGenerator(name = "joining_performer_id_seq", sequenceName = "joining_performer_id_seq", allocationSize = 1)
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@SequenceGenerator(name = "joining_performer_id_seq", sequenceName = "joining_performer_id_seq")
 //	@Column(name = "id", nullable = false)
 //	private Long id;
 //
 //	@ManyToOne
-//	@JoinColumn(name = "id_performer", nullable = false)
+//	@JoinColumn(nullable = false)
 //	@JsonManagedReference
 //	private Performer performer;
 //
 //	@ManyToOne
-//	@JoinColumn(name = "id_user", nullable = false)
+//	@JoinColumn(nullable = false)
 //	@JsonManagedReference
 //	private User user;
 //

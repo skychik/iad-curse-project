@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.hateoas.Identifiable;
 
 import javax.persistence.*;
@@ -21,18 +19,18 @@ import java.util.Set;
 @Setter
 public class Comment implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_id_seq")
-	@SequenceGenerator(name = "comment_id_seq", sequenceName = "comment_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@SequenceGenerator(name = "comment_id_seq", sequenceName = "comment_id_seq")
 	@Column(name = "id", nullable = false)
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "id_user", nullable = false)
+	@JoinColumn(nullable = false)
 	@JsonManagedReference
 	private User user;
 
 	@ManyToOne
-	@JoinColumn(name = "id_news", nullable = false)
+	@JoinColumn(nullable = false)
 	@JsonManagedReference
 	private News news;
 

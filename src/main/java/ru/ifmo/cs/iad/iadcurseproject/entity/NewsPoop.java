@@ -3,6 +3,7 @@ package ru.ifmo.cs.iad.iadcurseproject.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,18 +21,18 @@ import java.sql.Timestamp;
 @Setter
 public class NewsPoop extends Poop implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "news_poop_id_seq")
-	@SequenceGenerator(name = "news_poop_id_seq", sequenceName = "news_poop_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@SequenceGenerator(name = "news_poop_id_seq", sequenceName = "news_poop_id_seq")
 	@Column(name = "id", nullable = false)
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "id_news", nullable = false)
+	@JoinColumn(nullable = false)
 	@JsonManagedReference
 	private News news;
 
 	@ManyToOne
-	@JoinColumn(name = "id_user", nullable = false)
+	@JoinColumn(nullable = false)
 	@JsonManagedReference
 	private User user;
 

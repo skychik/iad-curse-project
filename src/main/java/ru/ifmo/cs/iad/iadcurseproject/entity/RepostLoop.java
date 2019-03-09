@@ -21,11 +21,11 @@
 //	private Long id;
 //
 //	@ManyToOne
-//	@JoinColumn(name = "id_repost", nullable = false)
+//	@JoinColumn(nullable = false)
 //	private Repost repost;
 //
 //	@ManyToOne
-//	@JoinColumn(name = "id_user", nullable = false)
+//	@JoinColumn(nullable = false)
 //	private User user;
 //
 //	@Column(name = "date", nullable = false)

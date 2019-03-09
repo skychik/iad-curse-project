@@ -3,9 +3,7 @@ package ru.ifmo.cs.iad.iadcurseproject.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.hateoas.Identifiable;
 
 import javax.persistence.*;
@@ -19,8 +17,8 @@ import java.util.Set;
 @Setter
 public class Achievement implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "achievement_id_seq")
-	@SequenceGenerator(name = "achievement_id_seq", sequenceName = "achievement_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@SequenceGenerator(name = "achievement_id_seq", sequenceName = "achievement_id_seq")
 	@Column(name = "id", nullable = false)
 	private Long id;
 

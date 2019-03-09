@@ -1,6 +1,7 @@
 package ru.ifmo.cs.iad.iadcurseproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,18 +18,18 @@ import java.sql.Timestamp;
 @Setter
 public class TaskCommentLoop extends Loop implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_comment_loop_id_seq")
-	@SequenceGenerator(name = "task_comment_loop_id_seq", sequenceName = "task_comment_loop_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@SequenceGenerator(name = "task_comment_loop_id_seq", sequenceName = "task_comment_loop_id_seq")
 	@Column(name = "id", nullable = false)
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "id_task_comment", nullable = false)
+	@JoinColumn(nullable = false)
 	@JsonManagedReference
 	private TaskComment taskComment;
 
 	@ManyToOne
-	@JoinColumn(name = "id_user", nullable = false)
+	@JoinColumn(nullable = false)
 	@JsonManagedReference
 	private User user;
 

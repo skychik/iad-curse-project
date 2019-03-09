@@ -54,8 +54,7 @@ public class ApplicationConfiguration implements Filter {
 	@Bean
 	@Autowired
 	public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
-		JpaTransactionManager jpaTransactionManager = new JpaTransactionManager(entityManagerFactory);
-		return jpaTransactionManager;
+		return new JpaTransactionManager(entityManagerFactory);
 	}
 
 	public void init(FilterConfig filterConfig) {}

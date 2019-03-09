@@ -3,6 +3,7 @@ package ru.ifmo.cs.iad.iadcurseproject.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,13 +22,13 @@ import java.util.Set;
 @Setter
 public class News implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "news_id_seq")
-	@SequenceGenerator(name = "news_id_seq", sequenceName = "news_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@SequenceGenerator(name = "news_id_seq", sequenceName = "news_id_seq")
 	@Column(name = "id")
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "id_user", nullable = false)
+	@JoinColumn(nullable = false)
 	@JsonManagedReference
 	private User author;
 

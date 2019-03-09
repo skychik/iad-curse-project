@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.hateoas.Identifiable;
 
 import javax.persistence.*;
@@ -20,18 +18,18 @@ import java.sql.Timestamp;
 @Setter
 public class AchievementReceiving implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "achievement_receiving_id_seq")
-	@SequenceGenerator(name = "achievement_receiving_id_seq", sequenceName = "achievement_receiving_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@SequenceGenerator(name = "achievement_receiving_id_seq", sequenceName = "achievement_receiving_id_seq")
 	@Column(name = "id", nullable = false)
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "id_achievement", nullable = false)
+	@JoinColumn(nullable = false)
 	@JsonManagedReference
 	private Achievement achievement;
 
 	@ManyToOne
-	@JoinColumn(name = "id_user", nullable = false)
+	@JoinColumn(nullable = false)
 	@JsonManagedReference
 	private User user;
 

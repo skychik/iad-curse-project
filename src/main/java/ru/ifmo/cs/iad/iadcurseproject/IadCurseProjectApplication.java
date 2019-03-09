@@ -30,4 +30,5 @@ public class IadCurseProjectApplication {
 //		factoryBean.setPersistenceUnitName("cpJpaPu");
 //		return factoryBean;
 //	}
+//	java.lang.ExceptionInInitializerError
 }

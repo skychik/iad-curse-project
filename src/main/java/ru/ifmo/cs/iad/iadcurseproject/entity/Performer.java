@@ -17,8 +17,8 @@
 //@Deprecated
 //public class Performer implements Serializable {
 //	@Id
-//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "performer_id_seq")
-//	@SequenceGenerator(name = "performer_id_seq", sequenceName = "performer_id_seq", allocationSize = 1)
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@SequenceGenerator(name = "performer_id_seq", sequenceName = "performer_id_seq")
 //	@Column(name = "id", nullable = false)
 //	private Long id;
 //
